@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node --max_old_space_size=2560 node_modules/.bin/react-scripts start",
+    "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
