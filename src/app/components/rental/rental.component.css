@@ -1,0 +1,33 @@
+.rental {
+  animation: slide 0.5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.title {
+  font-size: 300%;
+  font-family: "Cinzel", serif;
+}
+
+.bold {
+  font-weight: 700;
+  width: 75px;
+}
+
+.text {
+  min-width: 200px;
+}
+p {
+  font-family: "Montserrat", sans-serif;
+}
+
+td {
+  margin: 5px 0 5px 0;
+}

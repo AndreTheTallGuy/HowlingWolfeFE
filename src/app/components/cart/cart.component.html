@@ -1,0 +1,89 @@
+<h1 class="title">Your Cart</h1>
+
+<div class="empty" *ngIf="emptyBoolean">
+    <h3 class="empty-cart">Your cart is empty</h3>
+    <a routerLink="/rental"> Add a boat!</a>    
+</div>
+
+<div *ngIf="tableBoolean" class="container">
+    <table class="table">
+        <tr>
+            <th class="uuid">Id</th>
+            <th class="header">Boat</th>
+            <th class="header">Date</th>
+            <th class="header">Duration</th>
+            <th class="header">Time</th>
+            <th class="header height">Height</th>
+            <th class="header weight">Weight</th>
+            <th class="header">Price</th>
+        </tr>
+        <tr *ngFor="let boat of boatsArray">
+            <td class="uuid">{{boat.id}}</td>
+            <td class="data">{{boat.boat}}</td>
+            <td class="data">{{boat.date | date}}</td>
+            <td class="data">{{boat.duration}} hours</td>
+            <td class="data">{{boat.time}}</td>
+            <td class="data height">{{boat.height}}</td>
+            <td class="data weight">{{boat.weight}}</td>
+            <td class="data">{{boat.price | currency:USD}}</td>
+            <td><button class="btn btn-danger delete" (click)="delete($event)"><span class="x">X</span></button></td>
+        </tr>
+    </table>
+    <div class="totals">
+        <table class="right">
+            <tr>
+                <td class="right">Subtotal:</td>
+                <td class="right">{{subTotal | currency:USD}}</td>
+            </tr>
+            <tr>
+                <td class="right">Tax:</td>
+                <td class="right">{{taxes | currency:USD}}</td>
+            </tr>
+            <tr class="mt-2">
+                <td class="right total">Total:</td>
+                <td class="right total">{{total | currency:USD}}</td>
+            </tr>
+        </table>
+        
+        <button class="btn btn-secondary mt-3 more" routerLink="/rentals">Add More Boats</button>
+        <button class="btn btn-secondary mt-3" (click)="checkOut()">Check Out</button>
+    </div>
+</div>
+
+<div *ngIf="infoBoolean" class="container info">
+    <form class="form mt-4" >
+               
+        <mat-form-field>
+            <mat-label >First Name</mat-label>
+            <input name="firstName" matInput type="text" [(ngModel)]="firstName" class="firstName"  required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label >Last Name</mat-label>
+            <input name="lastName" matInput type="text" [(ngModel)]="lastName" class="lastName"  required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label >Email</mat-label>
+            <input name="email" matInput type="text" [(ngModel)]="email" class="email"  required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label >Phone</mat-label>
+            <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
+        </mat-form-field>
+        <br>
+               
+        <button class="btn-secondary mb-4 submit" (click)="infoSubmit()" >Check Out</button>
+        
+        <div *ngIf="alertBoolean" class="alert alert-danger">
+            All fields are mandatory
+        </div>
+
+    </form>
+</div>
+
+<div *ngIf="stripeCheckout" class="stripe">
+    Give me money!!
+    <button class="btn btn-success" (click)="stripeSubmit()" >Ok</button>
+</div>

@@ -1,0 +1,19 @@
+.background {
+  background-image: url("https://blog.goodsam.com/wp-content/uploads/2021/01/Lead-Pic-GettyImages-1191438643b.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 80vh;
+}
+
+.title {
+  font-size: 300%;
+  font-family: "Cinzel", serif;
+  padding-top: 150px;
+}
+
+.subtitle {
+  font-size: 200%;
+  font-family: "Cinzel", serif;
+}

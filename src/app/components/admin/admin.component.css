@@ -1,0 +1,29 @@
+table {
+  margin: auto;
+  margin-top: 5%;
+  text-align: center;
+}
+
+.header {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.id {
+  max-width: 20px;
+  overflow: hidden;
+}
+
+.data {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.odd {
+  background-color: rgb(214, 211, 211);
+}
+
+.email {
+  width: 50px;
+  overflow: hidden;
+}

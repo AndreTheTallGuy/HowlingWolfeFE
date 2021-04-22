@@ -1,0 +1,18 @@
+<nav id="navbar">
+    <a routerLink="/" class="title">Howling Wolfe</a>
+    <a routerLink="/cart" class="cart-link">
+        <img class="cart" src="../../../assets/canoe detail.png" alt="Canoe Cart" (click)="rentals()">
+        <div *ngIf="quantity" class="quantity">{{quantity}}</div>
+    </a>
+    
+    <div class="links">
+        <a routerLink="/rentals">Rentals</a>
+        <span> | </span>
+        <a routerLink="/lessons">Lessons</a>
+        <span> | </span>
+        <a routerLink="/guided">Guided</a>
+        <span> | </span>
+        <a routerLink="/contact">Contact Us</a>
+
+    </div>
+</nav>
