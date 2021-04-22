@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
-    "start": "node --max-old-space-size=4096 dist/howlingwolfe/main.js",
+    "start": "node --max-old-space-size=4096 main.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
