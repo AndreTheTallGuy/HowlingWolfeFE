@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
-    "start": "ng serve --port 4200 --host 0.0.0.0 --disable-host-check",
+    "start": "node --max-old-space-size=4096 src/index.html",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
