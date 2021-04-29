@@ -28,6 +28,8 @@ import { ContactComponent } from './components/contact/contact.component';
 import { RentComponent } from './components/rent/rent.component';
 import { CartComponent } from './components/cart/cart.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { ThankyouComponent } from './components/thankyou/thankyou.component';
+import { ThankyouemailComponent } from './components/thankyouemail/thankyouemail.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { AdminComponent } from './components/admin/admin.component';
     RentComponent,
     CartComponent,
     AdminComponent,
+    ThankyouComponent,
+    ThankyouemailComponent,
     
 
   ],

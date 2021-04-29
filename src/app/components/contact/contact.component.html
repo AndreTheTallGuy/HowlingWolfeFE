@@ -1,5 +1,6 @@
 <div class="background">
-<div class="container">
+    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+<div class="container" *ngIf="!isLoading">
     <div class="rowflex">
         <div class="col text-body">
             <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam corrupti, animi maxime veritatis numquam at ut facilis fuga consectetur adipisci officia repellendus nostrum odio ratione! Ducimus cupiditate dolorum animi laudantium. </p>

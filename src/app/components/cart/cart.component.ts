@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
   tableBoolean: boolean = false;
   stripeCheckout: boolean = false;
   alertBoolean: boolean = false;
+  isLoading: boolean = false;
 
   boatsArray: Boat[] = [];
   orderObj: Order = {order_id:"", customer: {}, boats: []};
@@ -74,7 +75,7 @@ export class CartComponent implements OnInit {
   }
 
   infoSubmit(){
-    if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == ""){
+    if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
     } else {
       this.alertBoolean=false;
@@ -98,10 +99,13 @@ export class CartComponent implements OnInit {
   }
 
   stripeSubmit(){
+    this.stripeCheckout = false;
+    this.isLoading = true;
     this.api.submitOrder(this.orderObj).subscribe(res =>{
       console.log(res);
+      this.isLoading = false;
+      sessionStorage.clear();
+      this.router.navigate(['/thank-you'])
     });
-    sessionStorage.clear();
-    this.router.navigate(['/'])
   }
 }

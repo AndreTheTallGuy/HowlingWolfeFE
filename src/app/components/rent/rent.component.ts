@@ -60,7 +60,7 @@ export class RentComponent implements OnInit {
   }
 
   submitDate(){
-    if(this.height == "" || this.weight == "" || this.date == "" || this.duration == "" || this.time == ""){
+    if(this.height == "" || this.weight == "" || this.date == "" || this.duration == "" || this.time == "" || this.height == undefined || this.weight == undefined || this.date == undefined || this.duration == undefined || this.time == undefined){
       this.errorBoolean = true;
       
     }else{

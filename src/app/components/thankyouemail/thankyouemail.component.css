@@ -1,0 +1,46 @@
+#background {
+  animation: slide 0.5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+#text {
+  text-align: center;
+  padding-top: 50px;
+}
+
+#background {
+  background-image: url("../../../assets/tsunami.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 99vw;
+}
+
+h1 {
+  display: inline;
+  font-size: 40px;
+  margin: 20px;
+  font-family: "Cinzel", serif;
+  background-color: rgba(240, 248, 255, 0.76);
+  border-radius: 15px;
+  padding: 10px 20px;
+}
+
+h3 {
+  display: inline;
+  font-size: 20px;
+  background-color: rgba(240, 248, 255, 0.76);
+  border-radius: 15px;
+  font-family: "Montserrat", sans-serif;
+  padding: 10px 20px;
+}

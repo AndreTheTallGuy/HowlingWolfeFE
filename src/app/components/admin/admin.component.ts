@@ -11,10 +11,12 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit {
 
-  loginBoolean: boolean = false;
+  loginBoolean: boolean = true;
   errorBoolean: boolean = false;
   invalidBoolean: boolean = false;
-  orderBoolean: boolean = true;
+  orderBoolean: boolean = false;
+  safetyBoolean: boolean = false;
+  isLoading: boolean = false;
 
   userName: string;
   password: string;
@@ -27,24 +29,25 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.upcoming();
-
-    
-
-
-
-    
   }
 
   submit(){
-    if(this.userName == undefined || this.password == undefined){
+    this.errorBoolean = false;
+    this.invalidBoolean = false;
+    this.isLoading = true;
+    this.loginBoolean = false;
+    if(this.userName == undefined || this.password == undefined || this.userName == "" || this.password == ""){
       this.errorBoolean = true;
+      this.isLoading = false;
+      this.loginBoolean = true;
     } else {
       this.api.login(this.userName).subscribe(res => {
-        console.log(res);
         if(this.password == res){
-          this.loginBoolean = false;
           this.orderBoolean = true;
+          this.isLoading = false;
         }else{
+          this.isLoading = false;
+          this.loginBoolean = true;
           this.invalidBoolean = true;
         }
       }, error =>{
@@ -79,6 +82,10 @@ export class AdminComponent implements OnInit {
     this.sortedOrderDisplays = this.orderDisplays.filter(item => {          
      return new Date(item.date).getTime() > new Date().getTime() - (24 * 60 * 60 * 1000) && new Date(item.date).getTime() < new Date().getTime()})
     
+  }
+
+  safety(){
+    this.safetyBoolean = !this.safetyBoolean
   }
 
   sort(){

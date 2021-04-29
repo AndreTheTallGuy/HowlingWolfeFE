@@ -4,6 +4,26 @@ table {
   text-align: center;
 }
 
+.alert {
+  max-width: 200px;
+  text-align: center;
+  margin: auto;
+}
+
+.safety-link {
+  position: absolute;
+  right: 10%;
+  top: 114px;
+  height: 48px;
+  width: 80px;
+  background-color: rgb(214, 211, 211);
+}
+
+#loading {
+  margin: auto;
+  display: block;
+  padding-top: 60px;
+}
 .header {
   border: 1px solid black;
   padding: 10px;

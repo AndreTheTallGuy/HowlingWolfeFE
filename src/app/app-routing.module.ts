@@ -9,6 +9,8 @@ import { LessonsComponent } from './components/lessons/lessons.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RentComponent } from './components/rent/rent.component';
 import { RentalComponent } from './components/rental/rental.component';
+import { ThankyouComponent } from './components/thankyou/thankyou.component';
+import { ThankyouemailComponent } from './components/thankyouemail/thankyouemail.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -19,6 +21,8 @@ const routes: Routes = [
   { path: 'rentme', component: RentComponent },
   { path: 'cart', component: CartComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'thank-you', component: ThankyouComponent},
+  { path: 'thank-you-email', component: ThankyouemailComponent},
   { path: '**', component: NotFoundComponent },
 
 

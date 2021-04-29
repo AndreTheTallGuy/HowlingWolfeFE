@@ -1,6 +1,29 @@
+.background {
+  animation: slide 0.5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 .container {
   padding-top: 40px;
   margin-top: 5px;
+}
+
+#loading {
+  margin: auto;
+  display: block;
+  padding-top: 60px;
+}
+.alert {
+  max-width: 210px;
+  margin-bottom: -20px;
 }
 
 .text-body {

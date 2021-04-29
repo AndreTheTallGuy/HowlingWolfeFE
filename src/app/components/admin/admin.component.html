@@ -1,4 +1,5 @@
 <div class="container">
+    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
     <div *ngIf="invalidBoolean" class="alert alert-danger">
         Username or Password are incorrect
@@ -11,7 +12,7 @@
         <br>
         <mat-form-field>
             <mat-label >Password</mat-label>
-            <input name="password" matInput type="text" [(ngModel)]="password" class="password" required>
+            <input name="password" matInput type="password" [(ngModel)]="password" class="password" required>
         </mat-form-field>
         <br>
         <button class="btn btn-secondary mb-4 submit" (click)="submit()" >Submit</button>
@@ -23,7 +24,13 @@
               <mat-button-toggle (click)="upcoming()" value="upcoming">Upcoming</mat-button-toggle>
               <mat-button-toggle (click)="today()" value="today">Today</mat-button-toggle>
             </mat-button-toggle-group>
-          </div>
+        </div>
+        <div id="video">
+            <button class="btn safety-link" (click)="safety()" >Video</button>
+        </div>
+        <div id="safety-video" class="mt-5" *ngIf="safetyBoolean" >
+            <iframe width="900px" height="490px" allow="fullscreen" src="../../../assets/Rental_Boat_Safety.mp4" ></iframe>
+        </div>
         <table class="res-table">
             <tr>
                 <th class="header">Order Id</th>
@@ -50,7 +57,7 @@
                 <td class="data">{{order.weight}}</td>
                 <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
                 <td class="data">{{order.phone}}</td>
-                <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="http://localhost:4200/assets/Waiver.pdf">Download</a></td>
+                <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
             </tr>
         </table>
     </div>
