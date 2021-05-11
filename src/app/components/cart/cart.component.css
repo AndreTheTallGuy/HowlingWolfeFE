@@ -76,11 +76,17 @@
   padding-left: 3px;
 }
 
-.info {
+.info,
+.stripe {
   text-align: center;
 }
 
-@media only screen and (max-width: 625px) {
+.submit {
+  display: block;
+  margin: auto;
+}
+
+@media only screen and (max-width: 775px) {
   .header {
     padding: 0 5px;
   }
@@ -89,5 +95,24 @@
   }
   .weight {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  th,
+  td {
+    font-size: 10px;
+  }
+  .header,
+  .data {
+    padding: 0 1px;
+  }
+  .total,
+  .check-out {
+    float: right;
+    margin-bottom: 0;
+  }
+  .more {
+    margin-right: 0;
   }
 }

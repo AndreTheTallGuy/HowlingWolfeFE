@@ -11,9 +11,27 @@
   }
 }
 
+.video {
+  text-align: center;
+}
+table {
+  margin: auto;
+  border: 1px solid grey;
+  margin-top: 20px;
+}
+th {
+  width: 90px;
+}
+
 .title {
   font-size: 300%;
   font-family: "Cinzel", serif;
+}
+
+.header {
+  font-size: 180%;
+  font-family: "Cinzel", serif;
+  margin-top: 10px;
 }
 
 .bold {
@@ -24,10 +42,33 @@
 .text {
   min-width: 200px;
 }
+
+iframe {
+  height: 264px;
+  width: 400px;
+}
+
 p {
   font-family: "Montserrat", sans-serif;
 }
 
 td {
   margin: 5px 0 5px 0;
+}
+
+@media only screen and (max-width: 625px) {
+  iframe {
+    width: 350px;
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .title {
+    font-size: 230%;
+  }
+  iframe {
+    width: 250px;
+    height: 130px;
+  }
 }

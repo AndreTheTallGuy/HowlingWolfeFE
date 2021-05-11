@@ -4,8 +4,10 @@ import { Order } from 'src/app/models/Order';
 import { Customer } from 'src/app/models/Customer';
 import { Boat } from '../../models/Boat';
 import { ApiService } from '../../services/api.service';
-import * as uuid from 'uuid';
 import { Router } from '@angular/router';
+import { Charge } from 'src/app/models/Charge';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cart',
@@ -20,6 +22,7 @@ export class CartComponent implements OnInit {
   stripeCheckout: boolean = false;
   alertBoolean: boolean = false;
   isLoading: boolean = false;
+  stripeFailBoolean: boolean = false;
 
   boatsArray: Boat[] = [];
   orderObj: Order = {order_id:"", customer: {}, boats: []};
@@ -30,8 +33,13 @@ export class CartComponent implements OnInit {
   phone!: any;
 
   subTotal: number = 0;
-  taxes: number;
   total: number = 0;
+
+  cardNumber: number;
+  expMonth: number;
+  expYear: number;
+  cvc: number;
+
 
   constructor(private api: ApiService, private fb: FormBuilder, private router: Router) { }
 
@@ -46,7 +54,6 @@ export class CartComponent implements OnInit {
   }
   ngDoCheck(){
     this.getTotals();  
-
   }
 
   getTotals(){
@@ -54,22 +61,16 @@ export class CartComponent implements OnInit {
     for(let i =0; i< this.boatsArray.length; i++){
       this.subTotal += this.boatsArray[i].price;
     }
-    this.taxes = this.subTotal * .08;
-    this.total = this.subTotal + this.taxes;
+    
+    this.total = this.subTotal;
   }
 
-  delete(event){
-    const id:string = event.path[3].children[0].innerText;
-    console.log(id);
-    console.log(event);
+  delete(id){
     this.boatsArray = this.boatsArray.filter(item => item.id !== id);
-    console.log(this.boatsArray);
     sessionStorage.setItem("cartList", JSON.stringify(this.boatsArray));
-     
   }
 
   checkOut(){
-    console.log("check out");
     this.infoBoolean = true;
     this.tableBoolean = false;
   }
@@ -87,12 +88,9 @@ export class CartComponent implements OnInit {
         email: this.email,
         phone: this.phone
       }
-      console.log(customer);
-      
       // this.orderObj.order_id = uuid.v4();
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
-      console.log(this.orderObj);
       
     }
     
@@ -101,11 +99,49 @@ export class CartComponent implements OnInit {
   stripeSubmit(){
     this.stripeCheckout = false;
     this.isLoading = true;
-    this.api.submitOrder(this.orderObj).subscribe(res =>{
-      console.log(res);
-      this.isLoading = false;
-      sessionStorage.clear();
-      this.router.navigate(['/thank-you'])
+
+    (<any>window).Stripe.card.createToken({
+      number: this.cardNumber,
+      exp_month: this.expMonth,
+      exp_year: this.expYear,
+      cvc: this.cvc
+    }, (status: number, response: any) => {
+      if (status === 200) {
+        let charge: Charge = {
+          token: response.id,
+          price: this.total
+        }
+        // this.chargeCard(token);
+        this.api.chargeCard(charge).subscribe(res =>{ 
+          console.log(res);
+          
+          if(res === "Success"){
+            this.api.submitOrder(this.orderObj).subscribe(res =>{
+              console.log(res);
+              this.isLoading = false;
+              sessionStorage.clear();
+              this.router.navigate(['/thank-you'])
+            });
+          }else {
+            console.log("ELSE condition");
+            alert(res);
+            this.stripeFailBoolean = true;
+            this.stripeCheckout = true;
+            this.isLoading = false;
+            console.log(this.isLoading);
+            
+          }
+        })
+      } else {
+        this.isLoading = false;
+        alert(response.error.message)
+        console.log(response.error.message);
+      }
     });
+
+    
+    
   }
+
+ 
 }

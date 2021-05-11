@@ -9,21 +9,23 @@
             </div>
         </div>
         <div class="col-sm card" (click)="boatSelection($event)">
-            <img src="../../../assets/kayak tandem.jpg" alt="Tandem Kayak" class="tandem card-img-top">
-            <div class="card-body">
-                <h3 class="card-title">Tandem Kayak</h3>
-                <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm card" (click)="boatSelection($event)">
             <img src="../../../assets/canoe rental.jpg" alt="Canoe" class="canoe card-img-top">
             <div class="card-body">
                 <h3 class="card-title">Canoe</h3>
                 <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
             </div>
         </div>
+    </div>
+   
+    <!-- <div class="row">
+        <div class="col-sm card" (click)="boatSelection($event)">
+            <img src="../../../assets/kayak tandem.jpg" alt="Tandem Kayak" class="tandem card-img-top">
+            <div class="card-body">
+                <h3 class="card-title">Tandem Kayak</h3>
+                <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
+            </div>
+        </div>
+        
         <div class="col-sm card" (click)="boatSelection($event)">
             <img src="../../../assets/fishing kayak.jpg" alt="Fishing Kayak" class="fishing card-img-top">
             <div class="card-body">
@@ -31,7 +33,7 @@
                 <p class="card-text">Includes one paddle and a PFD (Personal Flotation Device)</p>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div *ngIf="dateBoolean" class="date">
@@ -42,17 +44,24 @@
     <form class="dateForm form mt-4" >
         <mat-form-field class="date-picker" appearance="fill">
             <mat-label>Choose a date</mat-label>
-            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="reset()">
+            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="resetTime()">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <br>
         <mat-form-field>
+            <mat-label >Shuttle</mat-label>
+            <mat-select name="shuttle" class="shuttle" [(ngModel)]="shuttle" required (click)="resetDuration()">
+                <mat-option [value]="'none'">No Shuttle</mat-option>
+                <mat-option [value]="'north-aurora'">North Aurora</mat-option>
+                <mat-option [value]="'batavia'">Batavia</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
             <mat-label >Duration</mat-label>
-            <mat-select name="duration" class="duration" [(ngModel)]="duration" required (click)="reset()">
-                <mat-option [value]="'2'">2 hours</mat-option>
-                <mat-option [value]="'4'">Half Day(4 hours)</mat-option>
-                <mat-option [value]="'6'">Full Day(6 hours)</mat-option>
+            <mat-select name="duration" class="duration" [(ngModel)]="duration" required (click)="durationResolver()">
+                <mat-option *ngFor="let duration of durationOptions" [value]="duration.value">{{duration.duration}}</mat-option>
             </mat-select>
         </mat-form-field>
         <br>

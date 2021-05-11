@@ -11,6 +11,7 @@
             <tr>
                 <th class="uuid">Id</th>
                 <th class="header">Boat</th>
+                <th class="header">Shuttle</th>
                 <th class="header">Date</th>
                 <th class="header">Duration</th>
                 <th class="header">Time</th>
@@ -21,33 +22,22 @@
             <tr *ngFor="let boat of boatsArray">
                 <td class="uuid">{{boat.id}}</td>
                 <td class="data">{{boat.boat}}</td>
-                <td class="data">{{boat.date | date}}</td>
+                <td class="data">{{boat.shuttle}}</td>
+                <td class="data">{{boat.date | date: 'shortDate'}}</td>
                 <td class="data">{{boat.duration}} hours</td>
                 <td class="data">{{boat.time}}</td>
                 <td class="data height">{{boat.height}}</td>
                 <td class="data weight">{{boat.weight}}</td>
                 <td class="data">{{boat.price | currency:USD}}</td>
-                <td><button class="btn btn-danger delete" (click)="delete($event)"><span class="x">X</span></button></td>
+                <td><button class="btn btn-danger delete" (click)="delete(boat.id)"><span class="x">X</span></button></td>
             </tr>
         </table>
         <div class="totals">
-            <table class="right">
-                <tr>
-                    <td class="right">Subtotal:</td>
-                    <td class="right">{{subTotal | currency:USD}}</td>
-                </tr>
-                <tr>
-                    <td class="right">Tax:</td>
-                    <td class="right">{{taxes | currency:USD}}</td>
-                </tr>
-                <tr class="mt-2">
-                    <td class="right total">Total:</td>
-                    <td class="right total">{{total | currency:USD}}</td>
-                </tr>
-            </table>
-            
+            <p class="total"> Total: {{total | currency:USD}}</p>
+            <br>
             <button class="btn btn-secondary mt-3 more" routerLink="/rentals">Add More Boats</button>
-            <button class="btn btn-secondary mt-3" (click)="checkOut()">Check Out</button>
+            <br>
+            <button class="btn btn-secondary mt-3 check-out" (click)="checkOut()">Check Out</button>
         </div>
     </div>
     
@@ -73,9 +63,8 @@
                 <mat-label >Phone</mat-label>
                 <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
             </mat-form-field>
-            <br>
-                   
-            <button class="btn-secondary mb-4 submit" (click)="infoSubmit()" >Check Out</button>
+                         
+            <button class="btn btn-secondary mb-4 submit" (click)="infoSubmit()" >Check Out</button>
             
             <div *ngIf="alertBoolean" class="alert alert-danger">
                 All fields are mandatory
@@ -84,8 +73,32 @@
         </form>
     </div>
     
+    <div *ngIf="stripeFailBoolean" class="alert alert-danger"> Something went wrong, please try again</div>
+
     <div *ngIf="stripeCheckout" class="stripe">
-        Give me money!!
-        <button class="btn btn-success" (click)="stripeSubmit()" >Ok</button>
+        <form class="form mt-4">
+            <mat-form-field>
+                <mat-label>Credit Card</mat-label>
+                <input type="text" matInput [(ngModel)]="cardNumber" name="cardNumber">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Expiration Month</mat-label>
+                <input type="number" matInput [(ngModel)]="expMonth" name="expMonth">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Expiration Year</mat-label>
+                <input type="number" matInput [(ngModel)]="expYear" name="expYear">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>CVC</mat-label>
+                <input type="number" matInput [(ngModel)]="cvc" name="cvc">
+            </mat-form-field>
+            <br>
+           
+            <button class="btn btn-secondary submit" (click)="stripeSubmit()" >Submit</button>
+          </form>
     </div>
 </div>

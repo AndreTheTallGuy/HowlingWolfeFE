@@ -11,10 +11,10 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit {
 
-  loginBoolean: boolean = true;
+  loginBoolean: boolean = false;
   errorBoolean: boolean = false;
   invalidBoolean: boolean = false;
-  orderBoolean: boolean = false;
+  orderBoolean: boolean = true;
   safetyBoolean: boolean = false;
   isLoading: boolean = false;
 
@@ -78,10 +78,12 @@ export class AdminComponent implements OnInit {
   }
 
   today(){
-    
-    this.sortedOrderDisplays = this.orderDisplays.filter(item => {          
-     return new Date(item.date).getTime() > new Date().getTime() - (24 * 60 * 60 * 1000) && new Date(item.date).getTime() < new Date().getTime()})
-    
+    this.api.getAllOrdersToday().subscribe(res=>{
+      console.log(res);
+      this.displayify(res);      
+      console.log(this.orderDisplays);
+      this.sort();
+      })    
   }
 
   safety(){
@@ -101,6 +103,7 @@ export class AdminComponent implements OnInit {
       const display: OrderDisplay ={
         id: order.order_id,
         date: boat.date,
+        shuttle: boat.shuttle,
         time: boat.time,
         duration: boat.duration,
         boat: boat.boat,
