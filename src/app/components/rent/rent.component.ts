@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Boat } from 'src/app/models/Boat';
 import { Time } from 'src/app/models/Time';
+import { Duration } from 'src/app/models/Duration';
 
 
 @Component({
@@ -17,11 +18,13 @@ export class RentComponent implements OnInit {
   boatInfo: Boat;
   
   boatBoolean: boolean = true;
+  shuttleBoolean: boolean = false;
   dateBoolean: boolean = false;
   addedToCartBoolean: boolean = false;
   errorBoolean: boolean = false;
   
   date: any;
+  shuttle: any;
   time: any;
   duration: any;
   height: any;
@@ -34,6 +37,7 @@ export class RentComponent implements OnInit {
   minDate: Date = new Date;
 
   timeOptions: Time[];
+  durationOptions: Duration[];
 
   constructor( ) { }
   
@@ -44,11 +48,16 @@ export class RentComponent implements OnInit {
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 1 && day !== 2;
+    // Prevent Monday and Tuesday from being selected.
+    // return day !== 1 && day !== 2;
+    return true;
   }
 
-  reset(){
+  resetDuration(){
+    this.duration = "";
+  }
+  
+  resetTime(){
     this.time = "";
   }
  
@@ -68,6 +77,7 @@ export class RentComponent implements OnInit {
       this.boatInfo = {
         id: uuid.v4(),
         boat: this.selectedBoat,
+        shuttle: this.shuttle,
         height: this.height,
         weight: this.weight,
         date: this.date,
@@ -122,7 +132,7 @@ export class RentComponent implements OnInit {
    priceResolver(boat:string, duration: string){
     if(boat == "Single Kayak"){
       switch(duration){
-        case "2": this.price = 30; break;
+        case "2": this.price = 1; break;
         case "4": this.price = 40; break;
         case "6": this.price = 55; break;
       }
@@ -141,12 +151,32 @@ export class RentComponent implements OnInit {
     }
   }
 
+  durationResolver(){
+    this.time = "";
+
+    if(this.shuttle == "none"){
+      this.durationOptions = [
+        {duration:"2 hours", value:"2"},
+        {duration:"4 hours", value:"4"},
+        {duration:"6 hours", value:"6"}
+      ]
+    }else if(this.shuttle == "north-aurora"){
+      this.durationOptions = [
+        {duration:"2 hours", value:"2"}
+      ]
+    }else if(this.shuttle == "batavia"){
+      this.durationOptions = [
+        {duration:"4 hours", value:"4"}
+      ]
+    }
+  }
+
   timeResolver(){
     
     const split = this.date.toString().split(" ")[0];
     console.log(split);
     
-    if(split == "Wed" || split  == "Thu" || split  == "Fri"){
+    if(split == "Mon" || split == "Tue" || split == "Wed" || split  == "Thu" || split  == "Fri"){
       if(this.duration == "2"){
         this.timeOptions = [
           {time:"9am", value:"9am"},

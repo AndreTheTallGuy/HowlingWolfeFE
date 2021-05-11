@@ -104,3 +104,15 @@ p {
     margin-top: 10px;
   }
 }
+
+@media only screen and (max-width: 400px) {
+  .text {
+    max-width: 220px;
+  }
+  .background {
+    height: 150%;
+  }
+  .container {
+    margin-left: -5px;
+  }
+}

@@ -1,4 +1,13 @@
 <nav id="navbar">
+    <div class="menu">
+       <button class="hamburger" mat-button [matMenuTriggerFor]="menu"><i class="fas fa-bars"></i></button>
+       <mat-menu #menu="matMenu">
+        <a routerLink="/rentals" mat-menu-item>Rentals</a>
+        <a routerLink="/lessons" mat-menu-item>Lessons</a>
+        <a routerLink="/guided" mat-menu-item>Guided</a>
+        <a routerLink="/contact" mat-menu-item>Contact Us</a>
+      </mat-menu>
+    </div>
     <a routerLink="/" class="title">Howling Wolfe</a>
     <a routerLink="/cart" class="cart-link">
         <img class="cart" src="../../../assets/canoe detail.png" alt="Canoe Cart" (click)="rentals()">
@@ -13,6 +22,5 @@
         <a routerLink="/guided">Guided</a>
         <span> | </span>
         <a routerLink="/contact">Contact Us</a>
-
     </div>
 </nav>

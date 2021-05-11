@@ -6,6 +6,10 @@ nav {
   /* height: 40px; */
 }
 
+.hamburger {
+  display: none;
+}
+
 .title {
   display: inline;
   position: absolute;
@@ -58,4 +62,52 @@ a:focus {
   color: black;
   font-family: "Cinzel", serif;
   /* font-size: 18px; */
+}
+
+@media only screen and (max-width: 500px) {
+  nav {
+    height: 60px;
+  }
+  .links {
+    display: none;
+  }
+  .cart {
+    top: 26px;
+    max-width: 50px;
+    right: 12px;
+  }
+  .quantity {
+    top: 26px;
+    right: 10px;
+    font-size: 10px;
+    height: 15px;
+    width: 15px;
+    padding: 0 5px;
+  }
+  .title {
+    left: 65px;
+
+    text-align: right;
+  }
+  .hamburger {
+    display: block;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    position: absolute;
+    left: 20px;
+    font-size: 25px;
+    margin-top: -5px;
+    margin-right: 10px;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .title {
+    width: 120px;
+    margin-top: -10px;
+  }
+  .hamburger {
+    margin-top: -10px;
+  }
 }

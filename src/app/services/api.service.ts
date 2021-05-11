@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Charge } from '../models/Charge';
 import { Customer } from '../models/Customer';
 
 @Injectable({
@@ -30,8 +31,16 @@ export class ApiService {
   public getAllOrdersByDate():Observable<any>{
     return this.http.get(this.baseUrl + `orders/date`)
   }
+ 
+  public getAllOrdersToday():Observable<any>{
+    return this.http.get(this.baseUrl + `orders/today`)
+  }
 
   public sendEmail(type:string, customer: Customer):Observable<any>{
     return this.http.post(this.baseUrl + `email/email?type=${type}`, customer, {responseType: 'text'});
+  }
+
+  public chargeCard(charge: Charge): Observable<any>{
+    return this.http.post(this.baseUrl + `payment/charge`, charge, {responseType: 'text'})
   }
 }

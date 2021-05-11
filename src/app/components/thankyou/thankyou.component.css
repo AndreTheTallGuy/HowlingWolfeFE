@@ -27,20 +27,22 @@
 }
 
 h1 {
-  display: inline;
+  display: block;
   font-size: 40px;
   margin: 20px;
   font-family: "Cinzel", serif;
   background-color: rgba(240, 248, 255, 0.76);
   border-radius: 15px;
   padding: 10px 20px;
+  max-width: 475px;
 }
 
-h3 {
-  display: inline;
+p {
+  display: block;
   font-size: 20px;
   background-color: rgba(240, 248, 255, 0.76);
   border-radius: 15px;
   font-family: "Montserrat", sans-serif;
   padding: 10px 20px;
+  max-width: 530px;
 }

@@ -1,6 +1,7 @@
 export interface OrderDisplay {
     id: string;
     date: Date;
+    shuttle: string;
     time: string;
     duration: string;
     boat: string;
