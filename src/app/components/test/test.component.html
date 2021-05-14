@@ -1,0 +1,13 @@
+Counter: <b>{{ testValue }}</b><br /><br />
+
+Not in NgZone, no subscriptions, no API: <br />
+<button (click)="stripeSubmit_1()">stripeSubmit_1</button>
+
+Not in NgZone, Your original solution: <br />
+<button (click)="stripeSubmit_2()">stripeSubmit_2</button>
+
+Wrapped with NgZone, Your original solution: <br />
+<button (click)="stripeSubmit_3()">stripeSubmit_3</button>
+
+Wrapped with NgZone, use higher observables: <br />
+<button (click)="stripeSubmit_4()">stripeSubmit_4</button>
