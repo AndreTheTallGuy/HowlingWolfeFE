@@ -18,6 +18,9 @@ table {
   margin: auto;
   border: 1px solid grey;
   margin-top: 20px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
 }
 th {
   width: 90px;
@@ -54,6 +57,11 @@ p {
 
 td {
   margin: 5px 0 5px 0;
+}
+
+.na {
+  padding-left: 12px;
+  width: 100px;
 }
 
 @media only screen and (max-width: 625px) {

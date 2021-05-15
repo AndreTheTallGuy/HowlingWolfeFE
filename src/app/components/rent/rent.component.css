@@ -14,8 +14,9 @@
   max-width: 330px;
   min-width: 330px;
   margin: 10px;
-  border-bottom: solid 4px #b9bcc4;
-  border-right: solid 5px #b9bcc4;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
   border-radius: 15px;
   animation: button 0.5s;
 }
