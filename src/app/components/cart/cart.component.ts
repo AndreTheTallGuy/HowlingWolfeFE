@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Order } from 'src/app/models/Order';
 import { Customer } from 'src/app/models/Customer';
@@ -6,8 +6,8 @@ import { Boat } from '../../models/Boat';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { Charge } from 'src/app/models/Charge';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cart',
@@ -40,8 +40,11 @@ export class CartComponent implements OnInit {
   expYear: number;
   cvc: number;
 
+  stripeFailText: string;
 
-  constructor(private api: ApiService, private fb: FormBuilder, private router: Router) { }
+  private unsubscibe = new Subject();
+
+  constructor(private api: ApiService, private ngZone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
     if(sessionStorage.getItem("cartList")){
@@ -99,6 +102,7 @@ export class CartComponent implements OnInit {
   stripeSubmit(){
     this.stripeCheckout = false;
     this.isLoading = true;
+    this.stripeFailBoolean = false;
 
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
@@ -106,42 +110,42 @@ export class CartComponent implements OnInit {
       exp_year: this.expYear,
       cvc: this.cvc
     }, (status: number, response: any) => {
+      this.ngZone.run(() => {
       if (status === 200) {
         let charge: Charge = {
           token: response.id,
           price: this.total
         }
         // this.chargeCard(token);
-        this.api.chargeCard(charge).subscribe(res =>{ 
-          console.log(res);
+        this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
           
+        }), switchMap((res: any)=>{
           if(res === "Success"){
-            this.api.submitOrder(this.orderObj).subscribe(res =>{
-              console.log(res);
+            return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
               this.isLoading = false;
               sessionStorage.clear();
-              this.router.navigate(['/thank-you'])
-            });
-          }else {
-            console.log("ELSE condition");
-            alert(res);
+              this.router.navigate(['/thank-you'])              
+            }))
+          } else {
+            return of(res).pipe(tap(()=>{
+            this.stripeFailText = res;
             this.stripeFailBoolean = true;
             this.stripeCheckout = true;
             this.isLoading = false;
-            console.log(this.isLoading);
-            
+            }))
           }
-        })
-      } else {
-        this.isLoading = false;
-        alert(response.error.message)
+          
+        })).subscribe();
+      }else {
         console.log(response.error.message);
+        
       }
-    });
-
-    
-    
-  }
-
+    })
+  }); 
+  }   
  
+  ngOnDestroy(){
+    this.unsubscibe.next();
+    this.unsubscibe.complete();
+  }
 }
