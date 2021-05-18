@@ -1,0 +1,40 @@
+<div class="container">
+
+    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+    
+    <div *ngIf="infoBoolean" class="container info">
+        <form class="form mt-4" >
+            
+            <mat-form-field>
+                <mat-label >First Name</mat-label>
+                <input name="firstName" matInput type="text" [(ngModel)]="firstName" class="firstName"  required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label >Last Name</mat-label>
+                <input name="lastName" matInput type="text" [(ngModel)]="lastName" class="lastName"  required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label >Email</mat-label>
+                <input name="email" matInput type="text" [(ngModel)]="email" class="email"  required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label >Phone</mat-label>
+                <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
+            </mat-form-field>
+            
+            <button class="btn btn-secondary mb-4 submit" (click)="infoSubmit()" >Add Reservation</button>
+            
+            <div *ngIf="alertBoolean" class="alert alert-danger">
+                All fields are mandatory
+            </div>
+            
+        </form>
+    </div>
+    <div *ngIf="resAdded" class="added">
+        <h1>Reservation Added!</h1>
+    </div>
+
+</div>

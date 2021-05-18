@@ -28,8 +28,12 @@ export class ApiService {
     return this.http.get(this.baseUrl + `orders/`)
   }
 
-  public getAllOrdersByDate():Observable<any>{
-    return this.http.get(this.baseUrl + `orders/date`)
+  public getAllOrdersByDate(date: Date):Observable<any> {
+    return this.http.get(this.baseUrl + `orders/date/${date}`)
+  }
+
+  public getAllOrdersUpcoming():Observable<any>{
+    return this.http.get(this.baseUrl + `orders/upcoming`)
   }
  
   public getAllOrdersToday():Observable<any>{

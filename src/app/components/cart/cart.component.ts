@@ -47,9 +47,13 @@ export class CartComponent implements OnInit {
   constructor(private api: ApiService, private ngZone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
+    this.api.getAllOrders().subscribe();
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
       console.log(this.boatsArray);
+      this.boatsArray.forEach((boat)=> console.log(boat.date));
+      console.log(this.boatsArray);
+      
       this.tableBoolean = true;
       } else {
         this.emptyBoolean = true;

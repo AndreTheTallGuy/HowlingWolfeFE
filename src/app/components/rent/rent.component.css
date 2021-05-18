@@ -4,6 +4,15 @@
   text-align: center;
 }
 
+.container {
+  min-height: 500px;
+}
+
+#loading {
+  margin: auto;
+  display: block;
+}
+
 .row {
   display: flex;
   justify-content: center;

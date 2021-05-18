@@ -1,0 +1,32 @@
+.container {
+  animation: slide 0.5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+#loading {
+  margin: auto;
+  display: block;
+  padding-top: 60px;
+}
+
+.info,
+.added {
+  text-align: center;
+}
+.alert {
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+}
+.submit {
+  display: block;
+  margin: auto;
+}
