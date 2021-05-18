@@ -11,12 +11,14 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit {
 
-  loginBoolean: boolean = false;
+  loginBoolean: boolean = true;
   errorBoolean: boolean = false;
   invalidBoolean: boolean = false;
-  orderBoolean: boolean = true;
+  orderBoolean: boolean = false;
   safetyBoolean: boolean = false;
   isLoading: boolean = false;
+  resBoolean: boolean = false;
+  buttonBoolean: boolean = false;
 
   userName: string;
   password: string;
@@ -44,6 +46,7 @@ export class AdminComponent implements OnInit {
       this.api.login(this.userName).subscribe(res => {
         if(this.password == res){
           this.orderBoolean = true;
+          this.buttonBoolean = true;
           this.isLoading = false;
         }else{
           this.isLoading = false;
@@ -52,8 +55,9 @@ export class AdminComponent implements OnInit {
         }
       }, error =>{
         console.log(error);
+        this.isLoading = false;
         this.invalidBoolean = true;
-        
+        this.loginBoolean = true;
       })
     }
   }
@@ -68,7 +72,7 @@ export class AdminComponent implements OnInit {
   }
 
   upcoming(){
-    this.api.getAllOrdersByDate().subscribe(res=>{
+    this.api.getAllOrdersUpcoming().subscribe(res=>{
       console.log(res);
       this.displayify(res);      
       console.log(this.orderDisplays);
@@ -86,8 +90,21 @@ export class AdminComponent implements OnInit {
       })    
   }
 
+  delete(id){
+    // this.api.deleteOrder(id).subscribe()
+
+    this.sortedOrderDisplays = this.sortedOrderDisplays.filter(order => order.id !== id)
+  }
+
   safety(){
-    this.safetyBoolean = !this.safetyBoolean
+    this.safetyBoolean = !this.safetyBoolean;
+    this.orderBoolean = !this.orderBoolean;
+  }
+
+  reservation(){
+    this.orderBoolean = !this.orderBoolean;
+    this.safetyBoolean = false;
+    this.resBoolean = !this.resBoolean;
   }
 
   sort(){

@@ -1,42 +1,46 @@
 <div class="title m-4">Rent A Boat</div>
-<div *ngIf="boatBoolean" class="container mt-4">
-    <div class="row">
-        <div class="col-sm card" (click)="boatSelection($event)">
-            <img src="../../../assets/kayak single.jpg" alt="Single Kayak" class="single card-img-top">
-            <div class="card-body">
-                <h3 class="card-title">Single Kayak</h3>
-                <p class="card-text">Includes a paddle and a PFD (Personal Flotation Device)</p>
-            </div>
-        </div>
-        <div class="col-sm card" (click)="boatSelection($event)">
-            <img src="../../../assets/canoe rental.jpg" alt="Canoe" class="canoe card-img-top">
-            <div class="card-body">
-                <h3 class="card-title">Canoe</h3>
-                <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
-            </div>
-        </div>
-    </div>
-   
-    <!-- <div class="row">
-        <div class="col-sm card" (click)="boatSelection($event)">
-            <img src="../../../assets/kayak tandem.jpg" alt="Tandem Kayak" class="tandem card-img-top">
-            <div class="card-body">
-                <h3 class="card-title">Tandem Kayak</h3>
-                <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
-            </div>
-        </div>
-        
-        <div class="col-sm card" (click)="boatSelection($event)">
-            <img src="../../../assets/fishing kayak.jpg" alt="Fishing Kayak" class="fishing card-img-top">
-            <div class="card-body">
-                <h3 class="card-title">Fishing Kayak</h3>
-                <p class="card-text">Includes one paddle and a PFD (Personal Flotation Device)</p>
-            </div>
-        </div>
-    </div> -->
-</div>
+<div class="container">
 
-<div *ngIf="dateBoolean" class="date">
+    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+    <div *ngIf="noAvailError" class="alert alert-danger">{{ noAvailText }}</div>
+    <div *ngIf="boatBoolean" class="container mt-4">
+        <div class="row">
+            <div class="col-sm card" (click)="boatSelection($event)">
+                <img src="../../../assets/kayak single.jpg" alt="Single Kayak" class="single card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Single Kayak</h3>
+                    <p class="card-text">Includes a paddle and a PFD (Personal Flotation Device)</p>
+                </div>
+            </div>
+            <div class="col-sm card" (click)="boatSelection($event)">
+                <img src="../../../assets/canoe rental.jpg" alt="Canoe" class="canoe card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Canoe</h3>
+                    <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-sm card" (click)="boatSelection($event)">
+                <img src="../../../assets/kayak tandem.jpg" alt="Tandem Kayak" class="tandem card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Tandem Kayak</h3>
+                    <p class="card-text">Includes two paddles and a PFD (Personal Flotation Device)</p>
+                </div>
+            </div>
+            
+            <div class="col-sm card" (click)="boatSelection($event)">
+                <img src="../../../assets/fishing kayak.jpg" alt="Fishing Kayak" class="fishing card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Fishing Kayak</h3>
+                    <p class="card-text">Includes one paddle and a PFD (Personal Flotation Device)</p>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div *ngIf="dateBoolean" class="date">
     <!-- two columns hours of operation and form -->
     <div *ngIf="errorBoolean" class="alert alert-danger">
         All fields are mandatory
@@ -51,10 +55,10 @@
         <br>
         <mat-form-field>
             <mat-label >Shuttle</mat-label>
-            <mat-select name="shuttle" class="shuttle" [(ngModel)]="shuttle" required (click)="resetDuration()">
-                <mat-option [value]="'none'">No Shuttle</mat-option>
-                <mat-option [value]="'north-aurora'">North Aurora</mat-option>
-                <mat-option [value]="'batavia'">Batavia</mat-option>
+            <mat-select name="shuttle" class="shuttle" [(ngModel)]="shuttle" required (click)="resetTimeAndDuration()">
+                <mat-option [value]="'None'">No Shuttle</mat-option>
+                <mat-option [value]="'North-Aurora'">North Aurora</mat-option>
+                <mat-option [value]="'Batavia'">Batavia</mat-option>
             </mat-select>
         </mat-form-field>
         <br>
@@ -86,7 +90,7 @@
         
         <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Add to Cart</button>
         
-       
+        
     </form>
 </div>
 
@@ -95,4 +99,13 @@
     <h2 class="added">A {{selectedBoat}} has been added to your cart!</h2>
     <button class="btn btn-secondary" routerLink="/cart">View Your Cart</button>
     <button class="btn btn-secondary" (click)="addAnotherBoat()">Add More Boats</button>
+</div>
+<div *ngIf="adminResOptions" class="check-out">
+    <h2 class="added">A {{selectedBoat}} has been added!</h2>
+    <button class="btn btn-secondary" (click)="adminResFinish()">Client Info</button>
+    <button class="btn btn-secondary" (click)="addAnotherBoat()">Add More Boats</button>
+</div>
+<div *ngIf="adminResBoolean" class="admin-res" >
+    <app-adminres></app-adminres>
+</div>
 </div>

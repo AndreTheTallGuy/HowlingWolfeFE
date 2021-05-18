@@ -17,7 +17,7 @@
         <br>
         <button class="btn btn-secondary mb-4 submit" (click)="submit()" >Submit</button>
     </form>
-    <div *ngIf="orderBoolean" class="orders">
+    <div class="orders" *ngIf="buttonBoolean">
         <div class="mt-4">
             <mat-button-toggle-group name="orderToggle" value="upcoming">
               <mat-button-toggle (click)="all()" value="all">All</mat-button-toggle>
@@ -25,13 +25,17 @@
               <mat-button-toggle (click)="today()" value="today">Today</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
-        <div id="video">
-            <button class="btn safety-link" (click)="safety()" >Video</button>
+        <div id="video" class="safety-link">
+            <button id="res-btn" class="btn btn-secondary" (click)="reservation()" >Add Reservation</button>
+            <button class="btn btn-secondary" (click)="safety()" >Video</button>
+        </div>
+        <div id="reservation" *ngIf="resBoolean">
+            <app-rent></app-rent>
         </div>
         <div id="safety-video" class="mt-5" *ngIf="safetyBoolean" >
             <iframe width="900px" height="490px" allow="fullscreen" src="../../../assets/Rental_Boat_Safety.mp4" ></iframe>
         </div>
-        <table class="res-table">
+        <table  *ngIf="orderBoolean"  class="res-table">
             <tr>
                 <th class="header">Order Id</th>
                 <th class="header">Date</th>
@@ -44,6 +48,7 @@
                 <th class="header">Email</th>
                 <th class="header">Phone</th>
                 <th class="header">Waiver</th>
+                <!-- <th class="header">Delete</th> -->
             </tr>
             <tr *ngFor="let order of sortedOrderDisplays; let even = even; let odd = odd" 
             [ngClass]="{ odd: odd, even: even }">
@@ -58,6 +63,7 @@
                 <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
                 <td class="data">{{order.phone}}</td>
                 <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
+                <!-- <td class="data"><button class="btn btn-danger delete" (click)="delete(order.id)"><span class="x">X</span></button></td> -->
             </tr>
         </table>
     </div>

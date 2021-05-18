@@ -44,7 +44,7 @@
 
 .header {
   font-family: "Cinzel", serif;
-  padding: 0 15px;
+  padding: 7px 15px;
 }
 .uuid {
   opacity: 0;
@@ -59,11 +59,12 @@
 }
 .totals {
   margin-top: 10px;
-  margin-right: 10%;
+  margin-right: 20%;
   float: right;
 }
 .total {
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 0px;
   font-size: 150%;
   font-family: "Cinzel", serif;
 }
@@ -95,6 +96,15 @@
   margin: auto;
 }
 
+td {
+  padding: 3px 0;
+}
+
+@media only screen and (max-width: 900px) {
+  .totals {
+    margin-right: 10%;
+  }
+}
 @media only screen and (max-width: 775px) {
   .header {
     padding: 0 5px;

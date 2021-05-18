@@ -23,7 +23,15 @@ table {
   box-shadow: 0 10px 6px -6px #777;
 }
 th {
-  width: 90px;
+  width: 120px;
+  padding-top: 5px;
+}
+tr,
+td {
+  padding: 3px 0;
+}
+.bottom {
+  padding-bottom: 10px;
 }
 
 .title {
