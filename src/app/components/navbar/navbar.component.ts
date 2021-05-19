@@ -16,15 +16,14 @@ export class NavbarComponent implements OnInit {
     
   }
   ngDoCheck(){
+    // constantly checks session storage for new boats and updates quantity on cart img
     if(sessionStorage.getItem("cartList")){
         this.quantity = JSON.parse(sessionStorage.getItem("cartList")).length;        
       } else {
         this.quantity = undefined;
       }
   }
-  rentals(){
-    console.log("clicking");
-    
+  cart(){
     this.router.navigate(["/cart"]);
   }
  

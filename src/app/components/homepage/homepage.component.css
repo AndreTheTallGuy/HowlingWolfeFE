@@ -7,10 +7,15 @@
   height: 87vh;
 }
 
+.logo {
+  padding-top: 150px;
+  width: 200px;
+}
+
 .title {
   font-size: 300%;
   font-family: "Cinzel", serif;
-  padding-top: 150px;
+  margin-top: 50px;
 }
 
 .subtitle {

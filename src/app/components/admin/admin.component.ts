@@ -38,11 +38,13 @@ export class AdminComponent implements OnInit {
     this.invalidBoolean = false;
     this.isLoading = true;
     this.loginBoolean = false;
+    // validates for completed fields
     if(this.userName == undefined || this.password == undefined || this.userName == "" || this.password == ""){
       this.errorBoolean = true;
       this.isLoading = false;
       this.loginBoolean = true;
     } else {
+      // sends username to the backend and validates the password
       this.api.login(this.userName).subscribe(res => {
         if(this.password == res){
           this.orderBoolean = true;
@@ -63,6 +65,10 @@ export class AdminComponent implements OnInit {
   }
 
   all(){
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.orderBoolean = true;
+    //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
       console.log(res);
       this.displayify(res);      
@@ -72,6 +78,10 @@ export class AdminComponent implements OnInit {
   }
 
   upcoming(){
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.orderBoolean = true;
+    //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       console.log(res);
       this.displayify(res);      
@@ -82,10 +92,16 @@ export class AdminComponent implements OnInit {
   }
 
   today(){
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.orderBoolean = true;
+    //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersToday().subscribe(res=>{
       console.log(res);
       this.displayify(res);      
       console.log(this.orderDisplays);
+      // filters out boats ordered with a another boat on another day
+      this.orderDisplays = this.orderDisplays.filter(order => order.date === this.orderDisplays[0].date);
       this.sort();
       })    
   }
@@ -108,6 +124,7 @@ export class AdminComponent implements OnInit {
   }
 
   sort(){
+    //sorts the displays
     this.sortedOrderDisplays = this.orderDisplays.sort((a:any, b:any)=>{
       return +new Date(a.date) - +new Date(b.date);
     })
@@ -115,6 +132,7 @@ export class AdminComponent implements OnInit {
 
   displayify(orders){
     this.orderDisplays = [];
+    //loops through orders and then through each boat and converts them to a view friendly display
     for(let order of orders){
       for(let boat of order.boats){
       const display: OrderDisplay ={

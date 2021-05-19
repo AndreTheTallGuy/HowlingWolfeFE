@@ -5,14 +5,14 @@
     <div *ngIf="noAvailError" class="alert alert-danger">{{ noAvailText }}</div>
     <div *ngIf="boatBoolean" class="container mt-4">
         <div class="row">
-            <div class="col-sm card" (click)="boatSelection($event)">
+            <div class="col-sm card" (click)="boatSelection('Single Kayak')">
                 <img src="../../../assets/kayak single.jpg" alt="Single Kayak" class="single card-img-top">
                 <div class="card-body">
                     <h3 class="card-title">Single Kayak</h3>
                     <p class="card-text">Includes a paddle and a PFD (Personal Flotation Device)</p>
                 </div>
             </div>
-            <div class="col-sm card" (click)="boatSelection($event)">
+            <div class="col-sm card" (click)="boatSelection('Canoe')">
                 <img src="../../../assets/canoe rental.jpg" alt="Canoe" class="canoe card-img-top">
                 <div class="card-body">
                     <h3 class="card-title">Canoe</h3>

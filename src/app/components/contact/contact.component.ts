@@ -26,10 +26,12 @@ export class ContactComponent implements OnInit {
   }
 
   submit(){
+    // validates empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.message == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined || this.message == undefined){
       this.errorBoolean = true;
     }else{
       this.isLoading = true;
+      // constructs customer object
       const customer:Customer = {
         firstName: this.firstName,
         lastName: this.lastName,
@@ -38,7 +40,7 @@ export class ContactComponent implements OnInit {
         message: this.message
       }
       console.log(customer);
-      
+      // sends customer object to backend
       this.api.sendEmail("contact", customer).subscribe(res =>{
         console.log(res)
         this.isLoading = false;

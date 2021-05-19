@@ -48,12 +48,9 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.getAllOrders().subscribe();
+    // checks session storage for boats and puts them in boatsArray
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
-      console.log(this.boatsArray);
-      this.boatsArray.forEach((boat)=> console.log(boat.date));
-      console.log(this.boatsArray);
-      
       this.tableBoolean = true;
       } else {
         this.emptyBoolean = true;
@@ -64,6 +61,8 @@ export class CartComponent implements OnInit {
   }
 
   getTotals(){
+    // calculates totals
+    // originally coded for a sub total, taxes, and total but currently only total is needed
     this.subTotal=0;
     for(let i =0; i< this.boatsArray.length; i++){
       this.subTotal += this.boatsArray[i].price;
@@ -73,6 +72,7 @@ export class CartComponent implements OnInit {
   }
 
   delete(id){
+    // deletes a boat from boatsArray and then pushes to session storage
     this.boatsArray = this.boatsArray.filter(item => item.id !== id);
     sessionStorage.setItem("cartList", JSON.stringify(this.boatsArray));
   }
@@ -83,19 +83,21 @@ export class CartComponent implements OnInit {
   }
 
   infoSubmit(){
+    // validates empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
     } else {
       this.alertBoolean=false;
       this.stripeCheckout = true;
       this.infoBoolean = false;
+      // constructs a customer object
       const customer: Customer = {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
         phone: this.phone
       }
-      // this.orderObj.order_id = uuid.v4();
+      // constructs an orderObj object
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
       
@@ -108,6 +110,7 @@ export class CartComponent implements OnInit {
     this.isLoading = true;
     this.stripeFailBoolean = false;
 
+    // sends CC info to stripe and gets back a token
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
       exp_month: this.expMonth,
@@ -120,11 +123,12 @@ export class CartComponent implements OnInit {
           token: response.id,
           price: this.total
         }
-        // this.chargeCard(token);
+        // sends charge object to the backend
         this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
           
         }), switchMap((res: any)=>{
           if(res === "Success"){
+            // if successful, orderObj is submitted to the DB
             return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
               this.isLoading = false;
               sessionStorage.clear();
