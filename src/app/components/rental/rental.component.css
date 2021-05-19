@@ -72,10 +72,17 @@ td {
   width: 100px;
 }
 
+.logo {
+  width: 200px;
+}
+
 @media only screen and (max-width: 625px) {
   iframe {
     width: 350px;
     height: 200px;
+  }
+  .logo {
+    display: none;
   }
 }
 

@@ -53,10 +53,13 @@ export class RentComponent implements OnInit {
   constructor(private api: ApiService, private router: Router ) { }
   
   ngOnInit(): void {
-    this.minDate.setDate(this.minDate.getDate() + 1);
+    // if url is /rentals, sets the datepickers mindate to tomorrow
+    if(this.router.url.includes('rentals')){
+      this.minDate.setDate(this.minDate.getDate() + 1);
+    }
     this.resetTimesArray();
   }
-
+  // ability to prevent certain days from being selected
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     // Prevent Monday and Tuesday from being selected.
@@ -65,7 +68,6 @@ export class RentComponent implements OnInit {
   }
 
   resetDuration(){
-    
     this.duration = "";
   }
   
@@ -78,13 +80,13 @@ export class RentComponent implements OnInit {
     this.time = "";
   }
  
-  boatSelection(event){
-    console.log(event.srcElement.alt);
-    this.selectedBoat = event.srcElement.alt;
+  boatSelection(boat){
+    this.selectedBoat = boat;
     this.boatBoolean = false;
     this.dateBoolean = true;
   }
 
+  // resets availability to how many boats there are in total
   resetTimesArray(){
     this.availability = [
     {time:"8am", boats:{kayak: 9, canoe: 2}},
@@ -105,29 +107,37 @@ export class RentComponent implements OnInit {
     this.isLoading = true;
     this.dateBoolean = false;
     this.noAvailError = false;
+    // validates empty fields
     if(this.height == "" || this.weight == "" || this.date == "" || this.duration == "" || this.time == "" || this.height == undefined || this.weight == undefined || this.date == undefined || this.duration == undefined || this.time == undefined){
       this.errorBoolean = true;
     }else{
+      // Gets all orders by the user's selected date
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         console.log(res);
+        //loops through orders to get each boat
         for(let order of res){
           for(let boat of order.boats){
-            this.pool(boat.boat, boat.duration, boat.time);
+           // if boat's date matches user's date, it is subtracted from the pool
+            if(boat.date === this.date){
+              this.pool(boat.boat, boat.duration, boat.time);
+            }
           }
         }
+        console.log(this.availability);
+        // subtracts user's selected boat from pool
         this.pool(this.selectedBoat, this.duration, this.time);
-      if(this.availability[0].boats.canoe < 0 || this.availability[0].boats.kayak <0 ||
-        this.availability[1].boats.canoe < 0 || this.availability[1].boats.kayak <0 ||
-        this.availability[2].boats.canoe < 0 || this.availability[2].boats.kayak <0 ||
-        this.availability[3].boats.canoe < 0 || this.availability[3].boats.kayak <0 ||
-        this.availability[4].boats.canoe < 0 || this.availability[4].boats.kayak <0 ||
-        this.availability[5].boats.canoe < 0 || this.availability[5].boats.kayak <0 ||
-        this.availability[6].boats.canoe < 0 || this.availability[6].boats.kayak <0 ||
-        this.availability[7].boats.canoe < 0 || this.availability[7].boats.kayak <0 ||
-        this.availability[8].boats.canoe < 0 || this.availability[8].boats.kayak <0 ||
-        this.availability[9].boats.canoe < 0 || this.availability[9].boats.kayak <0 ||
-        this.availability[10].boats.canoe < 0 || this.availability[10].boats.kayak <0){
-          console.log("Out of " + this.selectedBoat);
+        // checks if the pool count is less than 0 on any of the time slots
+      if(this.selectedBoat === "Canoe" && this.availability[0].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[0].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[1].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[1].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[2].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[2].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[3].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[3].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[4].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[4].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[5].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[5].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[6].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[6].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[7].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[7].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[8].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[8].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[9].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[9].boats.kayak <0 ||
+        this.selectedBoat === "Canoe" && this.availability[10].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[10].boats.kayak <0){
           this.isLoading = false;
           this.noAvailText = `Sorry, we do not have any ${this.selectedBoat}s for that date and time. Please try another date or time.`
           this.noAvailError = true;
@@ -135,6 +145,7 @@ export class RentComponent implements OnInit {
           this.resetTimesArray();
 
         }else{
+          // if time is available, get price and construct boatInfo object
           this.priceResolver(this.selectedBoat, this.shuttle);
           this.boatInfo = {
             id: uuid.v4(),
@@ -147,9 +158,10 @@ export class RentComponent implements OnInit {
             time: this.time,
             price: this.price,
           }
-          console.log(this.boatInfo);
+          // add boat to session storage
           this.addToSessionStorage(this.boatInfo);
           this.isLoading = false;
+          // if customer facing, offer to send user to cart or add more boats
           if(this.router.url.includes('rentals')){
             this.addedToCartBoolean = true;
           } else {
@@ -208,6 +220,7 @@ export class RentComponent implements OnInit {
   }
 
    priceResolver(boat:string, shuttle: string){
+     // checks type of boat and shuttle and then sets price
     if(boat == "Single Kayak"){
       switch(shuttle){
         case "None": this.price = 40; break;
@@ -230,8 +243,9 @@ export class RentComponent implements OnInit {
   }
 
   durationResolver(){
+    // resets time
     this.time = "";
-
+    // sets duration based on shuttle
     if(this.shuttle == "None"){
       this.durationOptions = [
         {duration:"2 hours", value:"2"},
@@ -248,10 +262,10 @@ export class RentComponent implements OnInit {
   }
 
   timeResolver(){
-    
+    // gets three character day from date    
     const split = this.date.toString().split(" ")[0];
-    console.log(split);
-    
+    // checks day and sets timeOptions to the available times of that day. 
+    //Available times also based on shuttles
     if(split == "Mon" || split == "Tue" || split == "Wed" || split  == "Thu" || split  == "Fri"){
       if(this.shuttle === "None"){
         this.timeOptions = [
@@ -301,7 +315,7 @@ export class RentComponent implements OnInit {
   }
 
   pool(boat, duration, time){
-    
+    // subtracts from availability based on duration of trip plus one hour buffer
     if(boat === "Single Kayak" && duration === "2"){
         if(time === "8am"){
           this.availability[0].boats.kayak -= 1;
@@ -505,9 +519,6 @@ export class RentComponent implements OnInit {
         this.availability[10].boats.canoe -= 1;
       }
     }
-    
-    console.log(this.availability);
-    
     
   }
 

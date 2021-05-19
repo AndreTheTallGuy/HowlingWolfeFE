@@ -28,22 +28,21 @@ export class AdminresComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
+    // pulls boats from the session storage
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
-      console.log(this.boatsArray);
-      this.boatsArray.forEach((boat)=> console.log(boat.date));
-      console.log(this.boatsArray);
-    
     }
   }
 
   infoSubmit(){
+    // validates for empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
     } else {
       this.isLoading = true;
       this.alertBoolean=false;
       this.infoBoolean = false;
+      // creates customer object
       const customer: Customer = {
         firstName: this.firstName,
         lastName: this.lastName,
@@ -53,6 +52,7 @@ export class AdminresComponent implements OnInit {
       // this.orderObj.order_id = uuid.v4();
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
+      // submits constructed order to DB
       this.api.submitOrder(this.orderObj).subscribe((res)=> {
         this.isLoading = false;
         this.infoBoolean = false;
