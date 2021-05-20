@@ -80,22 +80,22 @@
         <form class="form mt-4">
             <mat-form-field>
                 <mat-label>Credit Card</mat-label>
-                <input type="text" matInput [(ngModel)]="cardNumber" name="cardNumber">
+                <input type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <mat-label>Expiration Month</mat-label>
-                <input type="number" matInput [(ngModel)]="expMonth" name="expMonth">
+                <mat-label>Expiration Month (MM)</mat-label>
+                <input type="number" matInput [(ngModel)]="expMonth" name="expMonth" required>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <mat-label>Expiration Year</mat-label>
-                <input type="number" matInput [(ngModel)]="expYear" name="expYear">
+                <mat-label>Expiration Year (YYYY)</mat-label>
+                <input type="number" matInput [(ngModel)]="expYear" name="expYear" required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label>CVC</mat-label>
-                <input type="number" matInput [(ngModel)]="cvc" name="cvc">
+                <input type="number" matInput [(ngModel)]="cvc" name="cvc" required>
             </mat-form-field>
             <br>
            

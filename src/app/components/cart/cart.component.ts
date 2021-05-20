@@ -106,7 +106,13 @@ export class CartComponent implements OnInit {
   }
 
   stripeSubmit(){
-    this.stripeCheckout = false;
+      // validates empty fields
+    if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
+      this.stripeFailBoolean = true;
+      this.stripeFailText = "All fields are mandatory";
+    } else {
+
+      this.stripeCheckout = false;
     this.isLoading = true;
     this.stripeFailBoolean = false;
 
@@ -145,11 +151,14 @@ export class CartComponent implements OnInit {
           
         })).subscribe();
       }else {
-        console.log(response.error.message);
-        
+            this.stripeFailText = response.error.message;
+            this.stripeFailBoolean = true;
+            this.stripeCheckout = true;
+            this.isLoading = false;
       }
     })
   }); 
+  }
   }   
  
   ngOnDestroy(){

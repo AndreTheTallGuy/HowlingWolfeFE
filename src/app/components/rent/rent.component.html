@@ -45,6 +45,9 @@
     <div *ngIf="errorBoolean" class="alert alert-danger">
         All fields are mandatory
     </div>
+    <div *ngIf="dateErrorBoolean" class="alert alert-danger">
+        Please enter a date
+    </div>
     <form class="dateForm form mt-4" >
         <mat-form-field class="date-picker" appearance="fill">
             <mat-label>Choose a date</mat-label>
