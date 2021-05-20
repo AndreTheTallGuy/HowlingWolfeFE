@@ -65,6 +65,10 @@ p {
 
 td {
   margin: 5px 0 5px 0;
+  font-family: "Montserrat", sans-serif;
+}
+th {
+  font-family: "Montserrat", sans-serif;
 }
 
 .na {
