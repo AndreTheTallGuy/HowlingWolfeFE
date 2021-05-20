@@ -1,10 +1,18 @@
 .background {
-  background-image: url("https://blog.goodsam.com/wp-content/uploads/2021/01/Lead-Pic-GettyImages-1191438643b.jpg");
-  background-attachment: fixed;
+  /* background-image: url("https://blog.goodsam.com/wp-content/uploads/2021/01/Lead-Pic-GettyImages-1191438643b.jpg"); */
+  background-color: black;
+  width: 100%;
+  /* background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
   height: 87vh;
+}
+
+.center {
+  margin: auto;
+  width: 600px;
+  display: block;
 }
 
 .logo {

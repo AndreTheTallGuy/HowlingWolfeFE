@@ -29,6 +29,7 @@ export class RentComponent implements OnInit {
   noAvailError: boolean = false;
   adminResBoolean: boolean = false;
   adminResOptions: boolean = false;
+  dateErrorBoolean = false;
 
   noAvailText: string;
   
@@ -104,13 +105,14 @@ export class RentComponent implements OnInit {
   }
 
   submitDate(){
-    this.isLoading = true;
-    this.dateBoolean = false;
-    this.noAvailError = false;
     // validates empty fields
     if(this.height == "" || this.weight == "" || this.date == "" || this.duration == "" || this.time == "" || this.height == undefined || this.weight == undefined || this.date == undefined || this.duration == undefined || this.time == undefined){
       this.errorBoolean = true;
     }else{
+    this.isLoading = true;
+    this.dateBoolean = false;
+    this.noAvailError = false;
+
       // Gets all orders by the user's selected date
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         console.log(res);
@@ -262,61 +264,66 @@ export class RentComponent implements OnInit {
   }
 
   timeResolver(){
-    // gets three character day from date    
-    const split = this.date.toString().split(" ")[0];
-    // checks day and sets timeOptions to the available times of that day. 
-    //Available times also based on shuttles
-    if(split == "Mon" || split == "Tue" || split == "Wed" || split  == "Thu" || split  == "Fri"){
-      if(this.shuttle === "None"){
-        this.timeOptions = [
-          {time:"8am", value:"8am"},
-          {time:"10am", value:"10am"},
-          {time:"12pm", value:"12pm"},
-          {time:"2pm", value:"2pm"},
-          {time:"4pm", value:"4pm"},
-          {time:"6pm", value:"6pm"},
-        ];
-      }else if(this.shuttle === "North-Aurora"){
-        this.timeOptions = [
-          {time:"9am", value:"9am"},
-          {time:"11am", value:"11am"},
-          {time:"1pm", value:"1pm"},
-          {time:"3pm", value:"3pm"},
-        ];
-      }else if(this.shuttle == "Batavia"){
-        this.timeOptions =[
-          {time:"9am", value:"9am"},
-          {time:"11am", value:"11am"},
-          {time:"1pm", value:"1pm"},
-        ]
-      }
-    }else if(split == "Sat" || split == "Sun"){
-      if(this.shuttle == "None"){
-        this.timeOptions = [
-          {time:"8am", value:"8am"},
-          {time:"10am", value:"10am"},
-          {time:"12pm", value:"12pm"},
-          {time:"2pm", value:"2pm"},
-          {time:"4pm", value:"4pm"},
-        ];
-      } else if(this.shuttle == "North-Aurora"){
-        this.timeOptions = [
-          {time:"9am", value:"9am"},
-          {time:"11am", value:"11am"},
-          {time:"1pm", value:"1pm"},
-        ];
-      } else if(this.shuttle == "Batavia"){
-        this.timeOptions = [
-          {time:"9am", value:"9am"},
-          {time:"11am", value:"11am"},
-        ];
+    if(!this.date){
+      this.dateErrorBoolean = true;
+    } else {
+      this.dateErrorBoolean = false;
+      // gets three character day from date    
+      const split = this.date.toString().split(" ")[0];
+      // checks day and sets timeOptions to the available times of that day. 
+      //Available times also based on shuttles
+      if(split == "Mon" || split == "Tue" || split == "Wed" || split  == "Thu" || split  == "Fri"){
+        if(this.shuttle === "None"){
+          this.timeOptions = [
+            {time:"8am", value:"8am"},
+            {time:"10am", value:"10am"},
+            {time:"12pm", value:"12pm"},
+            {time:"2pm", value:"2pm"},
+            {time:"4pm", value:"4pm"},
+            {time:"6pm", value:"6pm"},
+          ];
+        }else if(this.shuttle === "North-Aurora"){
+          this.timeOptions = [
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
+          ];
+        }else if(this.shuttle == "Batavia"){
+          this.timeOptions =[
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+          ]
+        }
+      }else if(split == "Sat" || split == "Sun"){
+        if(this.shuttle == "None"){
+          this.timeOptions = [
+            {time:"8am", value:"8am"},
+            {time:"10am", value:"10am"},
+            {time:"12pm", value:"12pm"},
+            {time:"2pm", value:"2pm"},
+            {time:"4pm", value:"4pm"},
+          ];
+        } else if(this.shuttle == "North-Aurora"){
+          this.timeOptions = [
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+          ];
+        } else if(this.shuttle == "Batavia"){
+          this.timeOptions = [
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
+          ];
+        }
       }
     }
-  }
+    }
 
-  pool(boat, duration, time){
-    // subtracts from availability based on duration of trip plus one hour buffer
-    if(boat === "Single Kayak" && duration === "2"){
+    pool(boat, duration, time){
+      // subtracts from availability based on duration of trip plus one hour buffer
+      if(boat === "Single Kayak" && duration === "2"){
         if(time === "8am"){
           this.availability[0].boats.kayak -= 1;
           this.availability[1].boats.kayak -= 1;
