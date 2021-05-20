@@ -144,7 +144,6 @@ export class RentComponent implements OnInit {
           this.noAvailText = `Sorry, we do not have any ${this.selectedBoat}s for that date and time. Please try another date or time.`
           this.noAvailError = true;
           this.dateBoolean = true;
-          this.resetTimesArray();
 
         }else{
           // if time is available, get price and construct boatInfo object
@@ -171,7 +170,6 @@ export class RentComponent implements OnInit {
           }
           this.height = "";
           this.weight = "";
-          this.resetTimesArray();
         }
       })
       

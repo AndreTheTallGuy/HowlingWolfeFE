@@ -1,0 +1,63 @@
+footer {
+  /* background-color: rgb(224, 243, 226); */
+}
+
+.socials {
+  margin: 10px;
+}
+
+.socials a {
+  font-size: 30px;
+  padding: 10px;
+  color: rgb(77, 76, 76);
+}
+
+.links {
+  margin: auto;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-evenly;
+  width: 350px;
+  font-size: 13px;
+}
+.links a {
+  font-family: "Cinzel", serif;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:focus {
+  text-decoration: none;
+  color: black;
+  /* font-size: 18px; */
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: none;
+}
+
+.title {
+  font-family: "Cinzel", serif;
+  margin: 10px 0 0 0;
+}
+.address {
+  margin-bottom: none;
+}
+
+.contact-info a {
+  font-family: "Montserrat", sans-serif;
+}
+
+.email {
+  padding-bottom: 20px;
+}
+
+@media only screen and (max-width: 350px) {
+  .links {
+    font-size: 10px;
+    width: 250px;
+  }
+}

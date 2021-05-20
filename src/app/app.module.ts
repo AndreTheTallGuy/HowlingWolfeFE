@@ -32,6 +32,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { ThankyouComponent } from './components/thankyou/thankyou.component';
 import { ThankyouemailComponent } from './components/thankyouemail/thankyouemail.component';
 import { AdminresComponent } from './components/adminres/adminres.component';
+import { FooterComponent } from './components/footer/footer.component'
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AdminresComponent } from './components/adminres/adminres.component';
     ThankyouComponent,
     ThankyouemailComponent,
     AdminresComponent,
+    FooterComponent,
     
 
   ],

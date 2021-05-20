@@ -97,11 +97,12 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersToday().subscribe(res=>{
-      console.log(res);
       this.displayify(res);      
-      console.log(this.orderDisplays);
-      // filters out boats ordered with a another boat on another day
-      this.orderDisplays = this.orderDisplays.filter(order => order.date === this.orderDisplays[0].date);
+      let today = new Date();
+      today.setHours(0,0,0,0);
+      let todayStr = today.toISOString().substring(0, today.toISOString().length -1) + "+00:00";
+      // filters out boats not scheduled for today
+      this.orderDisplays = this.orderDisplays.filter(order => order.date.toString() === todayStr);
       this.sort();
       })    
   }
