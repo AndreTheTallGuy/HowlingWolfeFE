@@ -223,15 +223,15 @@ export class RentComponent implements OnInit {
      // checks type of boat and shuttle and then sets price
     if(boat == "Single Kayak"){
       switch(shuttle){
-        case "None": this.price = 40; break;
-        case "North-Aurora": this.price = 50; break;
-        case "Batavia": this.price = 60; break;
+        case "None": this.price = 20; break;
+        case "North-Aurora": this.price = 30; break;
+        case "Batavia": this.price = 55; break;
       }
     } else if(boat == "Tandem Kayak" || boat == "Canoe"){
       switch(shuttle){
-        case "None": this.price = 55; break;
-        case "North-Aurora": this.price = 65; break;
-        case "Batavia": this.price = 75; break;
+        case "None": this.price = 40; break;
+        case "North-Aurora": this.price = 60; break;
+        case "Batavia": this.price = 110; break;
       }
     } else if(boat == "Fishing Kayak"){
       switch(shuttle){
@@ -248,15 +248,15 @@ export class RentComponent implements OnInit {
     // sets duration based on shuttle
     if(this.shuttle == "None"){
       this.durationOptions = [
-        {duration:"2 hours", value:"2"},
+        {duration:"1 hour", value:"1"},
       ]
     }else if(this.shuttle == "North-Aurora"){
       this.durationOptions = [
-        {duration:"2 hours", value:"2"}
+        {duration:"1 hour", value:"1"}
       ]
     }else if(this.shuttle == "Batavia"){
       this.durationOptions = [
-        {duration:"4 hours", value:"4"}
+        {duration:"3 hours", value:"3"}
       ]
     }
   }
@@ -321,92 +321,92 @@ export class RentComponent implements OnInit {
 
     pool(boat, duration, time){
       // subtracts from availability based on duration of trip plus one hour buffer
-      if(boat === "Single Kayak" && duration === "2"){
+      if(boat === "Single Kayak" && duration === "1"){
         if(time === "8am"){
           this.availability[0].boats.kayak -= 1;
           this.availability[1].boats.kayak -= 1;
-          this.availability[2].boats.kayak -= 1;
+          // this.availability[2].boats.kayak -= 1;
         } else if( time === "9am"){
           this.availability[1].boats.kayak -= 1;
           this.availability[2].boats.kayak -= 1;
-          this.availability[3].boats.kayak -= 1;
+          // this.availability[3].boats.kayak -= 1;
         } else if( time === "10am"){
           this.availability[2].boats.kayak -= 1;
           this.availability[3].boats.kayak -= 1;
-          this.availability[4].boats.kayak -= 1;
+          // this.availability[4].boats.kayak -= 1;
         }else if( time === "11am"){
           this.availability[3].boats.kayak -= 1;
           this.availability[4].boats.kayak -= 1;
-          this.availability[5].boats.kayak -= 1;
+          // this.availability[5].boats.kayak -= 1;
         }else if( time === "12pm"){
           this.availability[4].boats.kayak -= 1;
           this.availability[5].boats.kayak -= 1;
-          this.availability[6].boats.kayak -= 1;
+          // this.availability[6].boats.kayak -= 1;
         }else if( time === "1pm"){
           this.availability[5].boats.kayak -= 1;
           this.availability[6].boats.kayak -= 1;
-          this.availability[7].boats.kayak -= 1;
+          // this.availability[7].boats.kayak -= 1;
         }else if( time === "2pm"){
           this.availability[6].boats.kayak -= 1;
           this.availability[7].boats.kayak -= 1;
-          this.availability[8].boats.kayak -= 1;
+          // this.availability[8].boats.kayak -= 1;
         }else if( time === "3pm"){
           this.availability[7].boats.kayak -= 1;
           this.availability[8].boats.kayak -= 1;
-          this.availability[9].boats.kayak -= 1;
+          // this.availability[9].boats.kayak -= 1;
         }else if( time === "4pm"){
           this.availability[8].boats.kayak -= 1;
           this.availability[9].boats.kayak -= 1;
-          this.availability[10].boats.kayak -= 1;
+          // this.availability[10].boats.kayak -= 1;
         }else if( time === "5pm"){
           this.availability[9].boats.kayak -= 1;
           this.availability[10].boats.kayak -= 1;
         }else if( time === "6pm"){
           this.availability[10].boats.kayak -= 1;
         }
-    } else if (boat === "Single Kayak" && duration === "4"){
+    } else if (boat === "Single Kayak" && duration === "3"){
       if(time === "8am"){
         this.availability[0].boats.kayak -= 1;
         this.availability[1].boats.kayak -= 1;
         this.availability[2].boats.kayak -= 1;
         this.availability[3].boats.kayak -= 1;
-        this.availability[4].boats.kayak -= 1;
+        // this.availability[4].boats.kayak -= 1;
       } else if( time === "9am"){
         this.availability[1].boats.kayak -= 1;
         this.availability[2].boats.kayak -= 1;
         this.availability[3].boats.kayak -= 1;
         this.availability[4].boats.kayak -= 1;
-        this.availability[5].boats.kayak -= 1;
+        // this.availability[5].boats.kayak -= 1;
       } else if( time === "10am"){
         this.availability[2].boats.kayak -= 1;
         this.availability[3].boats.kayak -= 1;
         this.availability[4].boats.kayak -= 1;
         this.availability[5].boats.kayak -= 1;
-        this.availability[6].boats.kayak -= 1;
+        // this.availability[6].boats.kayak -= 1;
       }else if( time === "11am"){
         this.availability[3].boats.kayak -= 1;
         this.availability[4].boats.kayak -= 1;
         this.availability[5].boats.kayak -= 1;
         this.availability[6].boats.kayak -= 1;
-        this.availability[7].boats.kayak -= 1;
+        // this.availability[7].boats.kayak -= 1;
       }else if( time === "12pm"){
         this.availability[4].boats.kayak -= 1;
         this.availability[5].boats.kayak -= 1;
         this.availability[6].boats.kayak -= 1;
         this.availability[7].boats.kayak -= 1;
-        this.availability[8].boats.kayak -= 1;
+        // this.availability[8].boats.kayak -= 1;
       }else if( time === "1pm"){
         this.availability[5].boats.kayak -= 1;
         this.availability[6].boats.kayak -= 1;
         this.availability[7].boats.kayak -= 1;
         this.availability[8].boats.kayak -= 1;
-        this.availability[9].boats.kayak -= 1;
+        // this.availability[9].boats.kayak -= 1;
       }else if( time === "2pm"){
         this.availability[6].boats.kayak -= 1;
         this.availability[7].boats.kayak -= 1;
         this.availability[8].boats.kayak -= 1;
         this.availability[9].boats.kayak -= 1;
-        this.availability[10].boats.kayak -= 1;
+        // this.availability[10].boats.kayak -= 1;
       }else if( time === "3pm"){
         this.availability[7].boats.kayak -= 1;
         this.availability[8].boats.kayak -= 1;
@@ -422,92 +422,92 @@ export class RentComponent implements OnInit {
       }else if( time === "6pm"){
         this.availability[10].boats.kayak -= 1;
       }
-    } else if (boat === "Canoe" && duration === "2"){
+    } else if (boat === "Canoe" && duration === "1"){
       if(time === "8am"){
         this.availability[0].boats.canoe -= 1;
         this.availability[1].boats.canoe -= 1;
-        this.availability[2].boats.canoe -= 1;
+        // this.availability[2].boats.canoe -= 1;
       } else if( time === "9am"){
         this.availability[1].boats.canoe -= 1;
         this.availability[2].boats.canoe -= 1;
-        this.availability[3].boats.canoe -= 1;
+        // this.availability[3].boats.canoe -= 1;
       } else if( time === "10am"){
         this.availability[2].boats.canoe -= 1;
         this.availability[3].boats.canoe -= 1;
-        this.availability[4].boats.canoe -= 1;
+        // this.availability[4].boats.canoe -= 1;
       }else if( time === "11am"){
         this.availability[3].boats.canoe -= 1;
         this.availability[4].boats.canoe -= 1;
-        this.availability[5].boats.canoe -= 1;
+        // this.availability[5].boats.canoe -= 1;
       }else if( time === "12pm"){
         this.availability[4].boats.canoe -= 1;
         this.availability[5].boats.canoe -= 1;
-        this.availability[6].boats.canoe -= 1;
+        // this.availability[6].boats.canoe -= 1;
       }else if( time === "1pm"){
         this.availability[5].boats.canoe -= 1;
         this.availability[6].boats.canoe -= 1;
-        this.availability[7].boats.canoe -= 1;
+        // this.availability[7].boats.canoe -= 1;
       }else if( time === "2pm"){
         this.availability[6].boats.canoe -= 1;
         this.availability[7].boats.canoe -= 1;
-        this.availability[8].boats.canoe -= 1;
+        // this.availability[8].boats.canoe -= 1;
       }else if( time === "3pm"){
         this.availability[7].boats.canoe -= 1;
         this.availability[8].boats.canoe -= 1;
-        this.availability[9].boats.canoe -= 1;
+        // this.availability[9].boats.canoe -= 1;
       }else if( time === "4pm"){
         this.availability[8].boats.canoe -= 1;
         this.availability[9].boats.canoe -= 1;
-        this.availability[10].boats.canoe -= 1;
+        // this.availability[10].boats.canoe -= 1;
       }else if( time === "5pm"){
         this.availability[9].boats.canoe -= 1;
         this.availability[10].boats.canoe -= 1;
       }else if( time === "6pm"){
         this.availability[10].boats.canoe -= 1;
       }
-    } else if (boat === "Canoe" && duration === "4"){
+    } else if (boat === "Canoe" && duration === "3"){
       if(time === "8am"){
         this.availability[0].boats.canoe -= 1;
         this.availability[1].boats.canoe -= 1;
         this.availability[2].boats.canoe -= 1;
         this.availability[3].boats.canoe -= 1;
-        this.availability[4].boats.canoe -= 1;
+        // this.availability[4].boats.canoe -= 1;
       } else if( time === "9am"){
         this.availability[1].boats.canoe -= 1;
         this.availability[2].boats.canoe -= 1;
         this.availability[3].boats.canoe -= 1;
         this.availability[4].boats.canoe -= 1;
-        this.availability[5].boats.canoe -= 1;
+        // this.availability[5].boats.canoe -= 1;
       } else if( time === "10am"){
         this.availability[2].boats.canoe -= 1;
         this.availability[3].boats.canoe -= 1;
         this.availability[4].boats.canoe -= 1;
         this.availability[5].boats.canoe -= 1;
-        this.availability[6].boats.canoe -= 1;
+        // this.availability[6].boats.canoe -= 1;
       }else if( time === "11am"){
         this.availability[3].boats.canoe -= 1;
         this.availability[4].boats.canoe -= 1;
         this.availability[5].boats.canoe -= 1;
         this.availability[6].boats.canoe -= 1;
-        this.availability[7].boats.canoe -= 1;
+        // this.availability[7].boats.canoe -= 1;
       }else if( time === "12pm"){
         this.availability[4].boats.canoe -= 1;
         this.availability[5].boats.canoe -= 1;
         this.availability[6].boats.canoe -= 1;
         this.availability[7].boats.canoe -= 1;
-        this.availability[8].boats.canoe -= 1;
+        // this.availability[8].boats.canoe -= 1;
       }else if( time === "1pm"){
         this.availability[5].boats.canoe -= 1;
         this.availability[6].boats.canoe -= 1;
         this.availability[7].boats.canoe -= 1;
         this.availability[8].boats.canoe -= 1;
-        this.availability[9].boats.canoe -= 1;
+        // this.availability[9].boats.canoe -= 1;
       }else if( time === "2pm"){
         this.availability[6].boats.canoe -= 1;
         this.availability[7].boats.canoe -= 1;
         this.availability[8].boats.canoe -= 1;
         this.availability[9].boats.canoe -= 1;
-        this.availability[10].boats.canoe -= 1;
+        // this.availability[10].boats.canoe -= 1;
       }else if( time === "3pm"){
         this.availability[7].boats.canoe -= 1;
         this.availability[8].boats.canoe -= 1;
