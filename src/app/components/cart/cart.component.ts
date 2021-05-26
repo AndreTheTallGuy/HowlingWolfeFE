@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Charge } from 'src/app/models/Charge';
 import { of, Subject } from 'rxjs';
 import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { SubscribeService } from 'src/app/services/subscribe.service';
 
 @Component({
   selector: 'app-cart',
@@ -23,6 +24,7 @@ export class CartComponent implements OnInit {
   alertBoolean: boolean = false;
   isLoading: boolean = false;
   stripeFailBoolean: boolean = false;
+  subscribeEmail: boolean = false;
 
   boatsArray: Boat[] = [];
   orderObj: Order = {order_id:"", customer: {}, boats: []};
@@ -42,9 +44,11 @@ export class CartComponent implements OnInit {
 
   stripeFailText: string;
 
+  subscribeData: any = <any>{};
+
   private unsubscibe = new Subject();
 
-  constructor(private api: ApiService, private ngZone: NgZone, private router: Router) { }
+  constructor(private api: ApiService, private subscribe: SubscribeService, private ngZone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
     this.api.getAllOrders().subscribe();
@@ -105,6 +109,12 @@ export class CartComponent implements OnInit {
     
   }
 
+  emailSubscribe(){
+    this.subscribeEmail = !this.subscribeEmail
+    console.log(this.subscribeEmail);
+    
+  }
+
   stripeSubmit(){
       // validates empty fields
     if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
@@ -115,6 +125,13 @@ export class CartComponent implements OnInit {
       this.stripeCheckout = false;
     this.isLoading = true;
     this.stripeFailBoolean = false;
+
+    console.log(this.subscribeEmail);
+    
+    if(this.subscribeEmail){
+      this.subscribeData.email = this.email;
+      this.subscribeToMailChimp();
+    }
 
     // sends CC info to stripe and gets back a token
     (<any>window).Stripe.card.createToken({
@@ -160,6 +177,14 @@ export class CartComponent implements OnInit {
   }); 
   }
   }   
+
+  subscribeToMailChimp(){
+    this.subscribe.subscribeToList(this.subscribeData).subscribe(res => {
+      console.log("subscribed");
+      console.log(this.subscribeData);
+    }, err => console.log(err)
+    );
+  }
  
   ngOnDestroy(){
     this.unsubscibe.next();

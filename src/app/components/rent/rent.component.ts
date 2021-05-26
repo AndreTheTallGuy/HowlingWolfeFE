@@ -7,6 +7,7 @@ import { Duration } from 'src/app/models/Duration';
 import { Times } from 'src/app/models/Times';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
+import { LogicalFileSystem } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class RentComponent implements OnInit {
 
   cartArray?: Boat[] = [];
   cartList?: string;
+  boatsInCart: Boat[];
   
   minDate: Date = new Date;
 
@@ -72,8 +74,9 @@ export class RentComponent implements OnInit {
     this.duration = "";
   }
   
-  resetTime(){
+  dateReset(){
     this.time = "";
+    this.resetTimesArray();
   }
 
   resetTimeAndDuration(){
@@ -89,6 +92,8 @@ export class RentComponent implements OnInit {
 
   // resets availability to how many boats there are in total
   resetTimesArray(){
+    console.log("times array reset");
+    
     this.availability = [
     {time:"8am", boats:{kayak: 9, canoe: 2}},
     {time:"9am", boats:{kayak: 9, canoe: 2}},
@@ -112,7 +117,8 @@ export class RentComponent implements OnInit {
     this.isLoading = true;
     this.dateBoolean = false;
     this.noAvailError = false;
-
+    this.errorBoolean = false;
+    this.resetTimesArray();
       // Gets all orders by the user's selected date
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         console.log(res);
@@ -121,6 +127,15 @@ export class RentComponent implements OnInit {
           for(let boat of order.boats){
            // if boat's date matches user's date, it is subtracted from the pool
             if(boat.date === this.date){
+              this.pool(boat.boat, boat.duration, boat.time);
+            }
+          }
+        }
+
+        if(sessionStorage.getItem("cartList")){
+          this.boatsInCart = JSON.parse(sessionStorage.getItem("cartList"));
+          for(let boat of this.boatsInCart){
+            if(boat.date === this.date.toISOString()){
               this.pool(boat.boat, boat.duration, boat.time);
             }
           }

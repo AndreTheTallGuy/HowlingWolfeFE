@@ -51,8 +51,8 @@
     <form class="dateForm form mt-4" >
         <mat-form-field class="date-picker" appearance="fill">
             <mat-label>Choose a date</mat-label>
-            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="resetTime()">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="dateReset()">
+            <mat-datepicker-toggle (click)="dateReset()" matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <br>
