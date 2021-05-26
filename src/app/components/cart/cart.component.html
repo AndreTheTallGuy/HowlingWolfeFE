@@ -64,7 +64,8 @@
                 <mat-label >Phone</mat-label>
                 <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
             </mat-form-field>
-                         
+                         <br>
+            <mat-checkbox class="subscribe" name="subscribe" [color]="accent" (click)="emailSubscribe()">Check to subscribe to our email promotions and contests! </mat-checkbox>
             <button class="btn btn-secondary mb-4 submit" (click)="infoSubmit()" >Check Out</button>
             
             <div *ngIf="alertBoolean" class="alert alert-danger">

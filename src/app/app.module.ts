@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HttpClientJsonpModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu'
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RentalComponent } from './components/rental/rental.component';
@@ -59,6 +60,7 @@ import { FooterComponent } from './components/footer/footer.component'
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     MatToolbarModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -71,7 +73,8 @@ import { FooterComponent } from './components/footer/footer.component'
     MatFormFieldModule,
     MatSelectModule,
     MatButtonToggleModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule
     
   ],
   providers: [],
