@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { LogicalFileSystem } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 
+
 @Component({
   selector: 'app-rent',
   templateUrl: './rent.component.html',

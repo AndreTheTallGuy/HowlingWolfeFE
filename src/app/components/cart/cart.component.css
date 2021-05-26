@@ -8,7 +8,7 @@
   width: 99vw;
   z-index: -20; */
   min-height: 60vh;
-  animation: slide 0.5s;
+  /* animation: slide 0.5s; */
 }
 
 @keyframes slide {
