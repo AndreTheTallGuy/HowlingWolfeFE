@@ -55,10 +55,11 @@ export class CartComponent implements OnInit {
     // checks session storage for boats and puts them in boatsArray
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
-      this.tableBoolean = true;
+      if(this.boatsArray.length > 0){
+        this.tableBoolean = true;
       } else {
         this.emptyBoolean = true;
-    }
+    }}
   }
   ngDoCheck(){
     this.getTotals();  

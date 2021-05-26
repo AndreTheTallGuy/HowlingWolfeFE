@@ -3,7 +3,7 @@
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div class="empty" *ngIf="emptyBoolean">
         <h3 class="empty-cart">Your cart is empty</h3>
-        <a routerLink="/rentals"> Add a boat!</a>    
+        <a routerLink="/rentals" class="btn btn-secondary"> Add a boat!</a>    
     </div>
     
     <div *ngIf="tableBoolean" class="container">
@@ -104,3 +104,5 @@
           </form>
     </div>
 </div>
+<hr class="eighty">
+<app-footer></app-footer>
