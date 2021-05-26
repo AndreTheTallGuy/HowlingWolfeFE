@@ -44,11 +44,16 @@ p {
   margin: 10px 0 0 0;
 }
 .address {
-  margin-bottom: none;
+  margin-bottom: 0;
 }
 
 .contact-info a {
   font-family: "Montserrat", sans-serif;
+}
+.address,
+.phone,
+.email {
+  color: rgb(77, 76, 76);
 }
 
 .email {

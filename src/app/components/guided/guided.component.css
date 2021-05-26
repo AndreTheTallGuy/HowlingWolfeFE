@@ -110,7 +110,7 @@ p {
     max-width: 220px;
   }
   .background {
-    height: 150%;
+    height: 200vh;
   }
   .container {
     margin-left: -5px;

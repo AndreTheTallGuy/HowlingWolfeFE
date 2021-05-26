@@ -1,4 +1,13 @@
 .background {
+  /* background-image: url("../../../assets/sunsetPaddling.jpg"); */
+  /* background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 99vw;
+  z-index: -20; */
+  min-height: 60vh;
   animation: slide 0.5s;
 }
 
@@ -18,7 +27,7 @@
 }
 
 .title {
-  margin-top: 50px;
+  padding-top: 50px;
   font-size: 300%;
   font-family: "Cinzel", serif;
   text-align: center;
@@ -101,6 +110,12 @@ td {
 }
 .subscribe {
   margin: 10px 0 20px 0;
+}
+
+.eighty {
+  width: 80vw;
+  margin: auto;
+  margin-bottom: 30px;
 }
 @media only screen and (max-width: 900px) {
   .totals {
