@@ -1,5 +1,5 @@
 .background {
-  animation: slide 0.5s;
+  /* animation: slide 0.5s; */
 }
 
 @keyframes slide {
@@ -103,6 +103,9 @@ p {
   .text-body {
     margin-top: 10px;
   }
+  .background {
+    height: 130vh;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -110,7 +113,7 @@ p {
     max-width: 220px;
   }
   .background {
-    height: 150%;
+    height: 160vh;
   }
   .container {
     margin-left: -5px;

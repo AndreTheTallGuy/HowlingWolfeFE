@@ -1,5 +1,5 @@
 .background {
-  animation: slide 0.5s;
+  /* animation: slide 0.5s; */
 }
 
 @keyframes slide {
