@@ -25,7 +25,9 @@ export class CartComponent implements OnInit {
   isLoading: boolean = false;
   stripeFailBoolean: boolean = false;
   subscribeEmail: boolean = false;
-
+  couponBoolean: boolean = false;
+  couponError: boolean = false;
+  
   boatsArray: Boat[] = [];
   orderObj: Order = {order_id:"", customer: {}, boats: []};
   
@@ -35,7 +37,12 @@ export class CartComponent implements OnInit {
   phone!: any;
 
   subTotal: number = 0;
+  coupon: string;
+  discount: number;
+  discountDollars: number;
   total: number = 0;
+  couponErrorMsg: string;
+  couponList: string[] = [];
 
   cardNumber: number;
   expMonth: number;
@@ -60,26 +67,65 @@ export class CartComponent implements OnInit {
       } else {
         this.emptyBoolean = true;
     }}
+    this.getTotals();
   }
-  ngDoCheck(){
-    this.getTotals();  
-  }
+  // ngDoCheck(){
+  //   this.getTotals();  
+  // }
 
   getTotals(){
     // calculates totals
-    // originally coded for a sub total, taxes, and total but currently only total is needed
     this.subTotal=0;
     for(let i =0; i< this.boatsArray.length; i++){
       this.subTotal += this.boatsArray[i].price;
     }
+    if(this.couponBoolean === true){
+      this.discountDollars = this.subTotal * (this.discount/100);
+      this.total = this.subTotal - this.discountDollars;
+    }else {
+      this.total = this.subTotal;
+    }
+  }
+
+  submitCoupon(){
+    // check local storage for coupon list
+    if(localStorage.getItem("howlingwolfe")){
+      this.couponList = JSON.parse(localStorage.getItem("howlingwolfe"));
+      // if list includes coupon, give error
+      if(this.couponList.includes(this.coupon)){
+        this.couponError = true;
+        this.couponErrorMsg = "This code has already been used"
+      } else {
+        this.verifyCode();
+      }
+    } else {
+      this.verifyCode();
+    }
     
-    this.total = this.subTotal;
+  }
+
+  verifyCode(){
+    this.couponError = false;
+    // verify code is in db
+    this.api.getCouponByCode(this.coupon).subscribe(res => {
+      if(res){
+        this.discount = res.discount;
+        this.couponBoolean = true;
+        // rerun totals with discount
+        this.getTotals();
+      } else {
+        this.couponError = true;
+        this.couponErrorMsg = "Coupon not found"
+      }
+
+    })
   }
 
   delete(id){
     // deletes a boat from boatsArray and then pushes to session storage
     this.boatsArray = this.boatsArray.filter(item => item.id !== id);
     sessionStorage.setItem("cartList", JSON.stringify(this.boatsArray));
+    this.getTotals();
   }
 
   checkOut(){
@@ -154,6 +200,9 @@ export class CartComponent implements OnInit {
           if(res === "Success"){
             // if successful, orderObj is submitted to the DB
             return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
+              if(this.couponBoolean){
+                this.saveCoupon();
+              }
               this.isLoading = false;
               sessionStorage.clear();
               this.router.navigate(['/thank-you'])              
@@ -185,6 +234,17 @@ export class CartComponent implements OnInit {
       console.log(this.subscribeData);
     }, err => console.log(err)
     );
+  }
+
+  saveCoupon(){
+    if(localStorage.getItem("howlingwolfe")){
+      this.couponList = JSON.parse(localStorage.getItem("howlingwolfe"));
+      this.couponList.push(this.coupon);
+      localStorage.setItem('howlingwolfe', JSON.stringify(this.couponList))
+    }else {
+      this.couponList.push(this.coupon);
+      localStorage.setItem('howlingwolfe', JSON.stringify(this.couponList))
+    }
   }
  
   ngOnDestroy(){

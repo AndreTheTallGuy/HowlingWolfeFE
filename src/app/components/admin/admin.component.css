@@ -3,7 +3,9 @@ table {
   margin-top: 5%;
   text-align: center;
 }
-
+h1 {
+  font-family: "Cinzel", serif;
+}
 .alert {
   max-width: 200px;
   text-align: center;
@@ -22,6 +24,14 @@ table {
   margin: 10px;
   color: black;
   height: 48px;
+}
+
+.add-coupon {
+  text-align: center;
+}
+
+mat-form-field {
+  max-width: 180px;
 }
 
 #loading {

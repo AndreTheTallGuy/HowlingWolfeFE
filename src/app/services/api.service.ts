@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Charge } from '../models/Charge';
+import { Coupon } from '../models/Coupon';
 import { Customer } from '../models/Customer';
 
 @Injectable({
@@ -45,6 +46,22 @@ export class ApiService {
   }
 
   public chargeCard(charge: Charge): Observable<any>{
-    return this.http.post(this.baseUrl + `payment/charge`, charge, {responseType: 'text'})
+    return this.http.post(this.baseUrl + `payment/charge`, charge, {responseType: 'text'});
+  }
+
+  public deleteCoupon(id: number): Observable<any>{
+    return this.http.delete(this.baseUrl + `coupon/delete/${id}`, {responseType: 'text'});
+  }
+
+  public getCouponByCode(code: string): Observable<any>{
+    return this.http.get(this.baseUrl + `coupon/${code}`);
+  }
+
+  public getAllCoupons(): Observable<any>{
+    return this.http.get(this.baseUrl + `coupon/all`);
+  }
+
+  public postNewCoupon(coupon: Coupon): Observable<any> {
+    return this.http.post(this.baseUrl + `coupon/post`, coupon, {responseType: 'text'});
   }
 }
