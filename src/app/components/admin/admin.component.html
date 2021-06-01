@@ -1,6 +1,4 @@
 <div class="container">
-    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
-    <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
     <div *ngIf="invalidBoolean" class="alert alert-danger">
         Username or Password are incorrect
     </div>
@@ -26,9 +24,13 @@
             </mat-button-toggle-group>
         </div>
         <div id="video" class="safety-link">
+            <button id="coupon" class="btn btn-secondary" (click)="coupon()" >View Coupons</button>
             <button id="res-btn" class="btn btn-secondary" (click)="reservation()" >Add Reservation</button>
             <button class="btn btn-secondary" (click)="safety()" >Video</button>
         </div>
+        
+    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+    <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
         <div id="reservation" *ngIf="resBoolean">
             <app-rent></app-rent>
         </div>
@@ -66,5 +68,51 @@
                 <!-- <td class="data"><button class="btn btn-danger delete" (click)="delete(order.id)"><span class="x">X</span></button></td> -->
             </tr>
         </table>
+        <table *ngIf="couponTable" class="coupon-table">
+            <tr>
+                <th class="header">Id</th>
+                <th class="header">Code</th>
+                <th class="header">Discount</th>
+                <th class="header">Good Until</th>
+                <th class="header">Delete</th>
+            </tr>
+            <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
+            [ngClass]="{ odd: odd, even: even }">
+                <td class="data">{{coupon.id}}</td>
+                <td class="data">{{coupon.code}}</td>
+                <td class="data">{{coupon.discount}}</td>
+                <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
+                <td class="data"><button class="btn btn-danger delete" (click)="delete(coupon.id)"><span class="x">X</span></button></td>
+            </tr>
+            <tr>
+                <td><button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button></td>
+            </tr>
+        </table>
+        <div class="add-coupon" *ngIf="addCouponBoolean">
+            
+            <form class="coupon-form form mt-4" >
+                <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+                <h1>Add A Coupon</h1>
+                <mat-form-field>
+                    <mat-label >Code</mat-label>
+                    <input name="code" matInput type="text" [(ngModel)]="code" class="code"  required>
+                </mat-form-field>
+                <br>
+                
+                <mat-form-field>
+                    <mat-label >Discount</mat-label>
+                    <input name="discount" matInput type="number" [(ngModel)]="discount" class="discount"  required>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="date-picker" appearance="fill">
+                    <mat-label>Good Until</mat-label>
+                    <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <br>
+                <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
+            </form>    
+        </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Coupon } from 'src/app/models/Coupon';
 import { Order } from 'src/app/models/Order';
 import { OrderDisplay } from 'src/app/models/OrderDisplay';
 import { ApiService } from 'src/app/services/api.service';
@@ -19,10 +20,19 @@ export class AdminComponent implements OnInit {
   isLoading: boolean = false;
   resBoolean: boolean = false;
   buttonBoolean: boolean = false;
+  couponTable: boolean = false;
+  addCouponBoolean: boolean = false;
+  couponAlert: boolean = false;
 
   userName: string;
   password: string;
 
+  date: Date; 
+  code: string;
+  discount: number;
+  couponMsg: string;
+
+  coupons: Coupon[];
   orders: Order[];
   orderDisplays: OrderDisplay[] = [];
   sortedOrderDisplays: OrderDisplay[]= [];
@@ -68,6 +78,7 @@ export class AdminComponent implements OnInit {
     this.resBoolean = false;
     this.safetyBoolean = false;
     this.orderBoolean = true;
+    this.couponTable = false;
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
       console.log(res);
@@ -81,6 +92,8 @@ export class AdminComponent implements OnInit {
     this.resBoolean = false;
     this.safetyBoolean = false;
     this.orderBoolean = true;
+    this.couponTable = false;
+
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       console.log(res);
@@ -95,6 +108,8 @@ export class AdminComponent implements OnInit {
     this.resBoolean = false;
     this.safetyBoolean = false;
     this.orderBoolean = true;
+    this.couponTable = false;
+
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersToday().subscribe(res=>{
       this.displayify(res);      
@@ -105,23 +120,59 @@ export class AdminComponent implements OnInit {
       this.orderDisplays = this.orderDisplays.filter(order => order.date.toString() === todayStr);
       this.sort();
       })    
+  
+  }
+
+  coupon(){
+    this.api.getAllCoupons().subscribe(res => this.coupons = res);
+    this.couponTable = !this.couponTable;
+    this.orderBoolean = !this.orderBoolean;
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+  }
+
+  addCoupon(){
+    this.couponTable = false;
+    this.addCouponBoolean = true;
+  }
+
+  submitCoupon(){
+    this.isLoading = true;
+    let newCoupon: Coupon = {
+      code: this.code,
+      discount: this.discount,
+      goodUntil: this.date
+    }
+    console.log(newCoupon);
+    
+    this.api.postNewCoupon(newCoupon).subscribe(res =>{
+       console.log(res);
+       this.isLoading = false;
+       this.couponAlert = true;
+       this.couponMsg = res;
+       setTimeout(() => {
+         this.couponAlert = false;
+       }, 4000);
+    })
   }
 
   delete(id){
-    // this.api.deleteOrder(id).subscribe()
-
-    this.sortedOrderDisplays = this.sortedOrderDisplays.filter(order => order.id !== id)
+    this.api.deleteCoupon(id).subscribe(res => console.log(res))
+    this.coupons = this.coupons.filter(coupon => coupon.id !== id)
   }
 
   safety(){
     this.safetyBoolean = !this.safetyBoolean;
     this.orderBoolean = !this.orderBoolean;
+    this.resBoolean = false;
+    this.couponTable = false;
   }
 
   reservation(){
     this.orderBoolean = !this.orderBoolean;
     this.safetyBoolean = false;
     this.resBoolean = !this.resBoolean;
+    this.couponTable = false;
   }
 
   sort(){

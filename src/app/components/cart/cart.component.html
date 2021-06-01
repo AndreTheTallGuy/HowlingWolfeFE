@@ -34,6 +34,16 @@
             </tr>
         </table>
         <div class="totals">
+            <p class="sub-total" *ngIf="couponBoolean"> Subtotal: &nbsp; {{subTotal | currency:USD}}</p>
+            <p class="discount" *ngIf="couponBoolean">Coupon: &nbsp; &nbsp; &nbsp; - {{discount}}%</p>
+            <div class="alert alert-danger" *ngIf="couponError">{{couponErrorMsg}}</div>
+            <div *ngIf="!couponBoolean">
+                <mat-form-field class="coupon" >
+                    <mat-label >Coupon Code</mat-label>
+                    <input name="coupon" matInput type="text" [(ngModel)]="coupon" class="coupon">
+                </mat-form-field>
+                <button class="btn btn-secondary" (click)="submitCoupon()">Submit</button>
+            </div>
             <p class="total"> Total: {{total | currency:USD}}</p>
             <br>
             <button class="btn btn-secondary mt-3 more" routerLink="/rentals">Add More Boats</button>
