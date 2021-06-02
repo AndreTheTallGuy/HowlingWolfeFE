@@ -39,6 +39,7 @@ export class CartComponent implements OnInit {
   subTotal: number = 0;
   coupon: string;
   discount: number;
+  goodUntil: Date;
   discountDollars: number;
   total: number = 0;
   couponErrorMsg: string;
@@ -109,10 +110,19 @@ export class CartComponent implements OnInit {
     // verify code is in db
     this.api.getCouponByCode(this.coupon).subscribe(res => {
       if(res){
+        this.goodUntil = res.goodUntil;
         this.discount = res.discount;
-        this.couponBoolean = true;
-        // rerun totals with discount
-        this.getTotals();
+        let today = new Date()        
+        
+        if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
+          // show subtotal and discount view
+          this.couponBoolean = true;
+          // rerun totals with discount
+          this.getTotals();
+        } else {
+          this.couponError = true;
+          this.couponErrorMsg = "Coupon is expired"
+        }
       } else {
         this.couponError = true;
         this.couponErrorMsg = "Coupon not found"

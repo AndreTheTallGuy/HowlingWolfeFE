@@ -95,7 +95,7 @@
                 <h1>Add A Coupon</h1>
                 <mat-form-field>
                     <mat-label >Code</mat-label>
-                    <input name="code" matInput type="text" [(ngModel)]="code" class="code"  required>
+                    <input name="code" matInput type="text" [(ngModel)]="code" class="code" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" required>
                 </mat-form-field>
                 <br>
                 

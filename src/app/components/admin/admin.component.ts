@@ -79,6 +79,8 @@ export class AdminComponent implements OnInit {
     this.safetyBoolean = false;
     this.orderBoolean = true;
     this.couponTable = false;
+    this.addCouponBoolean = false;
+
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
       console.log(res);
@@ -93,6 +95,8 @@ export class AdminComponent implements OnInit {
     this.safetyBoolean = false;
     this.orderBoolean = true;
     this.couponTable = false;
+    this.addCouponBoolean = false;
+
 
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
@@ -109,6 +113,8 @@ export class AdminComponent implements OnInit {
     this.safetyBoolean = false;
     this.orderBoolean = true;
     this.couponTable = false;
+    this.addCouponBoolean = false;
+
 
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersToday().subscribe(res=>{
@@ -125,8 +131,14 @@ export class AdminComponent implements OnInit {
 
   coupon(){
     this.api.getAllCoupons().subscribe(res => this.coupons = res);
-    this.couponTable = !this.couponTable;
-    this.orderBoolean = !this.orderBoolean;
+    if(this.couponTable === false){
+      this.couponTable = true;
+      this.orderBoolean = false;
+    }else{
+      this.couponTable = !this.couponTable;
+      this.orderBoolean = !this.orderBoolean;
+    }
+    this.addCouponBoolean = false;
     this.resBoolean = false;
     this.safetyBoolean = false;
   }
@@ -137,6 +149,7 @@ export class AdminComponent implements OnInit {
   }
 
   submitCoupon(){
+    this.addCouponBoolean = false;
     this.isLoading = true;
     let newCoupon: Coupon = {
       code: this.code,
@@ -148,6 +161,7 @@ export class AdminComponent implements OnInit {
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        console.log(res);
        this.isLoading = false;
+       this.addCouponBoolean = true;
        this.couponAlert = true;
        this.couponMsg = res;
        setTimeout(() => {
