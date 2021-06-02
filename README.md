@@ -1,7 +1,7 @@
 # Howling Wolfe Canoe and Kayak
 
 Howling Wolfe is a Spring Boot / Angular application to allow customers to make reservations for canoe and kayak rentals in the west Chicago suburbs.
-[![Live Site](src/assets/HowlingWolfeColored.png)](https://howlingwolfe.com)
+[Live Site](https://howlingwolfe.com)
 
 ## Features
 
@@ -32,5 +32,7 @@ Howling Wolfe is a Spring Boot / Angular application to allow customers to make 
 ## Development
 
 Site and design created by [Andre Entrekin](https://www.github.com/andrethetallguy)
+
 [Front End Code](https://www.github.com/andrethetallguy/howlingwolfefe)
+
 [Back End Code](https://www.github.com/andrethetallguy/howlingwolfe)
