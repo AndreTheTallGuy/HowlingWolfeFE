@@ -40,7 +40,7 @@
             <div *ngIf="!couponBoolean">
                 <mat-form-field class="coupon" >
                     <mat-label >Coupon Code</mat-label>
-                    <input name="coupon" matInput type="text" [(ngModel)]="coupon" class="coupon">
+                    <input name="coupon" matInput type="text" [(ngModel)]="coupon" class="coupon" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()">
                 </mat-form-field>
                 <button class="btn btn-secondary" (click)="submitCoupon()">Submit</button>
             </div>
