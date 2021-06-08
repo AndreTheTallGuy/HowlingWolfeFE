@@ -10,4 +10,5 @@ export interface OrderDisplay {
     weight: string;
     email: string;
     phone: string;
+    coupon: string;
 }

@@ -6,6 +6,11 @@ table {
 h1 {
   font-family: "Cinzel", serif;
 }
+
+.container {
+  padding-bottom: 40px;
+}
+
 .alert {
   max-width: 200px;
   text-align: center;

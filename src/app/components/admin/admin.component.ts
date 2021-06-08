@@ -212,7 +212,8 @@ export class AdminComponent implements OnInit {
         height: boat.height,
         weight: boat.weight,
         email: order.customer.email,
-        phone: order.customer.phone
+        phone: order.customer.phone,
+        coupon: order.customer.coupon
       }        
       this.orderDisplays.push(display);
     }
