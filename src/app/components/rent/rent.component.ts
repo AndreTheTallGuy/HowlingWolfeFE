@@ -121,13 +121,17 @@ export class RentComponent implements OnInit {
     this.errorBoolean = false;
     this.resetTimesArray();
       // Gets all orders by the user's selected date
+      console.log(this.date);
+      
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         console.log(res);
         //loops through orders to get each boat
         for(let order of res){
           for(let boat of order.boats){
            // if boat's date matches user's date, it is subtracted from the pool
-            if(boat.date === this.date){
+           let boatDate = boat.date;
+           
+            if(Date.parse(boat.date.toString()) === Date.parse(this.date.toISOString())){
               this.pool(boat.boat, boat.duration, boat.time);
             }
           }
@@ -138,12 +142,13 @@ export class RentComponent implements OnInit {
           for(let boat of this.boatsInCart){
             if(boat.date === this.date.toISOString()){
               this.pool(boat.boat, boat.duration, boat.time);
+              
             }
           }
         }
-        console.log(this.availability);
         // subtracts user's selected boat from pool
         this.pool(this.selectedBoat, this.duration, this.time);
+        console.log(this.availability);
         // checks if the pool count is less than 0 on any of the time slots
       if(this.selectedBoat === "Canoe" && this.availability[0].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[0].boats.kayak <0 ||
         this.selectedBoat === "Canoe" && this.availability[1].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[1].boats.kayak <0 ||
@@ -170,7 +175,7 @@ export class RentComponent implements OnInit {
             shuttle: this.shuttle,
             height: this.height,
             weight: this.weight,
-            date: this.date.toISOString(),
+            date: this.date,
             duration: this.duration,
             time: this.time,
             price: this.price,
@@ -187,6 +192,14 @@ export class RentComponent implements OnInit {
           this.height = "";
           this.weight = "";
         }
+      }, err => {
+        console.log(err.message);
+        this.isLoading = false;
+        this.noAvailError = true;
+        this.noAvailText = err.message;
+        this.dateBoolean = true;
+        
+        
       })
       
     }

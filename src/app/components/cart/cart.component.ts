@@ -156,7 +156,8 @@ export class CartComponent implements OnInit {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
-        phone: this.phone
+        phone: this.phone,
+        coupon: this.coupon
       }
       // constructs an orderObj object
       this.orderObj.customer = customer;
