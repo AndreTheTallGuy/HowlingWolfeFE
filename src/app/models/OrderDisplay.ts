@@ -11,4 +11,5 @@ export interface OrderDisplay {
     email: string;
     phone: string;
     coupon: string;
+    price: number;
 }

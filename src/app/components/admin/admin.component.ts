@@ -117,13 +117,17 @@ export class AdminComponent implements OnInit {
 
 
     //gets all of today's orders and displays them in a view friendly way
-    this.api.getAllOrdersToday().subscribe(res=>{
+    this.api.getAllOrdersUpcoming().subscribe(res=>{
+      console.log(res);
+      
       this.displayify(res);      
-      let today = new Date();
-      today.setHours(0,0,0,0);
-      let todayStr = today.toISOString().substring(0, today.toISOString().length -1) + "+00:00";
+      let tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() +1);
+      tomorrow.setHours(0,0,0,0);
       // filters out boats not scheduled for today
-      this.orderDisplays = this.orderDisplays.filter(order => order.date.toString() === todayStr);
+      this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
+      console.log(this.orderDisplays);
+      
       this.sort();
       })    
   
@@ -213,7 +217,8 @@ export class AdminComponent implements OnInit {
         weight: boat.weight,
         email: order.customer.email,
         phone: order.customer.phone,
-        coupon: order.customer.coupon
+        coupon: order.customer.coupon,
+        price: boat.price
       }        
       this.orderDisplays.push(display);
     }

@@ -161,6 +161,11 @@ export class CartComponent implements OnInit {
       }
       // constructs an orderObj object
       this.orderObj.customer = customer;
+      if(this.couponBoolean === true){
+        this.boatsArray.forEach(boat => {
+          boat.price = boat.price - (this.discountDollars / this.boatsArray.length)
+        })
+      }
       this.orderObj.boats = this.boatsArray;
       
     }
