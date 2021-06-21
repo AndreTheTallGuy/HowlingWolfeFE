@@ -69,7 +69,8 @@
                 <td class="data">{{order.coupon}}</td>
                 <td class="data">{{order.price | currency: 'USD'}}</td>
                 <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
-                <!-- <td class="data"><button class="btn btn-danger delete" (click)="delete(order.id)"><span class="x">X</span></button></td> -->
+                <td class="data"><button class="btn btn-danger delete" (click)="deleteBoat(order.boatId)"><span class="x">X</span></button></td>
+                
             </tr>
         </table>
         <table *ngIf="couponTable" class="coupon-table">

@@ -23,6 +23,7 @@ export class AdminComponent implements OnInit {
   couponTable: boolean = false;
   addCouponBoolean: boolean = false;
   couponAlert: boolean = false;
+  deleteBoolean: boolean = false;
 
   userName: string;
   password: string;
@@ -118,16 +119,12 @@ export class AdminComponent implements OnInit {
 
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
-      console.log(res);
-      
       this.displayify(res);      
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() +1);
       tomorrow.setHours(0,0,0,0);
       // filters out boats not scheduled for today
       this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
-      console.log(this.orderDisplays);
-      
       this.sort();
       })    
   
@@ -179,6 +176,20 @@ export class AdminComponent implements OnInit {
     this.coupons = this.coupons.filter(coupon => coupon.id !== id)
   }
 
+  deleteBoatBoolean(){
+    this.deleteBoolean = !this.deleteBoolean;
+  }
+
+  deleteBoat(id){
+    if(window.confirm("Are you sure?")){
+      this.api.deleteBoat(id).subscribe(res => {
+        console.log(res);
+        this.sortedOrderDisplays = this.sortedOrderDisplays.filter(boat => boat.boatId !== id);
+      });
+    }
+    
+  }
+
   safety(){
     this.safetyBoolean = !this.safetyBoolean;
     this.orderBoolean = !this.orderBoolean;
@@ -207,6 +218,7 @@ export class AdminComponent implements OnInit {
       for(let boat of order.boats){
       const display: OrderDisplay ={
         id: order.order_id,
+        boatId: boat.id, 
         date: boat.date,
         shuttle: boat.shuttle,
         time: boat.time,

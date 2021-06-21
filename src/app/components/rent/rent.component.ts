@@ -250,24 +250,28 @@ export class RentComponent implements OnInit {
 
    priceResolver(boat:string, shuttle: string){
      // checks type of boat and shuttle and then sets price
-    if(boat == "Single Kayak"){
-      switch(shuttle){
-        case "None": this.price = 20; break;
-        case "North-Aurora": this.price = 30; break;
-        case "Batavia": this.price = 55; break;
+     if(this.router.url.includes('rentals')){
+      if(boat == "Single Kayak"){
+        switch(shuttle){
+          case "None": this.price = 20; break;
+          case "North-Aurora": this.price = 30; break;
+          case "Batavia": this.price = 55; break;
+        }
+      } else if(boat == "Tandem" || boat == "Canoe"){
+        switch(shuttle){
+          case "None": this.price = 40; break;
+          case "North-Aurora": this.price = 60; break;
+          case "Batavia": this.price = 110; break;
+        }
+      } else if(boat == "Fishing Kayak"){
+        switch(shuttle){
+          case "None": this.price = 60; break;
+          case "North-Aurora": this.price = 70; break;
+          case "Batavia": this.price = 80; break;
+        }
       }
-    } else if(boat == "Tandem" || boat == "Canoe"){
-      switch(shuttle){
-        case "None": this.price = 40; break;
-        case "North-Aurora": this.price = 60; break;
-        case "Batavia": this.price = 110; break;
-      }
-    } else if(boat == "Fishing Kayak"){
-      switch(shuttle){
-        case "None": this.price = 60; break;
-        case "North-Aurora": this.price = 70; break;
-        case "Batavia": this.price = 80; break;
-      }
+    }else{
+      this.price = null;
     }
   }
 
