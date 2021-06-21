@@ -1,4 +1,5 @@
 export interface BoatPool {
     kayak: number,
-    canoe: number
+    canoe: number,
+    tandem: number
   }
