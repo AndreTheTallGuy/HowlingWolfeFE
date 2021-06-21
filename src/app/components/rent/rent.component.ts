@@ -96,17 +96,17 @@ export class RentComponent implements OnInit {
     console.log("times array reset");
     
     this.availability = [
-    {time:"8am", boats:{kayak: 9, canoe: 2}},
-    {time:"9am", boats:{kayak: 9, canoe: 2}},
-    {time: "10am", boats: {kayak: 9, canoe: 2}},
-    {time: "11am", boats: {kayak: 9, canoe: 2}},
-    {time: "12pm", boats: {kayak: 9, canoe: 2}},
-    {time: "1pm", boats: {kayak: 9, canoe: 2}},
-    {time: "2pm", boats: {kayak: 9, canoe: 2}},
-    {time: "3pm", boats: {kayak: 9, canoe: 2}},
-    {time: "4pm", boats: {kayak: 9, canoe: 2}},
-    {time: "5pm", boats: {kayak: 9, canoe: 2}},
-    {time: "6pm", boats: {kayak: 9, canoe: 2}}
+    {time:"8am", boats:{kayak: 9, canoe: 2, tandem: 1}},
+    {time:"9am", boats:{kayak: 9, canoe: 2, tandem: 1}},
+    {time: "10am", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "11am", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "12pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "1pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "2pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "3pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "4pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "5pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
+    {time: "6pm", boats: {kayak: 9, canoe: 2, tandem: 1}}
   ]
   }
 
@@ -150,17 +150,17 @@ export class RentComponent implements OnInit {
         this.pool(this.selectedBoat, this.duration, this.time);
         console.log(this.availability);
         // checks if the pool count is less than 0 on any of the time slots
-      if(this.selectedBoat === "Canoe" && this.availability[0].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[0].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[1].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[1].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[2].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[2].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[3].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[3].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[4].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[4].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[5].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[5].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[6].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[6].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[7].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[7].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[8].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[8].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[9].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[9].boats.kayak <0 ||
-        this.selectedBoat === "Canoe" && this.availability[10].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[10].boats.kayak <0){
+      if(this.selectedBoat === "Canoe" && this.availability[0].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[0].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[0].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[1].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[1].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[1].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[2].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[2].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[2].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[3].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[3].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[3].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[4].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[4].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[4].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[5].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[5].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[5].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[6].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[6].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[6].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[7].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[7].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[7].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[8].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[8].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[8].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[9].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[9].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[9].boats.tandem < 0 || 
+        this.selectedBoat === "Canoe" && this.availability[10].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[10].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[10].boats.tandem < 0){
           this.isLoading = false;
           this.noAvailText = `Sorry, we do not have any ${this.selectedBoat}s for that date and time. Please try another date or time.`
           this.noAvailError = true;
@@ -256,7 +256,7 @@ export class RentComponent implements OnInit {
         case "North-Aurora": this.price = 30; break;
         case "Batavia": this.price = 55; break;
       }
-    } else if(boat == "Tandem Kayak" || boat == "Canoe"){
+    } else if(boat == "Tandem" || boat == "Canoe"){
       switch(shuttle){
         case "None": this.price = 40; break;
         case "North-Aurora": this.price = 60; break;
@@ -299,7 +299,7 @@ export class RentComponent implements OnInit {
       const split = this.date.toString().split(" ")[0];
       // checks day and sets timeOptions to the available times of that day. 
       //Available times also based on shuttles
-      if(split == "Mon" || split == "Tue" || split == "Wed" || split  == "Thu" || split  == "Fri"){
+      if(split == "Mon" || split == "Tue" || split  == "Thu" || split  == "Fri"){
         if(this.shuttle === "None"){
           this.timeOptions = [
             {time:"8am", value:"8am"},
@@ -321,6 +321,27 @@ export class RentComponent implements OnInit {
             {time:"9am", value:"9am"},
             {time:"11am", value:"11am"},
             {time:"1pm", value:"1pm"},
+          ]
+        }
+      }else if(split == "Wed"){
+        if(this.shuttle === "None"){
+          this.timeOptions = [
+            {time:"8am", value:"8am"},
+            {time:"10am", value:"10am"},
+            {time:"12pm", value:"12pm"},
+            {time:"2pm", value:"2pm"},
+          ];
+        }else if(this.shuttle === "North-Aurora"){
+          this.timeOptions = [
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
+          ];
+        }else if(this.shuttle == "Batavia"){
+          this.timeOptions =[
+            {time:"9am", value:"9am"},
+            {time:"11am", value:"11am"},
           ]
         }
       }else if(split == "Sat" || split == "Sun"){
@@ -552,7 +573,108 @@ export class RentComponent implements OnInit {
       }else if( time === "6pm"){
         this.availability[10].boats.canoe -= 1;
       }
-    }
+    } else if (boat === "Tandem" && duration === "1"){
+      if(time === "8am"){
+        this.availability[0].boats.tandem -= 1;
+        this.availability[1].boats.tandem -= 1;
+        // this.availability[2].boats.tandem -= 1;
+      } else if( time === "9am"){
+        this.availability[1].boats.tandem -= 1;
+        this.availability[2].boats.tandem -= 1;
+        // this.availability[3].boats.tandem -= 1;
+      } else if( time === "10am"){
+        this.availability[2].boats.tandem -= 1;
+        this.availability[3].boats.tandem -= 1;
+        // this.availability[4].boats.tandem -= 1;
+      }else if( time === "11am"){
+        this.availability[3].boats.tandem -= 1;
+        this.availability[4].boats.tandem -= 1;
+        // this.availability[5].boats.tandem -= 1;
+      }else if( time === "12pm"){
+        this.availability[4].boats.tandem -= 1;
+        this.availability[5].boats.tandem -= 1;
+        // this.availability[6].boats.tandem -= 1;
+      }else if( time === "1pm"){
+        this.availability[5].boats.tandem -= 1;
+        this.availability[6].boats.tandem -= 1;
+        // this.availability[7].boats.tandem -= 1;
+      }else if( time === "2pm"){
+        this.availability[6].boats.tandem -= 1;
+        this.availability[7].boats.tandem -= 1;
+        // this.availability[8].boats.tandem -= 1;
+      }else if( time === "3pm"){
+        this.availability[7].boats.tandem -= 1;
+        this.availability[8].boats.tandem -= 1;
+        // this.availability[9].boats.tandem -= 1;
+      }else if( time === "4pm"){
+        this.availability[8].boats.tandem -= 1;
+        this.availability[9].boats.tandem -= 1;
+        // this.availability[10].boats.tandem -= 1;
+      }else if( time === "5pm"){
+        this.availability[9].boats.tandem -= 1;
+        this.availability[10].boats.tandem -= 1;
+      }else if( time === "6pm"){
+        this.availability[10].boats.tandem -= 1;
+      }
+    } else if (boat === "Tandem" && duration === "3"){
+      if(time === "8am"){
+        this.availability[0].boats.tandem -= 1;
+        this.availability[1].boats.tandem -= 1;
+        this.availability[2].boats.tandem -= 1;
+        this.availability[3].boats.tandem -= 1;
+        // this.availability[4].boats.tandem -= 1;
+      } else if( time === "9am"){
+        this.availability[1].boats.tandem -= 1;
+        this.availability[2].boats.tandem -= 1;
+        this.availability[3].boats.tandem -= 1;
+        this.availability[4].boats.tandem -= 1;
+        // this.availability[5].boats.tandem -= 1;
+      } else if( time === "10am"){
+        this.availability[2].boats.tandem -= 1;
+        this.availability[3].boats.tandem -= 1;
+        this.availability[4].boats.tandem -= 1;
+        this.availability[5].boats.tandem -= 1;
+        // this.availability[6].boats.tandem -= 1;
+      }else if( time === "11am"){
+        this.availability[3].boats.tandem -= 1;
+        this.availability[4].boats.tandem -= 1;
+        this.availability[5].boats.tandem -= 1;
+        this.availability[6].boats.tandem -= 1;
+        // this.availability[7].boats.tandem -= 1;
+      }else if( time === "12pm"){
+        this.availability[4].boats.tandem -= 1;
+        this.availability[5].boats.tandem -= 1;
+        this.availability[6].boats.tandem -= 1;
+        this.availability[7].boats.tandem -= 1;
+        // this.availability[8].boats.tandem -= 1;
+      }else if( time === "1pm"){
+        this.availability[5].boats.tandem -= 1;
+        this.availability[6].boats.tandem -= 1;
+        this.availability[7].boats.tandem -= 1;
+        this.availability[8].boats.tandem -= 1;
+        // this.availability[9].boats.tandem -= 1;
+      }else if( time === "2pm"){
+        this.availability[6].boats.tandem -= 1;
+        this.availability[7].boats.tandem -= 1;
+        this.availability[8].boats.tandem -= 1;
+        this.availability[9].boats.tandem -= 1;
+        // this.availability[10].boats.tandem -= 1;
+      }else if( time === "3pm"){
+        this.availability[7].boats.tandem -= 1;
+        this.availability[8].boats.tandem -= 1;
+        this.availability[9].boats.tandem -= 1;
+        this.availability[10].boats.tandem -= 1;
+      }else if( time === "4pm"){
+        this.availability[8].boats.tandem -= 1;
+        this.availability[9].boats.tandem -= 1;
+        this.availability[10].boats.tandem -= 1;
+      }else if( time === "5pm"){
+        this.availability[9].boats.tandem -= 1;
+        this.availability[10].boats.tandem -= 1;
+      }else if( time === "6pm"){
+        this.availability[10].boats.tandem -= 1;
+      }
+    } 
     
   }
 
