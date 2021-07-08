@@ -22,23 +22,27 @@ export class ApiService {
   }
 
   public login(userName: string):Observable<any>{
-    return this.http.get(this.baseUrl + `accounts/${userName}`, {responseType: 'text'})
+    return this.http.get(this.baseUrl + `accounts/${userName}`, {responseType: 'text'});
   }
 
   public getAllOrders():Observable<any>{
-    return this.http.get(this.baseUrl + `orders/`)
+    return this.http.get(this.baseUrl + `orders/`);
   }
 
   public getAllOrdersByDate(date: string):Observable<any> {
-    return this.http.get(this.baseUrl + `orders/date/${date}`)
+    return this.http.get(this.baseUrl + `orders/date/${date}`);
   }
 
   public getAllOrdersUpcoming():Observable<any>{
-    return this.http.get(this.baseUrl + `orders/upcoming`)
+    return this.http.get(this.baseUrl + `orders/upcoming`);
   }
  
   public getAllOrdersToday():Observable<any>{
-    return this.http.get(this.baseUrl + `orders/today`)
+    return this.http.get(this.baseUrl + `orders/today`);
+  }
+
+  public deleteBoat(id:string):Observable<any>{
+    return this.http.delete(this.baseUrl + `boats/${id}`, {responseType: 'text'});
   }
 
   public sendEmail(type:string, customer: Customer):Observable<any>{

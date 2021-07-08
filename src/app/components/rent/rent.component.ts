@@ -122,14 +122,14 @@ export class RentComponent implements OnInit {
     this.resetTimesArray();
       // Gets all orders by the user's selected date
       console.log(this.date);
-      
+
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         console.log(res);
         //loops through orders to get each boat
         for(let order of res){
           for(let boat of order.boats){
            // if boat's date matches user's date, it is subtracted from the pool
-           let boatDate = boat.date;
+          //  let boatDate = boat.date;
            
             if(Date.parse(boat.date.toString()) === Date.parse(this.date.toISOString())){
               this.pool(boat.boat, boat.duration, boat.time);
@@ -175,7 +175,7 @@ export class RentComponent implements OnInit {
             shuttle: this.shuttle,
             height: this.height,
             weight: this.weight,
-            date: this.date,
+            date: this.date.toISOString(),
             duration: this.duration,
             time: this.time,
             price: this.price,
@@ -250,24 +250,28 @@ export class RentComponent implements OnInit {
 
    priceResolver(boat:string, shuttle: string){
      // checks type of boat and shuttle and then sets price
-    if(boat == "Single Kayak"){
-      switch(shuttle){
-        case "None": this.price = 20; break;
-        case "North-Aurora": this.price = 30; break;
-        case "Batavia": this.price = 55; break;
+     if(this.router.url.includes('rentals')){
+      if(boat == "Single Kayak"){
+        switch(shuttle){
+          case "None": this.price = 20; break;
+          case "North-Aurora": this.price = 30; break;
+          case "Batavia": this.price = 55; break;
+        }
+      } else if(boat == "Tandem" || boat == "Canoe"){
+        switch(shuttle){
+          case "None": this.price = 40; break;
+          case "North-Aurora": this.price = 60; break;
+          case "Batavia": this.price = 110; break;
+        }
+      } else if(boat == "Fishing Kayak"){
+        switch(shuttle){
+          case "None": this.price = 60; break;
+          case "North-Aurora": this.price = 70; break;
+          case "Batavia": this.price = 80; break;
+        }
       }
-    } else if(boat == "Tandem" || boat == "Canoe"){
-      switch(shuttle){
-        case "None": this.price = 40; break;
-        case "North-Aurora": this.price = 60; break;
-        case "Batavia": this.price = 110; break;
-      }
-    } else if(boat == "Fishing Kayak"){
-      switch(shuttle){
-        case "None": this.price = 60; break;
-        case "North-Aurora": this.price = 70; break;
-        case "Batavia": this.price = 80; break;
-      }
+    }else{
+      this.price = null;
     }
   }
 
@@ -315,12 +319,14 @@ export class RentComponent implements OnInit {
             {time:"11am", value:"11am"},
             {time:"1pm", value:"1pm"},
             {time:"3pm", value:"3pm"},
+            {time:"5pm", value:"5pm"},
           ];
         }else if(this.shuttle == "Batavia"){
           this.timeOptions =[
             {time:"9am", value:"9am"},
             {time:"11am", value:"11am"},
             {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
           ]
         }
       }else if(split == "Wed"){
@@ -337,11 +343,14 @@ export class RentComponent implements OnInit {
             {time:"11am", value:"11am"},
             {time:"1pm", value:"1pm"},
             {time:"3pm", value:"3pm"},
+            {time:"5pm", value:"5pm"},
           ];
         }else if(this.shuttle == "Batavia"){
           this.timeOptions =[
             {time:"9am", value:"9am"},
             {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
           ]
         }
       }else if(split == "Sat" || split == "Sun"){
@@ -358,11 +367,15 @@ export class RentComponent implements OnInit {
             {time:"9am", value:"9am"},
             {time:"11am", value:"11am"},
             {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
+            {time:"5pm", value:"5pm"},
           ];
         } else if(this.shuttle == "Batavia"){
           this.timeOptions = [
             {time:"9am", value:"9am"},
             {time:"11am", value:"11am"},
+            {time:"1pm", value:"1pm"},
+            {time:"3pm", value:"3pm"},
           ];
         }
       }

@@ -23,6 +23,9 @@ export class AdminComponent implements OnInit {
   couponTable: boolean = false;
   addCouponBoolean: boolean = false;
   couponAlert: boolean = false;
+  deleteBoolean: boolean = false;
+  monthBoolean: boolean = false;
+  monthlyDisplayBoolean: boolean = false;
 
   userName: string;
   password: string;
@@ -31,11 +34,15 @@ export class AdminComponent implements OnInit {
   code: string;
   discount: number;
   couponMsg: string;
+  monthNum: string;
+  yearNum: string; 
 
   coupons: Coupon[];
   orders: Order[];
   orderDisplays: OrderDisplay[] = [];
   sortedOrderDisplays: OrderDisplay[]= [];
+  yearlyOrderDisplays: OrderDisplay[]= [];
+  monthlyOrderDisplays: OrderDisplay[]= [];
 
   constructor(private api: ApiService) { }
 
@@ -80,6 +87,9 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     this.couponTable = false;
     this.addCouponBoolean = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
 
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
@@ -96,6 +106,10 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     this.couponTable = false;
     this.addCouponBoolean = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
+
 
 
     //gets all orders from today forward and displays them in a view friendly way
@@ -114,20 +128,20 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     this.couponTable = false;
     this.addCouponBoolean = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
+
 
 
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
-      console.log(res);
-      
       this.displayify(res);      
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() +1);
       tomorrow.setHours(0,0,0,0);
       // filters out boats not scheduled for today
       this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
-      console.log(this.orderDisplays);
-      
       this.sort();
       })    
   
@@ -145,6 +159,10 @@ export class AdminComponent implements OnInit {
     this.addCouponBoolean = false;
     this.resBoolean = false;
     this.safetyBoolean = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
+
   }
 
   addCoupon(){
@@ -175,22 +193,98 @@ export class AdminComponent implements OnInit {
   }
 
   delete(id){
-    this.api.deleteCoupon(id).subscribe(res => console.log(res))
-    this.coupons = this.coupons.filter(coupon => coupon.id !== id)
+    this.api.deleteCoupon(id).subscribe(res => {
+      console.log(res)
+      this.coupons = this.coupons.filter(coupon => coupon.id !== id)
+    }, err => console.log(err)
+    )
+  }
+
+  deleteBoatBoolean(){
+    this.deleteBoolean = !this.deleteBoolean;
+  }
+
+  deleteBoat(id){
+    if(window.confirm("Are you sure?")){
+      this.api.deleteBoat(id).subscribe(res => {
+        console.log(res);
+        this.sortedOrderDisplays = this.sortedOrderDisplays.filter(boat => boat.boatId !== id);
+      });
+    }
+    
+  }
+
+  month(){
+    if(this.monthBoolean === false){
+      this.monthBoolean = true;
+      this.orderBoolean = false;
+
+    }else{
+      this.monthBoolean = !this.monthBoolean;
+      this.orderBoolean = !this.orderBoolean;
+      
+    }
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.couponTable = false;
+    this.addCouponBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
+
+  }
+
+  monthlySubmit(){
+    this.isLoading = true;
+    this.monthBoolean = false;
+    if(this.monthNum.length === 1){
+      this.monthNum = "0" + this.monthNum;
+    }
+
+      this.api.getAllOrders().subscribe(res=>{
+        this.monthBoolean = true;
+        this.monthlyDisplayBoolean = true; 
+        this.isLoading = false;
+        console.log(res);
+        this.displayify(res);      
+        console.log(this.orderDisplays);
+        this.sort();
+        this.yearlyOrderDisplays = this.sortedOrderDisplays.filter(order => order.date.toString().substring(0,4) === this.yearNum
+        )
+        this.monthlyOrderDisplays = this.yearlyOrderDisplays.filter(order => order.date.toString().substring(5,7) === this.monthNum)        
+      })
   }
 
   safety(){
-    this.safetyBoolean = !this.safetyBoolean;
-    this.orderBoolean = !this.orderBoolean;
+    if(this.safetyBoolean === false){
+      this.safetyBoolean = true;
+      this.orderBoolean = false;
+    }else{
+      this.safetyBoolean = !this.safetyBoolean;
+      this.orderBoolean = !this.orderBoolean;
+     
+    }
     this.resBoolean = false;
     this.couponTable = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
+
+
   }
 
   reservation(){
-    this.orderBoolean = !this.orderBoolean;
+    if(this.resBoolean === false){
+      this.resBoolean = true;
+      this.orderBoolean = false;
+    }else{
+      this.resBoolean = !this.resBoolean;
+      this.orderBoolean = !this.orderBoolean;
+    }
     this.safetyBoolean = false;
-    this.resBoolean = !this.resBoolean;
     this.couponTable = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+
   }
 
   sort(){
@@ -207,6 +301,7 @@ export class AdminComponent implements OnInit {
       for(let boat of order.boats){
       const display: OrderDisplay ={
         id: order.order_id,
+        boatId: boat.id, 
         date: boat.date,
         shuttle: boat.shuttle,
         time: boat.time,
