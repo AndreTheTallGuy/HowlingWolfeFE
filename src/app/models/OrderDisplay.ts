@@ -13,4 +13,5 @@ export interface OrderDisplay {
     phone: string;
     coupon: string;
     price: number;
+    orderedOn: Date;
 }

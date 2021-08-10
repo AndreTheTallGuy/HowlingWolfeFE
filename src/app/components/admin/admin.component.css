@@ -1,6 +1,5 @@
 table {
   margin: auto;
-  margin-top: 5%;
   text-align: center;
 }
 h1 {
@@ -21,6 +20,14 @@ h1 {
   position: absolute;
   right: 10%;
   top: 114px;
+}
+
+.res-table {
+  margin-top: 5%;
+}
+
+.month {
+  text-align: center;
 }
 
 .btn-secondary {
@@ -74,4 +81,13 @@ mat-form-field {
   width: 20px;
   padding-top: 0px;
   padding-left: 3px;
+}
+
+@media only screen and (max-width: 900px) {
+  .safety-link {
+    position: relative;
+    padding-left: 20px;
+    margin-top: -105px;
+    margin-bottom: 120px;
+  }
 }

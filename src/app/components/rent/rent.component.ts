@@ -31,7 +31,8 @@ export class RentComponent implements OnInit {
   noAvailError: boolean = false;
   adminResBoolean: boolean = false;
   adminResOptions: boolean = false;
-  dateErrorBoolean = false;
+  adminPageBoolean: boolean = false;
+  dateErrorBoolean: boolean = false;
 
   noAvailText: string;
   
@@ -47,7 +48,7 @@ export class RentComponent implements OnInit {
   cartList?: string;
   boatsInCart: Boat[];
   
-  minDate: Date = new Date;
+  minDate: Date;
 
   timeOptions: Time[];
   durationOptions: Duration[];
@@ -59,7 +60,10 @@ export class RentComponent implements OnInit {
   ngOnInit(): void {
     // if url is /rentals, sets the datepickers mindate to tomorrow
     if(this.router.url.includes('rentals')){
+      this.minDate = new Date;
       this.minDate.setDate(this.minDate.getDate() + 1);
+    } else {
+      this.adminPageBoolean = true;
     }
     this.resetTimesArray();
   }
@@ -167,8 +171,12 @@ export class RentComponent implements OnInit {
           this.dateBoolean = true;
 
         }else{
+          // if on the customer facing rental page
+          if(this.router.url.includes('rentals')){
           // if time is available, get price and construct boatInfo object
           this.priceResolver(this.selectedBoat, this.shuttle);
+          //if on the admin facing rental page
+        } 
           this.boatInfo = {
             id: uuid.v4(),
             boat: this.selectedBoat,
@@ -180,6 +188,7 @@ export class RentComponent implements OnInit {
             time: this.time,
             price: this.price,
           }
+
           // add boat to session storage
           this.addToSessionStorage(this.boatInfo);
           this.isLoading = false;
@@ -244,13 +253,14 @@ export class RentComponent implements OnInit {
   }
 
   adminResFinish(){
+    this.dateBoolean = false;
     this.adminResOptions = false;
     this.adminResBoolean = true;
   }
 
    priceResolver(boat:string, shuttle: string){
      // checks type of boat and shuttle and then sets price
-     if(this.router.url.includes('rentals')){
+     
       if(boat == "Single Kayak"){
         switch(shuttle){
           case "None": this.price = 20; break;
@@ -270,9 +280,7 @@ export class RentComponent implements OnInit {
           case "Batavia": this.price = 80; break;
         }
       }
-    }else{
-      this.price = null;
-    }
+    
   }
 
   durationResolver(){

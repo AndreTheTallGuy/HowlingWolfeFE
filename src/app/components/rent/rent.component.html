@@ -89,13 +89,25 @@
             <input name="weight" matInput type="text" [(ngModel)]="weight" class="weight"  required>
         </mat-form-field>
         <br>
-        
+
+        <div *ngIf="adminPageBoolean" class="price-field">
+            <mat-form-field>
+                <mat-label >Add Custom Price</mat-label>
+                <input name="price" matInput type="text" [(ngModel)]="price" class="price"  required>
+            </mat-form-field>
+            <br>
+        </div>
         
         <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Add to Cart</button>
         
+        <div *ngIf="adminPageBoolean" class="cancel">
+            <button class="btn btn-danger" (click)="adminResFinish()">Cancel and Add Client Info</button>
+        </div>
         
     </form>
 </div>
+
+
 
 
 <div *ngIf="addedToCartBoolean" class="check-out">
