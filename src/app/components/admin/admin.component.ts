@@ -63,6 +63,8 @@ export class AdminComponent implements OnInit {
     } else {
       // sends username to the backend and validates the password
       this.api.login(this.userName).subscribe(res => {
+        console.log(res);
+        
         if(this.password == res){
           this.orderBoolean = true;
           this.buttonBoolean = true;
@@ -239,6 +241,9 @@ export class AdminComponent implements OnInit {
     if(this.monthNum.length === 1){
       this.monthNum = "0" + this.monthNum;
     }
+    if(this.yearNum.length === 2){
+      this.yearNum = "20" + this.yearNum;
+    }
 
       this.api.getAllOrders().subscribe(res=>{
         this.monthBoolean = true;
@@ -313,7 +318,8 @@ export class AdminComponent implements OnInit {
         email: order.customer.email,
         phone: order.customer.phone,
         coupon: order.customer.coupon,
-        price: boat.price
+        price: boat.price,
+        orderedOn: order.ordered_on
       }        
       this.orderDisplays.push(display);
     }
