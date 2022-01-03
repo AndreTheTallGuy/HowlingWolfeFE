@@ -1,0 +1,155 @@
+#title {
+  font-size: 300%;
+  font-family: "Cinzel", serif;
+  text-align: center;
+}
+
+#text {
+  margin: 30px 40px;
+}
+
+.header {
+  padding: 15px;
+  font-size: 200%;
+  font-family: "Cinzel", serif;
+  text-align: center;
+}
+
+#modaltitle {
+  font-family: "Cinzel", serif;
+  font-size: 25px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+}
+
+#tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+#tooltip #tooltiptext {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  visibility: hidden;
+  background-color: white;
+  color: black;
+  text-align: center;
+  /* padding: 5px 0; */
+  border: 1px solid grey;
+  border-radius: 10px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  margin-bottom: 10px;
+  z-index: 1;
+  width: 350px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -175px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+#tooltip:hover #tooltiptext {
+  visibility: visible;
+}
+
+table {
+  margin: auto;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+}
+td {
+  margin: 5px 0 5px 0;
+}
+th {
+  width: 120px;
+  padding-top: 5px;
+}
+tr,
+td {
+  padding: 3px 0;
+}
+
+.bottom {
+  padding-bottom: 10px;
+}
+
+.bold {
+  font-weight: 700;
+  width: 75px;
+}
+
+#main {
+  display: flex;
+}
+
+#left {
+  width: 30%;
+}
+
+#right {
+  width: 60%;
+}
+
+#left,
+#right {
+  height: 300px;
+  margin-left: 30px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  margin-top: 20px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+}
+
+#amount {
+  text-align: center;
+}
+
+#dollars {
+  width: 120px;
+  height: 65px;
+  font-size: 60px;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+#dollar-sign {
+  font-family: "Cinzel", serif;
+  font-size: 65px;
+}
+
+#contact {
+  margin: 20px 10px;
+}
+
+form {
+  text-align: center;
+}
+
+mat-form-field {
+  /* padding: 0 15px 0 15px; */
+}
+
+button {
+  background: rgba(255, 255, 255, 0.7);
+  width: 100px;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#flex {
+  padding-left: 30px;
+  display: flex;
+}
