@@ -18,7 +18,7 @@ import { SubscribeService } from 'src/app/services/subscribe.service';
 export class CartComponent implements OnInit {
 
   infoBoolean: boolean = false;
-  emptyBoolean: boolean = false;
+  emptyBoolean: boolean = true;
   tableBoolean: boolean = false;
   stripeCheckout: boolean = false;
   alertBoolean: boolean = false;
@@ -65,9 +65,8 @@ export class CartComponent implements OnInit {
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
       if(this.boatsArray.length > 0){
         this.tableBoolean = true;
-      } else {
-        this.emptyBoolean = true;
-    }}
+        this.emptyBoolean = false;
+      }}
     this.getTotals();
   }
   // ngDoCheck(){

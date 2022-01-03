@@ -63,8 +63,7 @@ export class AdminComponent implements OnInit {
     } else {
       // sends username to the backend and validates the password
       this.api.login(this.userName).subscribe(res => {
-        console.log(res);
-        
+                
         if(this.password == res){
           this.orderBoolean = true;
           this.buttonBoolean = true;
