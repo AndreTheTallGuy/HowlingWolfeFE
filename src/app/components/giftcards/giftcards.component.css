@@ -29,6 +29,8 @@ p {
 #tooltip {
   position: relative;
   display: inline-block;
+  color: dimgrey;
+  font-size: 23px;
 }
 
 /* Tooltip text */
@@ -87,10 +89,12 @@ td {
 
 #main {
   display: flex;
+  margin-bottom: 65px;
 }
 
 #left {
   width: 30%;
+  padding-top: 40px;
 }
 
 #right {
@@ -99,7 +103,7 @@ td {
 
 #left,
 #right {
-  height: 300px;
+  height: 415px;
   margin-left: 30px;
   border-radius: 10px;
   border: 1px solid grey;
@@ -114,7 +118,7 @@ td {
 }
 
 #dollars {
-  width: 120px;
+  /* width: 125px; */
   height: 65px;
   font-size: 60px;
   text-align: center;
@@ -126,6 +130,11 @@ td {
 #dollar-sign {
   font-family: "Cinzel", serif;
   font-size: 65px;
+}
+
+#expiration {
+  width: 80%;
+  margin: 30px auto 0 auto;
 }
 
 #contact {
@@ -140,16 +149,45 @@ mat-form-field {
   /* padding: 0 15px 0 15px; */
 }
 
-button {
-  background: rgba(255, 255, 255, 0.7);
-  width: 100px;
-  color: black;
-  border: none;
-  border-radius: 10px;
-  margin-top: 10px;
+.btn {
+  border-radius: 5px;
+  margin: 10px;
+  font-family: "Montserrat", sans-serif;
 }
 
-#flex {
-  padding-left: 30px;
-  display: flex;
+textarea {
+  white-space: pre;
+  /* overflow-wrap: break-word; */
+  height: 80px;
+}
+
+mat-form-field {
+  width: 80%;
+}
+
+@media only screen and (max-width: 790px) {
+  #main {
+    display: block;
+  }
+
+  #left,
+  #right {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #left {
+    height: 300px;
+  }
+
+  #right {
+    margin-bottom: 40px;
+  }
+}
+
+@media only screen and (max-width: 319px) {
+  #left {
+    height: 350px;
+  }
 }

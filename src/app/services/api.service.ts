@@ -68,4 +68,12 @@ export class ApiService {
   public postNewCoupon(coupon: Coupon): Observable<any> {
     return this.http.post(this.baseUrl + `coupon/post`, coupon, {responseType: 'text'});
   }
+
+  public submitGiftCard(giftObj: any):Observable<any>{
+    return this.http.post(this.baseUrl + `giftcard/post`, giftObj, {responseType: 'text'});
+  }
+
+  public getGiftCard(cardNumber: number): Observable<any> {
+    return this.http.get(this.baseUrl + `giftcard/${cardNumber}`);
+  }
 }
