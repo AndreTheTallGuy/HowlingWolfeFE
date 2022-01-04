@@ -2,7 +2,9 @@
 
 <p id="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem animi dolorum veniam esse aut exercitationem cum, adipisci molestiae quas iure labore eos eius debitis recusandae voluptates nihil sunt quasi quis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam repudiandae aliquam hic odit tempore suscipit nostrum itaque facere a nam dignissimos atque, expedita neque assumenda reprehenderit ipsa iure accusamus consectetur?</p>
 
-<div id="main">
+<img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+
+<div id="main" *ngIf="mainBoolean">
 
     <div id="left">
         <div class="header">How Much?
@@ -33,8 +35,9 @@
         </div>
         <div id="amount">
             <span id="dollar-sign">$</span>
-            <input type="text" [(ngModel)]="amount" id="dollars" >
+            <input type="text" [(ngModel)]="amount" [style.width]="dollarWidth" id="dollars" >
         </div>
+        <p id="expiration">Gift certificates must be used or a reservation made within one year of purchase date.</p>
     </div>
 
     <div id="right">
@@ -46,7 +49,7 @@
                 <input name="recipient-email" matInput type="email" [(ngModel)]="recipientEmail" class="inputs" id="recipient-email"  required>
             </mat-form-field>
             <br>
-            <span id="flex">
+            <!-- <span id="flex"> -->
 
                 <mat-form-field >
                     <mat-label>Sender's Name*</mat-label>
@@ -57,16 +60,48 @@
                     <mat-label>Sender's Email*</mat-label>
                     <input name="sender-email" matInput type="email" [(ngModel)]="senderEmail" class="inputs" id="sender-email"  required>
                 </mat-form-field>
-            </span>
+            <!-- </span> -->
                 <br>
             <mat-form-field >
                 <mat-label>Message</mat-label>
-                <textarea name="recipient-email" matInput type="text" [(ngModel)]="recipientEmail" class="inputs" id="recipient-email"  ></textarea>
+                <textarea name="recipient-email" matInput type="text" [(ngModel)]="message" class="inputs" id="recipient-email"  ></textarea>
             </mat-form-field>
             <br>
-            <button class="btn-secondary mb-4 submit" (click)="submit()">Send</button>
+            <button class="btn btn-secondary mb-4 submit" (click)="submit()">Submit</button>
         </form>
         
         
     </div>
 </div>
+
+<div *ngIf="stripeFailBoolean" class="alert alert-danger"> {{stripeFailText}}</div>
+
+    <div *ngIf="stripeCheckout" class="stripe">
+        <form class="form mt-4">
+            <mat-form-field>
+                <mat-label>Credit Card</mat-label>
+                <input type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Expiration Month (MM)</mat-label>
+                <input type="number" matInput [(ngModel)]="expMonth" name="expMonth" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Expiration Year (YYYY)</mat-label>
+                <input type="number" matInput [(ngModel)]="expYear" name="expYear" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>CVC</mat-label>
+                <input type="text" matInput [(ngModel)]="cvc" name="cvc" required>
+            </mat-form-field>
+            <br>
+           
+            <button class="btn btn-secondary submit" (click)="stripeSubmit()" >Submit</button>
+          </form>
+    </div>
+
+<hr>
+<app-footer></app-footer>
