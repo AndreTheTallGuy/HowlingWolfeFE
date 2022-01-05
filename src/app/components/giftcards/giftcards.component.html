@@ -2,7 +2,11 @@
 
 <p id="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem animi dolorum veniam esse aut exercitationem cum, adipisci molestiae quas iure labore eos eius debitis recusandae voluptates nihil sunt quasi quis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam repudiandae aliquam hic odit tempore suscipit nostrum itaque facere a nam dignissimos atque, expedita neque assumenda reprehenderit ipsa iure accusamus consectetur?</p>
 
-<img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+<div *ngIf="isLoading" id="loading">
+    <img  src="../../../assets/infinitySpinner.svg" alt="Loading Spinner">
+    <div id="load-text">{{loadText}}</div>
+
+</div>
 
 <div id="main" *ngIf="mainBoolean">
 
@@ -45,19 +49,19 @@
         <form class="form" >
                    
             <mat-form-field >
-                <mat-label>Recipient's Email*</mat-label>
+                <mat-label>Recipient's Email</mat-label>
                 <input name="recipient-email" matInput type="email" [(ngModel)]="recipientEmail" class="inputs" id="recipient-email"  required>
             </mat-form-field>
             <br>
             <!-- <span id="flex"> -->
 
                 <mat-form-field >
-                    <mat-label>Sender's Name*</mat-label>
+                    <mat-label>Sender's Name</mat-label>
                     <input name="sender-name" matInput type="text" [(ngModel)]="senderName" class="inputs" id="sender-name"  required>
                 </mat-form-field>
                 <br>
                 <mat-form-field >
-                    <mat-label>Sender's Email*</mat-label>
+                    <mat-label>Sender's Email</mat-label>
                     <input name="sender-email" matInput type="email" [(ngModel)]="senderEmail" class="inputs" id="sender-email"  required>
                 </mat-form-field>
             <!-- </span> -->

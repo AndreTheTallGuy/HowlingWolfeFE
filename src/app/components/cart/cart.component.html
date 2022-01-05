@@ -1,6 +1,10 @@
 <div class="background">
     <h1 class="title">Your Cart</h1>
-    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
+    <div *ngIf="isLoading" id="loading">
+        <img  src="../../../assets/infinitySpinner.svg" alt="Loading Spinner">
+        <div id="load-text">{{loadText}}</div>
+    
+    </div>
     <div class="empty" *ngIf="emptyBoolean">
         <h3 class="empty-cart">Your cart is empty</h3>
         <a routerLink="/rentals" class="btn btn-secondary"> Add a boat!</a>    

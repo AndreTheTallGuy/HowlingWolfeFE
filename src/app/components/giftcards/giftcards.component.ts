@@ -7,6 +7,8 @@ import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SubscribeService } from 'src/app/services/subscribe.service';
 import { GiftObj } from 'src/app/models/GiftObj';
 import { GiftCard } from 'src/app/models/GiftCard';
+
+
 @Component({
   selector: 'app-giftcards',
   templateUrl: './giftcards.component.html',
@@ -18,6 +20,8 @@ export class GiftcardsComponent implements OnInit {
   isLoading: boolean = false;
   stripeFailBoolean: boolean = false;
   stripeCheckout: boolean = false;
+
+  loadText: string = "Placing your order...";
 
   stripeFailText: string;
   cardNumber: number;
@@ -70,27 +74,25 @@ export class GiftcardsComponent implements OnInit {
   }
 
   objectBuilder(){
-    this.numberGenerator();
-    this.giftCard = {id:null, cardNumber: this.giftCardNumber, balance:this.amount, email: this.recipientEmail };
-    this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
-    console.log(this.giftObj);
-    
-  }
 
-  numberGenerator(){
     let tempNum = Math.floor(10000000 + Math.random() * 90000000);
     console.log(tempNum);
     this.api.getGiftCard(tempNum).subscribe(res=>{
-      console.log(res);
       if(res == null){
         this.giftCardNumber = tempNum;
       } else {
-        this.numberGenerator();
+        console.log("restarting number generator");
+        this.objectBuilder();
       }
+      this.giftCard = {id:null, cardNumber: this.giftCardNumber, balance:this.amount, email: this.recipientEmail };
+      this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
+      console.log(this.giftObj);
+      
     });
+    
   }
 
-  stripeSubmit(){
+    stripeSubmit(){
     // validates empty fields
     if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
       this.stripeFailBoolean = true;
@@ -114,18 +116,20 @@ export class GiftcardsComponent implements OnInit {
           token: response.id,
           price: this.amount
         }
+        this.loadText = "Charging Card..."
         // sends charge object to the backend
         this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
           
         }), switchMap((res: any)=>{
           if(res === "Success"){
-            
+            this.loadText = "Finishing up..."
             // if successful, giftObj is submitted to the DB
             return this.api.submitGiftCard(this.giftObj).pipe(tap(()=>{
               
+              this.giftCardNumber = null;
               this.isLoading = false;
               sessionStorage.clear();
-              this.router.navigate(['/thank-you'])              
+              this.router.navigate(['/thank-you'])    
             }))
           } else {
             return of(res).pipe(tap(()=>{

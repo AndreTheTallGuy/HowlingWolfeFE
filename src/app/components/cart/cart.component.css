@@ -21,9 +21,16 @@
 }
 
 #loading {
-  margin: auto;
+  text-align: center;
   display: block;
   padding-top: 60px;
+}
+
+#load-text {
+  font-size: 22px;
+  font-family: "Cinzel", serif;
+  margin-top: -45px;
+  margin-bottom: 95px;
 }
 
 .title {

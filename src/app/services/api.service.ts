@@ -50,7 +50,7 @@ export class ApiService {
   }
 
   public chargeCard(charge: Charge): Observable<any>{
-    return this.http.post(this.baseUrl + `payment/charge`, charge, {responseType: 'text'});
+       return this.http.post(this.baseUrl + `payment/charge`, charge, {responseType: 'text'});
   }
 
   public deleteCoupon(id: number): Observable<any>{
@@ -71,6 +71,7 @@ export class ApiService {
 
   public submitGiftCard(giftObj: any):Observable<any>{
     return this.http.post(this.baseUrl + `giftcard/post`, giftObj, {responseType: 'text'});
+    
   }
 
   public getGiftCard(cardNumber: number): Observable<any> {
