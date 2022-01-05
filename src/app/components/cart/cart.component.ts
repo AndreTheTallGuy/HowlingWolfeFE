@@ -17,8 +17,8 @@ import { SubscribeService } from 'src/app/services/subscribe.service';
 })
 export class CartComponent implements OnInit {
 
-  infoBoolean: boolean = false;
   emptyBoolean: boolean = true;
+  infoBoolean: boolean = false;
   tableBoolean: boolean = false;
   stripeCheckout: boolean = false;
   alertBoolean: boolean = false;
@@ -51,6 +51,7 @@ export class CartComponent implements OnInit {
   cvc: number;
 
   stripeFailText: string;
+  loadText: string = "Placing your order...";
 
   subscribeData: any = <any>{};
 
@@ -208,11 +209,13 @@ export class CartComponent implements OnInit {
           token: response.id,
           price: this.total
         }
+        this.loadText = "Charging Card..."
         // sends charge object to the backend
         this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
           
         }), switchMap((res: any)=>{
           if(res === "Success"){
+            this.loadText = "Finishing up..."
             // if successful, orderObj is submitted to the DB
             return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
               if(this.couponBoolean){

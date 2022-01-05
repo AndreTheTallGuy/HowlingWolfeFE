@@ -165,6 +165,18 @@ mat-form-field {
   width: 80%;
 }
 
+#loading {
+  text-align: center;
+  display: block;
+}
+
+#load-text {
+  font-size: 22px;
+  font-family: "Cinzel", serif;
+  margin-top: -45px;
+  margin-bottom: 95px;
+}
+
 @media only screen and (max-width: 790px) {
   #main {
     display: block;
