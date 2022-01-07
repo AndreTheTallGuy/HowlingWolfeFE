@@ -184,7 +184,8 @@ export class AdminComponent implements OnInit {
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        console.log(res);
        this.isLoading = false;
-       this.addCouponBoolean = true;
+       this.addCouponBoolean = false;
+       this.couponTable = true;
        this.couponAlert = true;
        this.couponMsg = res;
        setTimeout(() => {

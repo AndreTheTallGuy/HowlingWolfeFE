@@ -77,6 +77,8 @@ export class GiftcardsComponent implements OnInit {
 
     let tempNum = Math.floor(10000000 + Math.random() * 90000000);
     console.log(tempNum);
+    console.log(this.recipientEmail);
+    
     this.api.getGiftCard(tempNum).subscribe(res=>{
       if(res == null){
         this.giftCardNumber = tempNum;
@@ -84,9 +86,14 @@ export class GiftcardsComponent implements OnInit {
         console.log("restarting number generator");
         this.objectBuilder();
       }
-      this.giftCard = {id:null, cardNumber: this.giftCardNumber, balance:this.amount, email: this.recipientEmail };
+      this.giftCard = {id:null, cardNumber: this.giftCardNumber, balance:this.amount * 100, email: this.recipientEmail };
       this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
       console.log(this.giftObj);
+      
+    }, err => {
+      console.log(this.recipientEmail);
+      this.stripeCheckout = false;
+      this.mainBoolean = true;
       
     });
     

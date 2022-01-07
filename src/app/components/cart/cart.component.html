@@ -38,18 +38,29 @@
             </tr>
         </table>
         <div class="totals">
-            <p class="sub-total" *ngIf="couponBoolean"> Subtotal: &nbsp; {{subTotal | currency:USD}}</p>
-            <p class="discount" *ngIf="couponBoolean">Coupon: &nbsp; &nbsp; &nbsp; - {{discount}}%</p>
-            <div class="alert alert-danger" *ngIf="couponError">{{couponErrorMsg}}</div>
+            <div *ngIf="!giftCardBoolean">
+                <div class="alert alert-danger mb-1" *ngIf="giftCardError">{{giftCardErrorMsg}}</div>
+                <mat-form-field class="gift-card" >
+                    <mat-label >Gift Card Number</mat-label>
+                    <input name="gift-card" matInput type="number" [(ngModel)]="giftCardNumber" class="gift-card">
+                </mat-form-field>
+                <button class="btn btn-secondary" (click)="submitGiftCard()">Submit</button>
+            </div>
             <div *ngIf="!couponBoolean">
+                <div class="alert alert-danger mb-1" *ngIf="couponError">{{couponErrorMsg}}</div>
                 <mat-form-field class="coupon" >
                     <mat-label >Coupon Code</mat-label>
                     <input name="coupon" matInput type="text" [(ngModel)]="coupon" class="coupon" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()">
                 </mat-form-field>
                 <button class="btn btn-secondary" (click)="submitCoupon()">Submit</button>
             </div>
-            <p class="total"> Total: {{total | currency:USD}}</p>
+            <p class="sub-total calculations" *ngIf="couponBoolean || giftCardBoolean"> Subtotal: &nbsp; {{subTotal | currency:USD}}</p>
+            <p class="discount calculations" *ngIf="couponBoolean">Coupon: &nbsp; &nbsp; &nbsp; - {{discount}}%</p>
+            <p class="calculations" id="after-coupon" *ngIf="discBoolean">After Discount: &nbsp; {{afterCoupon | currency:USD}}</p>
+            <p class="calculations" id="balance" *ngIf="giftCardBoolean">Gift Card Balance:&nbsp; {{giftCardBalance | currency:USD}}</p>
+            <p class="calculations" class="total"> Total: {{total | currency:USD}}</p>
             <br>
+            <p class="calculations" id="projected-balance" *ngIf="giftCardBoolean">New Card Balance:&nbsp; {{projectedBalance | currency:USD}}</p>
             <button class="btn btn-secondary mt-3 more" routerLink="/rentals">Add More Boats</button>
             <br>
             <button class="btn btn-secondary mt-3 check-out" (click)="checkOut()">Check Out</button>
