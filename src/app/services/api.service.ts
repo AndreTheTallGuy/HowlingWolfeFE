@@ -71,10 +71,13 @@ export class ApiService {
 
   public submitGiftCard(giftObj: any):Observable<any>{
     return this.http.post(this.baseUrl + `giftcard/post`, giftObj, {responseType: 'text'});
-    
   }
 
   public getGiftCard(cardNumber: number): Observable<any> {
     return this.http.get(this.baseUrl + `giftcard/${cardNumber}`);
+  }
+
+  public updateGiftCard(giftObj: any):Observable<any> {
+    return this.http.put(this.baseUrl + `giftcard/update`, giftObj,{responseType: 'text'} );
   }
 }

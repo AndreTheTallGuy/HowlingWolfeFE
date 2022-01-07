@@ -22,7 +22,8 @@ h1 {
   top: 114px;
 }
 
-.res-table {
+.res-table,
+.coupon-table {
   margin-top: 5%;
 }
 
