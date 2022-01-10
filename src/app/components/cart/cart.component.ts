@@ -118,9 +118,7 @@ export class CartComponent implements OnInit {
       }
     }else {
       this.total = this.subTotal;
-    }
-    
-    
+    }    
   }
 
   submitCoupon(){
