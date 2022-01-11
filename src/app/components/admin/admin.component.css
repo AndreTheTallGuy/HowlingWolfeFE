@@ -1,7 +1,18 @@
 table {
   margin: auto;
   text-align: center;
+  display: block;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  /* margin: 0 auto; */
+  overflow-x: auto;
+  white-space: nowrap;
 }
+
+#dropdown {
+  display: none;
+}
+
 h1 {
   font-family: "Cinzel", serif;
 }
@@ -19,7 +30,7 @@ h1 {
 .safety-link {
   position: absolute;
   right: 10%;
-  top: 114px;
+  top: 104px;
 }
 
 .res-table,
@@ -84,11 +95,24 @@ mat-form-field {
   padding-left: 3px;
 }
 
-@media only screen and (max-width: 900px) {
-  .safety-link {
-    position: relative;
-    padding-left: 20px;
-    margin-top: -105px;
-    margin-bottom: 120px;
+.add-btn {
+  text-align: center;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media only screen and (max-width: 1000px) {
+  .links {
+    display: none;
+  }
+  #dropdown {
+    display: block;
   }
 }

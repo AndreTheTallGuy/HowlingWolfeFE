@@ -86,7 +86,7 @@ export class GiftcardsComponent implements OnInit {
         console.log("restarting number generator");
         this.objectBuilder();
       }
-      this.giftCard = {id:null, cardNumber: this.giftCardNumber, balance:this.amount * 100, email: this.recipientEmail };
+      this.giftCard = {cardNumber: this.giftCardNumber, balance:this.amount * 100, email: this.recipientEmail };
       this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
       console.log(this.giftObj);
       

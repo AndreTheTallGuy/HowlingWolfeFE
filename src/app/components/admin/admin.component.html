@@ -15,19 +15,36 @@
         <br>
         <button class="btn btn-secondary mb-4 submit" (click)="submit()" >Submit</button>
     </form>
-    <div class="orders" *ngIf="buttonBoolean">
-        <div class="mt-4">
+
+    <div id="dropdown" class="mt-3" *ngIf="buttonBoolean" >
+        <mat-form-field appearance="fill">
+            <mat-label>Navigation</mat-label>
+            <mat-select [(value)]="navigation" >
+              <mat-option value="all" (click)="dropdown()">All</mat-option>
+              <mat-option value="upcoming" (click)="dropdown()">Upcoming</mat-option>
+              <mat-option value="today" (click)="dropdown()">Today</mat-option>
+              <mat-option value="month" (click)="dropdown()">View Month</mat-option>
+              <mat-option value="coupons" (click)="dropdown()">View Coupons</mat-option>
+              <mat-option value="giftcards" (click)="dropdown()">View Gift Cards</mat-option>
+              <mat-option value="reservation" (click)="dropdown()">Add Reservation</mat-option>
+              <mat-option value="video" (click)="dropdown()">Safety Video</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="orders " *ngIf="buttonBoolean">
+        <div class="mt-4 links">
             <mat-button-toggle-group name="orderToggle" value="upcoming">
               <mat-button-toggle (click)="all()" value="all">All</mat-button-toggle>
               <mat-button-toggle (click)="upcoming()" value="upcoming">Upcoming</mat-button-toggle>
               <mat-button-toggle (click)="today()" value="today">Today</mat-button-toggle>
             </mat-button-toggle-group>
-        </div>
-        <div id="video" class="safety-link">
-            <button id="month" class="btn btn-secondary" (click)="month()" >View Month</button>
-            <button id="coupon" class="btn btn-secondary" (click)="coupon()" >View Coupons</button>
-            <button id="res-btn" class="btn btn-secondary" (click)="reservation()" >Add Reservation</button>
-            <button class="btn btn-secondary" (click)="safety()" >Video</button>
+            <div id="video" class="safety-link links">
+                <button id="month" class="btn btn-secondary" (click)="month()" >View Month</button>
+                <button id="coupon" class="btn btn-secondary" (click)="coupon()" >View Coupons</button>
+                <button id="gift-card" class="btn btn-secondary" (click)="giftCard()" >View Gift Cards</button>
+                <button id="res-btn" class="btn btn-secondary" (click)="reservation()" >Add Reservation</button>
+                <button class="btn btn-secondary" (click)="safety()" >Video</button>
+            </div>
         </div>
         
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
@@ -90,13 +107,39 @@
                 <td class="data">{{coupon.code}}</td>
                 <td class="data">{{coupon.discount}}</td>
                 <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
-                <td class="data"><button class="btn btn-danger delete" (click)="delete(coupon.id)"><span class="x">X</span></button></td>
+                <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
             </tr>
-            <tr>
-                <td><button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button></td>
-            </tr>
+           
+            
         </table>
+        <div class="add-btn mt-2" *ngIf="couponTable">
+            <button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button>
+        </div>
 
+        <table *ngIf="giftCardTable" class="coupon-table">
+            <tr>
+                <th class="header">Card Number</th>
+                <th class="header">Balance</th>
+                <th class="header">Email</th>
+                <th class="header">Purchased</th>
+                <th class="header">Delete</th>
+            </tr>
+            <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
+            [ngClass]="{ odd: odd, even: even }">
+                <td class="data">{{gc.cardNumber}}</td>
+                <td class="data">{{gc.balance / 100 | currency:USD}}</td>
+                <td class="data">{{gc.email}}</td>
+                <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
+                <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
+            </tr>
+            <!-- <tr>
+                <td></td>
+            </tr> -->
+        </table>
+        <div class="add-btn mt-2">
+            <button *ngIf="giftCardTable" class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
+        </div>
+            
         <div class="month mt-4" *ngIf="monthBoolean">
             <mat-form-field>
                 <mat-label >Select Month</mat-label>
@@ -148,7 +191,6 @@
         </div>
 
         <div class="add-coupon" *ngIf="addCouponBoolean">
-            
             <form class="coupon-form form mt-4" >
                 <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
                 <h1>Add A Coupon</h1>
@@ -173,5 +215,28 @@
                 <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
             </form>    
         </div>
-    </div>
+        <div class="add-coupon" *ngIf="addGiftCardBoolean">
+            
+            <form class="coupon-form form mt-4" >
+                <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+                <h1>Add A Gift Card</h1>
+                <mat-form-field>
+                    <mat-label >Card Number</mat-label>
+                    <input name="cardNumber" matInput type="number" [(ngModel)]="cardNumber" class="cardNumber" required>
+                </mat-form-field>
+                <br>
+                
+                <mat-form-field>
+                    <mat-label >Amount</mat-label>
+                    <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance"  required>
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <mat-label >Email</mat-label>
+                    <input name="email" matInput type="email" [(ngModel)]="email" class="email"  required>
+                </mat-form-field>
+                <br>
+                <button class="btn btn-secondary mb-4  submit" (click)="submitGiftCard()" >Submit</button>
+            </form>    
+        </div>
 </div>
