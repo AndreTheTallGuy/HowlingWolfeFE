@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Coupon } from 'src/app/models/Coupon';
+import { GiftCard } from 'src/app/models/GiftCard';
 import { Order } from 'src/app/models/Order';
 import { OrderDisplay } from 'src/app/models/OrderDisplay';
 import { ApiService } from 'src/app/services/api.service';
@@ -12,16 +13,18 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit {
 
-  loginBoolean: boolean = true;
+  loginBoolean: boolean = false; //true
+  orderBoolean: boolean = true; //false
+  buttonBoolean: boolean = true; //false
   errorBoolean: boolean = false;
   invalidBoolean: boolean = false;
-  orderBoolean: boolean = false;
   safetyBoolean: boolean = false;
   isLoading: boolean = false;
   resBoolean: boolean = false;
-  buttonBoolean: boolean = false;
   couponTable: boolean = false;
+  giftCardTable: boolean = false;
   addCouponBoolean: boolean = false;
+  addGiftCardBoolean: boolean = false;
   couponAlert: boolean = false;
   deleteBoolean: boolean = false;
   monthBoolean: boolean = false;
@@ -37,6 +40,11 @@ export class AdminComponent implements OnInit {
   monthNum: string;
   yearNum: string; 
 
+  cardNumber: number;
+  balance: number;
+  email: string;
+
+  giftCards: GiftCard[];
   coupons: Coupon[];
   orders: Order[];
   orderDisplays: OrderDisplay[] = [];
@@ -44,10 +52,49 @@ export class AdminComponent implements OnInit {
   yearlyOrderDisplays: OrderDisplay[]= [];
   monthlyOrderDisplays: OrderDisplay[]= [];
 
+  navigation: string;
+
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     this.upcoming();
+  }
+
+   dropdown(){
+    switch(this.navigation){
+      case "all": {
+        this.all();
+      }
+      break;
+      case "upcoming": {
+        this.upcoming();
+      }
+      break;
+      case "today": {
+        this.today();
+      }
+      break;
+      case "month": {
+        this.month();
+      }
+      break;
+      case "coupons": {
+        this.coupon();
+      }
+      break;
+      case "giftcards": {
+        this.giftCard();
+      }
+      break;
+      case "reservation": {
+        this.reservation();
+      }
+      break;
+      case "video": {
+        this.safety();
+      }
+      break;
+    }
   }
 
   submit(){
@@ -85,16 +132,20 @@ export class AdminComponent implements OnInit {
   all(){
     this.resBoolean = false;
     this.safetyBoolean = false;
-    this.orderBoolean = true;
+    this.orderBoolean = false;
     this.couponTable = false;
     this.addCouponBoolean = false;
     this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
+    this.monthlyDisplayBoolean = false;
+    this.giftCardTable = false; 
+    this.isLoading = true;
 
 
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
       console.log(res);
+      this.isLoading = false;
+      this.orderBoolean = true;
       this.displayify(res);      
       console.log(this.orderDisplays);
       this.sort();
@@ -107,8 +158,10 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     this.couponTable = false;
     this.addCouponBoolean = false;
+    this.addGiftCardBoolean = false;
     this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
+    this.monthlyDisplayBoolean = false;
+    this.giftCardTable = false; 
 
 
 
@@ -129,8 +182,10 @@ export class AdminComponent implements OnInit {
     this.orderBoolean = true;
     this.couponTable = false;
     this.addCouponBoolean = false;
+    this.addGiftCardBoolean = false;
     this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
+    this.monthlyDisplayBoolean = false;
+    this.giftCardTable = false; 
 
 
 
@@ -149,6 +204,15 @@ export class AdminComponent implements OnInit {
   }
 
   coupon(){
+    this.addCouponBoolean = false;
+    this.addGiftCardBoolean = false;
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.monthBoolean = false;
+    this.monthlyDisplayBoolean = false;
+    this.giftCardTable = false; 
+
+
     this.api.getAllCoupons().subscribe(res => this.coupons = res);
     if(this.couponTable === false){
       this.couponTable = true;
@@ -157,18 +221,38 @@ export class AdminComponent implements OnInit {
       this.couponTable = !this.couponTable;
       this.orderBoolean = !this.orderBoolean;
     }
+  }
+  
+  giftCard(){
     this.addCouponBoolean = false;
     this.resBoolean = false;
     this.safetyBoolean = false;
     this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
+    this.monthlyDisplayBoolean = false;
+    this.couponTable = false; 
 
 
+    this.api.getAllGiftCards().subscribe(res => {
+      console.log(res);
+      
+      this.giftCards = res});
+    if(this.giftCardTable === false){
+      this.giftCardTable = true;
+      this.orderBoolean = false;
+    }else{
+      this.giftCardTable = !this.giftCardTable;
+      this.orderBoolean = !this.orderBoolean;
+    }
   }
 
   addCoupon(){
     this.couponTable = false;
     this.addCouponBoolean = true;
+  }
+  
+  addGiftCard(){
+    this.giftCardTable = false;
+    this.addGiftCardBoolean = true;
   }
 
   submitCoupon(){
@@ -193,13 +277,46 @@ export class AdminComponent implements OnInit {
        }, 4000);
     })
   }
+  
+  submitGiftCard(){
+    this.addGiftCardBoolean = false;
+    this.isLoading = true;
+    let newGiftCard: GiftCard = {
+      cardNumber: this.cardNumber,
+      balance: this.balance * 100,
+      email: this.email
+    }
+    console.log(newGiftCard);
+    
+    this.api.submitGiftCard(newGiftCard).subscribe(res =>{
+       console.log(res);
+       this.isLoading = false;
+       this.addGiftCardBoolean = false;
+       this.giftCardTable = true;
+       this.couponAlert = true;
+       this.couponMsg = res;
+       setTimeout(() => {
+         this.couponAlert = false;
+       }, 4000);
+    })
+  }
 
-  delete(id){
+  deleteCoupon(id){
     this.api.deleteCoupon(id).subscribe(res => {
       console.log(res)
       this.coupons = this.coupons.filter(coupon => coupon.id !== id)
     }, err => console.log(err)
     )
+  }
+  
+  deleteGiftCard(cardNumber){
+    if(window.confirm("Are you sure?")){
+      this.api.deleteGiftCard(cardNumber).subscribe(res => {
+        console.log(res)
+        this.giftCards = this.giftCards.filter(giftCard => giftCard.cardNumber !== cardNumber)
+      }, err => console.log(err)
+      )
+    }
   }
 
   deleteBoatBoolean(){
@@ -217,6 +334,14 @@ export class AdminComponent implements OnInit {
   }
 
   month(){
+    this.resBoolean = false;
+    this.safetyBoolean = false;
+    this.couponTable = false;
+    this.addCouponBoolean = false;
+    this.monthlyDisplayBoolean = false; 
+    this.giftCardTable = false; 
+    
+
     if(this.monthBoolean === false){
       this.monthBoolean = true;
       this.orderBoolean = false;
@@ -226,11 +351,6 @@ export class AdminComponent implements OnInit {
       this.orderBoolean = !this.orderBoolean;
       
     }
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.couponTable = false;
-    this.addCouponBoolean = false;
-    this.monthlyDisplayBoolean = false; 
 
 
   }
@@ -272,6 +392,8 @@ export class AdminComponent implements OnInit {
     this.couponTable = false;
     this.monthBoolean = false;
     this.monthlyDisplayBoolean = false; 
+    this.giftCardTable = false; 
+    
 
 
 
@@ -289,6 +411,8 @@ export class AdminComponent implements OnInit {
     this.couponTable = false;
     this.monthBoolean = false;
     this.monthlyDisplayBoolean = false; 
+    this.giftCardTable = false; 
+
 
   }
 

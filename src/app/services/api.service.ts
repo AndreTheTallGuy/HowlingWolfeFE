@@ -73,11 +73,19 @@ export class ApiService {
     return this.http.post(this.baseUrl + `giftcard/post`, giftObj, {responseType: 'text'});
   }
 
+  public getAllGiftCards(): Observable<any> {
+    return this.http.get(this.baseUrl + `giftcard/all`);
+  }
+
   public getGiftCard(cardNumber: number): Observable<any> {
     return this.http.get(this.baseUrl + `giftcard/${cardNumber}`);
   }
 
   public updateGiftCard(giftObj: any):Observable<any> {
-    return this.http.put(this.baseUrl + `giftcard/update`, giftObj,{responseType: 'text'} );
+    return this.http.put(this.baseUrl + `giftcard/update`, giftObj, {responseType: 'text'} );
+  }
+
+  public deleteGiftCard(cardNumber: number): Observable<any> {
+    return this.http.delete(this.baseUrl + `giftcard/delete/${cardNumber}`, {responseType: 'text'});
   }
 }
