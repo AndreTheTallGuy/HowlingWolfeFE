@@ -188,8 +188,6 @@ export class AdminComponent implements OnInit {
     this.giftCardTable = false; 
 
 
-
-
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       this.displayify(res);      
