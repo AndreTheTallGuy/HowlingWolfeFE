@@ -149,6 +149,7 @@ export class GiftcardsComponent implements OnInit {
           
         })).subscribe();
       }else {
+        //gives error message and prompts for checkout
             this.stripeFailText = response.error.message;
             this.stripeFailBoolean = true;
             this.stripeCheckout = true;
