@@ -210,7 +210,7 @@ export class AdminComponent implements OnInit {
     this.monthlyDisplayBoolean = false;
     this.giftCardTable = false; 
 
-
+// gets all coupons and puts them in to this.coupons
     this.api.getAllCoupons().subscribe(res => this.coupons = res);
     if(this.couponTable === false){
       this.couponTable = true;
@@ -229,11 +229,9 @@ export class AdminComponent implements OnInit {
     this.monthlyDisplayBoolean = false;
     this.couponTable = false; 
 
-
+// gets all giftcards and puts them in this.giftcards
     this.api.getAllGiftCards().subscribe(res => {
-      console.log(res);
-      
-      this.giftCards = res});
+    this.giftCards = res});
     if(this.giftCardTable === false){
       this.giftCardTable = true;
       this.orderBoolean = false;
@@ -256,13 +254,13 @@ export class AdminComponent implements OnInit {
   submitCoupon(){
     this.addCouponBoolean = false;
     this.isLoading = true;
+    // creates coupon object if submitted data
     let newCoupon: Coupon = {
       code: this.code,
       discount: this.discount,
       goodUntil: this.date
     }
-    console.log(newCoupon);
-    
+    // Posts coupon object to the database
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        console.log(res);
        this.isLoading = false;
@@ -279,13 +277,13 @@ export class AdminComponent implements OnInit {
   submitGiftCard(){
     this.addGiftCardBoolean = false;
     this.isLoading = true;
+    // Creates giftcard object with submitted data
     let newGiftCard: GiftCard = {
       cardNumber: this.cardNumber,
       balance: this.balance * 100,
       email: this.email
     }
-    console.log(newGiftCard);
-    
+    // Posts giftcard object to the database
     this.api.submitGiftCard(newGiftCard).subscribe(res =>{
        console.log(res);
        this.isLoading = false;
@@ -300,6 +298,7 @@ export class AdminComponent implements OnInit {
   }
 
   deleteCoupon(id){
+    // deletes coupon by coupon id
     this.api.deleteCoupon(id).subscribe(res => {
       console.log(res)
       this.coupons = this.coupons.filter(coupon => coupon.id !== id)
@@ -308,6 +307,7 @@ export class AdminComponent implements OnInit {
   }
   
   deleteGiftCard(cardNumber){
+    // deletes giftcard by card number
     if(window.confirm("Are you sure?")){
       this.api.deleteGiftCard(cardNumber).subscribe(res => {
         console.log(res)
@@ -322,6 +322,7 @@ export class AdminComponent implements OnInit {
   }
 
   deleteBoat(id){
+    // deletes boat by id
     if(window.confirm("Are you sure?")){
       this.api.deleteBoat(id).subscribe(res => {
         console.log(res);
@@ -347,10 +348,7 @@ export class AdminComponent implements OnInit {
     }else{
       this.monthBoolean = !this.monthBoolean;
       this.orderBoolean = !this.orderBoolean;
-      
-    }
-
-
+      }
   }
 
   monthlySubmit(){
@@ -362,7 +360,7 @@ export class AdminComponent implements OnInit {
     if(this.yearNum.length === 2){
       this.yearNum = "20" + this.yearNum;
     }
-
+      // gets all orders and sorts them by month
       this.api.getAllOrders().subscribe(res=>{
         this.monthBoolean = true;
         this.monthlyDisplayBoolean = true; 
