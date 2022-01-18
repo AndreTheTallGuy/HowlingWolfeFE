@@ -60,7 +60,7 @@ export class AdminComponent implements OnInit {
     this.upcoming();
   }
 
-   dropdown(){
+  dropdown(){
     switch(this.navigation){
       case "all": {
         this.all();

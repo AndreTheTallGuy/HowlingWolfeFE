@@ -14,7 +14,8 @@ Howling Wolfe is a Spring Boot / Angular application to allow customers to make 
 - Coupons are validated based on code and date of expiration.
 - Checkout is acchieved through Stripe API and no cards are ever stored on the site.
 - Upon successful checkout, an automated email is sent to customer and manager.
-- Admin page where managers can view/add reservations and create/view/delete coupons.
+- Customers can purchase and use giftcards.
+- Admin page where managers can view/add reservations and create/view/delete coupons and giftcards.
 
 ## Tech
 
