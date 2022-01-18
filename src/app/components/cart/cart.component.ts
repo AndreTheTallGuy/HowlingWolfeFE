@@ -48,6 +48,7 @@ export class CartComponent implements OnInit {
   giftCardBalance: number;
   giftCardEmail: string;
   projectedBalance: number;
+  giftCardDebit: number;
   discount: number;
   goodUntil: Date;
   discountDollars: number;
@@ -98,23 +99,41 @@ export class CartComponent implements OnInit {
       this.discBoolean = true;
       
       if(this.giftCardBalance > this.afterCoupon){
+        this.giftCardDebit = this.afterCoupon;
         this.total = 0;
         this.projectedBalance = this.giftCardBalance - this.afterCoupon;
+        console.log(this.total);
+        
+        
       }else{
         this.total = this.afterCoupon - this.giftCardBalance;
+        this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
+        console.log(this.total);
+        
+        
       }
       
     }else if(this.couponBoolean){
       this.discountDollars = this.subTotal * (this.discount/100);
       this.total = this.subTotal - this.discountDollars;
+      console.log(this.total);
+      
     }else if(this.giftCardBoolean){
       if(this.giftCardBalance > this.subTotal){
+        this.giftCardDebit = this.subTotal;
         this.total = 0;
         this.projectedBalance = this.giftCardBalance - this.subTotal;
+        console.log(this.total);
+        
+        
       }else{
         this.total = this.subTotal - this.giftCardBalance;
+        this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
+        console.log(this.total);
+        
+        
       }
     }else {
       this.total = this.subTotal;
@@ -166,10 +185,9 @@ export class CartComponent implements OnInit {
   
   submitGiftCard(){
     this.api.getGiftCard(this.giftCardNumber).subscribe(res=>{
-      
-      
+
       if(res){
-        console.log(res.balance);
+        console.log(res.balance/100);
         
         this.giftCardBalance = res.balance / 100;
         this.giftCardEmail = res.email;
@@ -181,8 +199,6 @@ export class CartComponent implements OnInit {
         this.giftCardErrorMsg = "Gift card not found"
       }
     })
-  
-
   }
 
   delete(id){
@@ -215,10 +231,51 @@ export class CartComponent implements OnInit {
       }
       // constructs an orderObj object
       this.orderObj.customer = customer;
-      if(this.couponBoolean){
+      const arrLength = this.boatsArray.length;
+      if(this.couponBoolean && this.giftCardBoolean){
+        if(this.total == 0){
+          this.boatsArray.forEach(boat => {boat.price = 0;
+            boat.discount = this.discountDollars *100;
+            boat.giftCard = this.giftCardNumber;
+            boat.gcDebit = this.giftCardDebit *100;
+            console.log(boat);
+            
+          })
+        }else{
+          //working
+          const totalDebit = (this.discountDollars + this.giftCardDebit) / arrLength; 
+
+          this.boatsArray.forEach(boat => {
+            boat.price = (boat.price - totalDebit) * 100; 
+            boat.discount = this.discountDollars *100;
+            boat.giftCard = this.giftCardNumber;
+            boat.gcDebit = this.giftCardDebit *100;
+          })
+        }
+      }else if(this.couponBoolean){
         this.boatsArray.forEach(boat => {
-          boat.price = boat.price - (this.discountDollars / this.boatsArray.length)
+          boat.price = boat.price - (this.discountDollars / arrLength) * 100;
+          boat.discount = this.discountDollars *100;
+          console.log(boat);
+          
         })
+      }else if(this.giftCardBoolean){
+        if(this.total == 0){
+          this.boatsArray.forEach(boat => {boat.price = 0;
+            boat.giftCard = this.giftCardNumber;
+            boat.gcDebit = this.giftCardDebit *100;
+            console.log(boat);
+            
+          })
+        }else{
+          this.boatsArray.forEach(boat => {
+            boat.price = boat.price - (this.giftCardDebit / arrLength) * 100; 
+            boat.giftCard = this.giftCardNumber;
+            boat.gcDebit = this.giftCardDebit *100;
+            console.log(boat);
+            
+          })
+        }
       }
       this.orderObj.boats = this.boatsArray;
 
@@ -284,6 +341,8 @@ export class CartComponent implements OnInit {
     }, (status: number, response: any) => {
       this.ngZone.run(() => {
       if (status === 200) {
+        console.log(this.total);
+        
         let charge: Charge = {
           token: response.id,
           price: this.total

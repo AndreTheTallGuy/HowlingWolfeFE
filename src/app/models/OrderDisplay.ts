@@ -13,5 +13,8 @@ export interface OrderDisplay {
     phone: string;
     coupon: string;
     price: number;
+    discount?: number;
+    giftCard?: number;
+    gcDebit?: number; 
     orderedOn: Date;
 }

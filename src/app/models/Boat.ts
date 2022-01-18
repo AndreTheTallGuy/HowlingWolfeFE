@@ -8,4 +8,7 @@ export interface Boat{
     time: string;
     duration: string;
     price: number;
+    discount?: number;
+    giftCard?: number;
+    gcDebit?: number; 
 }
