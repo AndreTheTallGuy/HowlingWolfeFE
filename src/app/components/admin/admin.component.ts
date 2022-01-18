@@ -60,6 +60,29 @@ export class AdminComponent implements OnInit {
     this.upcoming();
   }
 
+  // resetBooleans(){
+  //   return new Promise((resolve,reject)=>
+  //   {
+  //     this.loginBoolean = false; 
+  //     this.orderBoolean = false; 
+  //     this.buttonBoolean = false; 
+  //     this.errorBoolean = false;
+  //     this.invalidBoolean = false;
+  //     this.safetyBoolean = false;
+  //     this.isLoading = false;
+  //     this.resBoolean = false;
+  //     this.couponTable = false;
+  //     this.giftCardTable = false;
+  //     this.addCouponBoolean = false;
+  //     this.addGiftCardBoolean = false;
+  //     this.couponAlert = false;
+  //     this.deleteBoolean = false;
+  //     this.monthBoolean = false;
+  //     this.monthlyDisplayBoolean = false;
+  //   })
+    
+  // }
+
   dropdown(){
     switch(this.navigation){
       case "all": {
@@ -186,7 +209,8 @@ export class AdminComponent implements OnInit {
     this.monthBoolean = false;
     this.monthlyDisplayBoolean = false;
     this.giftCardTable = false; 
-
+    // await this.resetBooleans();
+    this.orderBoolean = true;
 
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
@@ -438,8 +462,14 @@ export class AdminComponent implements OnInit {
         email: order.customer.email,
         phone: order.customer.phone,
         coupon: order.customer.coupon,
-        price: boat.price,
+        price: boat.price /100,
+        discount: boat.discount /100,
+        giftCard: boat.giftCard,
+        gcDebit: boat.gcDebit/100,
         orderedOn: order.ordered_on
+      }
+      if(display.price < 1.18){
+        display.price = display.price *100;
       }        
       this.orderDisplays.push(display);
     }

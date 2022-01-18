@@ -141,6 +141,11 @@ td {
   margin: 20px 10px;
 }
 
+.stripe {
+  max-width: 500px;
+  margin: auto;
+}
+
 form {
   text-align: center;
 }
