@@ -227,6 +227,12 @@ export class RentComponent implements OnInit {
       }
       //push new boat into cartArray
       this.cartArray.push(boat);
+      //sort cartArray by price ascending
+      this.cartArray = this.cartArray.sort((a:any,b:any)=>{
+        return a.price - b.price;
+      })
+      console.log(this.cartArray);
+      
       //convert cartArray to string
       this.cartList = JSON.stringify(this.cartArray);
       // add string to Session Storage

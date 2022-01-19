@@ -60,28 +60,24 @@ export class AdminComponent implements OnInit {
     this.upcoming();
   }
 
-  // resetBooleans(){
-  //   return new Promise((resolve,reject)=>
-  //   {
-  //     this.loginBoolean = false; 
-  //     this.orderBoolean = false; 
-  //     this.buttonBoolean = false; 
-  //     this.errorBoolean = false;
-  //     this.invalidBoolean = false;
-  //     this.safetyBoolean = false;
-  //     this.isLoading = false;
-  //     this.resBoolean = false;
-  //     this.couponTable = false;
-  //     this.giftCardTable = false;
-  //     this.addCouponBoolean = false;
-  //     this.addGiftCardBoolean = false;
-  //     this.couponAlert = false;
-  //     this.deleteBoolean = false;
-  //     this.monthBoolean = false;
-  //     this.monthlyDisplayBoolean = false;
-  //   })
-    
-  // }
+  resetBooleans(){
+      this.loginBoolean = false; 
+      this.orderBoolean = false; 
+      this.errorBoolean = false;
+      this.invalidBoolean = false;
+      this.safetyBoolean = false;
+      this.isLoading = false;
+      this.resBoolean = false;
+      this.couponTable = false;
+      this.giftCardTable = false;
+      this.addCouponBoolean = false;
+      this.addGiftCardBoolean = false;
+      this.couponAlert = false;
+      this.deleteBoolean = false;
+      this.monthBoolean = false;
+      this.monthlyDisplayBoolean = false;
+      this.buttonBoolean = true; 
+  }
 
   dropdown(){
     switch(this.navigation){
@@ -153,17 +149,8 @@ export class AdminComponent implements OnInit {
   }
 
   all(){
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.orderBoolean = false;
-    this.couponTable = false;
-    this.addCouponBoolean = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false;
-    this.giftCardTable = false; 
+    this.resetBooleans();
     this.isLoading = true;
-
-
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
       console.log(res);
@@ -176,22 +163,13 @@ export class AdminComponent implements OnInit {
   }
 
   upcoming(){
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.orderBoolean = true;
-    this.couponTable = false;
-    this.addCouponBoolean = false;
-    this.addGiftCardBoolean = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false;
-    this.giftCardTable = false; 
-
-
-
-
+    this.resetBooleans();
+    this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       console.log(res);
+      this.isLoading = false;
+      this.orderBoolean = true;
       this.displayify(res);      
       console.log(this.orderDisplays);
       this.sort();
@@ -200,20 +178,12 @@ export class AdminComponent implements OnInit {
   }
 
   today(){
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.orderBoolean = true;
-    this.couponTable = false;
-    this.addCouponBoolean = false;
-    this.addGiftCardBoolean = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false;
-    this.giftCardTable = false; 
-    // await this.resetBooleans();
-    this.orderBoolean = true;
-
+    this.resetBooleans();
+    this.isLoading = true;
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
+      this.isLoading = false;
+      this.orderBoolean = true;
       this.displayify(res);      
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() +1);
@@ -226,43 +196,34 @@ export class AdminComponent implements OnInit {
   }
 
   coupon(){
-    this.addCouponBoolean = false;
-    this.addGiftCardBoolean = false;
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false;
-    this.giftCardTable = false; 
+    this.resetBooleans();
+    this.isLoading = true;
 
 // gets all coupons and puts them in to this.coupons
-    this.api.getAllCoupons().subscribe(res => this.coupons = res);
-    if(this.couponTable === false){
+    this.api.getAllCoupons().subscribe(res => {
+      this.isLoading = false;
       this.couponTable = true;
-      this.orderBoolean = false;
-    }else{
-      this.couponTable = !this.couponTable;
-      this.orderBoolean = !this.orderBoolean;
-    }
+      this.coupons = res;
+    });
   }
   
   giftCard(){
-    this.addCouponBoolean = false;
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false;
-    this.couponTable = false; 
+    this.resetBooleans();
+    this.isLoading = true;
 
 // gets all giftcards and puts them in this.giftcards
     this.api.getAllGiftCards().subscribe(res => {
-    this.giftCards = res});
-    if(this.giftCardTable === false){
+      this.isLoading = false;
       this.giftCardTable = true;
-      this.orderBoolean = false;
-    }else{
-      this.giftCardTable = !this.giftCardTable;
-      this.orderBoolean = !this.orderBoolean;
-    }
+      console.log(res);
+      
+      this.giftCards = res;
+      this.giftCards = this.giftCards.sort((a:any,b:any)=>{
+        return +new Date(b.purchased_on) - +new Date(a.purchased_on)});
+
+      console.log(this.giftCards);
+      
+    });
   }
 
   addCoupon(){
@@ -357,22 +318,8 @@ export class AdminComponent implements OnInit {
   }
 
   month(){
-    this.resBoolean = false;
-    this.safetyBoolean = false;
-    this.couponTable = false;
-    this.addCouponBoolean = false;
-    this.monthlyDisplayBoolean = false; 
-    this.giftCardTable = false; 
-    
-
-    if(this.monthBoolean === false){
-      this.monthBoolean = true;
-      this.orderBoolean = false;
-
-    }else{
-      this.monthBoolean = !this.monthBoolean;
-      this.orderBoolean = !this.orderBoolean;
-      }
+    this.resetBooleans();
+    this.monthBoolean = true;
   }
 
   monthlySubmit(){
@@ -389,9 +336,7 @@ export class AdminComponent implements OnInit {
         this.monthBoolean = true;
         this.monthlyDisplayBoolean = true; 
         this.isLoading = false;
-        console.log(res);
         this.displayify(res);      
-        console.log(this.orderDisplays);
         this.sort();
         this.yearlyOrderDisplays = this.sortedOrderDisplays.filter(order => order.date.toString().substring(0,4) === this.yearNum
         )
@@ -400,40 +345,13 @@ export class AdminComponent implements OnInit {
   }
 
   safety(){
-    if(this.safetyBoolean === false){
-      this.safetyBoolean = true;
-      this.orderBoolean = false;
-    }else{
-      this.safetyBoolean = !this.safetyBoolean;
-      this.orderBoolean = !this.orderBoolean;
-     
-    }
-    this.resBoolean = false;
-    this.couponTable = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
-    this.giftCardTable = false; 
-    
-
-
-
+    this.resetBooleans();
+    this.safetyBoolean = true;
   }
 
   reservation(){
-    if(this.resBoolean === false){
-      this.resBoolean = true;
-      this.orderBoolean = false;
-    }else{
-      this.resBoolean = !this.resBoolean;
-      this.orderBoolean = !this.orderBoolean;
-    }
-    this.safetyBoolean = false;
-    this.couponTable = false;
-    this.monthBoolean = false;
-    this.monthlyDisplayBoolean = false; 
-    this.giftCardTable = false; 
-
-
+    this.resetBooleans();
+    this.resBoolean = true;
   }
 
   sort(){
@@ -470,7 +388,13 @@ export class AdminComponent implements OnInit {
       }
       if(display.price < 1.18){
         display.price = display.price *100;
-      }        
+      }
+      if(display.discount === 0){
+        display.discount = null;
+      }
+      if(display.gcDebit === 0){
+        display.gcDebit = null;
+      }
       this.orderDisplays.push(display);
     }
   }

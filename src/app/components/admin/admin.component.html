@@ -46,16 +46,123 @@
                 <button class="btn btn-secondary" (click)="safety()" >Video</button>
             </div>
         </div>
-        
+    </div>    
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
-        <div id="reservation" *ngIf="resBoolean">
-            <app-rent></app-rent>
-        </div>
-        <div id="safety-video" class="mt-5" *ngIf="safetyBoolean" >
-            <iframe width="900px" height="490px" allow="fullscreen" src="../../../assets/Rental_Boat_Safety.mp4" ></iframe>
-        </div>
-        <table  *ngIf="orderBoolean"  class="res-table">
+    <div id="reservation" *ngIf="resBoolean">
+        <app-rent></app-rent>
+    </div>
+    <div id="safety-video" class="mt-5" *ngIf="safetyBoolean" >
+        <iframe width="900px" height="490px" allow="fullscreen" src="../../../assets/Rental_Boat_Safety.mp4" ></iframe>
+    </div>
+    <table  *ngIf="orderBoolean"  class="res-table">
+        <tr>
+            <th class="header">Order Id</th>
+            <th class="header">Date</th>
+            <th class="header">Time</th>
+            <th class="header">Duration</th>
+            <th class="header">Boat</th>
+            <th class="header">Name</th>
+            <th class="header">Height</th>
+            <th class="header">Weight</th>
+            <th class="header">Email</th>
+            <th class="header">Phone</th>
+            <th class="header">Coupon</th>
+            <th class="header">Ordered On</th>
+            <th class="header">Price</th>
+            <th class="header">Discount</th>
+            <th class="header">GC Debit</th>
+            <th class="header">GC Number</th>
+            <th class="header">Waiver</th>
+            <!-- <th class="header">Delete</th> -->
+        </tr>
+        <tr *ngFor="let order of sortedOrderDisplays; let even = even; let odd = odd" 
+        [ngClass]="{ odd: odd, even: even }">
+            <td class="data id">{{order.id}}</td>
+            <td class="data">{{order.date | date:'shortDate'}}</td>
+            <td class="data">{{order.time}}</td>
+            <td class="data">{{order.duration}} hours</td>
+            <td class="data">{{order.boat}}</td>
+            <td class="data">{{order.name}}</td>
+            <td class="data">{{order.height}}</td>
+            <td class="data">{{order.weight}}</td>
+            <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
+            <td class="data">{{order.phone}}</td>
+            <td class="data">{{order.coupon}}</td>
+            <td class="data">{{order.orderedOn | date: 'shortDate'}}</td>
+            <td class="data">{{order.price | currency: 'USD'}}</td>
+            <td class="data" style="color:red">{{order.discount | currency: 'USD'}}</td>
+            <td class="data" style="color:red">{{order.gcDebit | currency: 'USD'}}</td>
+            <td class="data">{{order.giftCard}}</td>
+            <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
+            <td class="data"><button class="btn btn-danger delete" (click)="deleteBoat(order.boatId)"><span class="x">X</span></button></td>
+            
+        </tr>
+    </table>
+    <table *ngIf="couponTable" class="coupon-table">
+        <tr>
+            <th class="header">Id</th>
+            <th class="header">Code</th>
+            <th class="header">Discount</th>
+            <th class="header">Good Until</th>
+            <th class="header">Delete</th>
+        </tr>
+        <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
+        [ngClass]="{ odd: odd, even: even }">
+            <td class="data">{{coupon.id}}</td>
+            <td class="data">{{coupon.code}}</td>
+            <td class="data">{{coupon.discount}}</td>
+            <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
+            <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
+        </tr>
+        
+        
+    </table>
+    <div class="add-btn mt-2" *ngIf="couponTable">
+        <button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button>
+    </div>
+
+    <table *ngIf="giftCardTable" class="coupon-table">
+        <tr>
+            <th class="header">Card Number</th>
+            <th class="header">Balance</th>
+            <th class="header">Email</th>
+            <th class="header">Purchased</th>
+            <th class="header">Delete</th>
+        </tr>
+        <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
+        [ngClass]="{ odd: odd, even: even }">
+            <td class="data">{{gc.cardNumber}}</td>
+            <td class="data">{{gc.balance / 100 | currency:USD}}</td>
+            <td class="data">{{gc.email}}</td>
+            <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
+            <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
+        </tr>
+        <!-- <tr>
+            <td></td>
+        </tr> -->
+    </table>
+    <div class="add-btn mt-2">
+        <button *ngIf="giftCardTable" class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
+    </div>
+            
+    <div class="month mt-4" *ngIf="monthBoolean">
+        <mat-form-field>
+            <mat-label >Select Month</mat-label>
+            <input name="month" matInput type="string" [(ngModel)]="monthNum" class="monthNum"  required>
+        </mat-form-field>
+        &nbsp;
+        &nbsp;
+        <!-- <br> -->
+        <mat-form-field>
+            <mat-label >Select Year</mat-label>
+            <input name="year" matInput type="string" [(ngModel)]="yearNum" class="yearNum"  required>
+        </mat-form-field>
+        &nbsp;
+        <!-- <br> -->
+        <button class="btn btn-secondary mb-4 submit" (click)="monthlySubmit()">Submit</button>
+
+        <table *ngIf="monthlyDisplayBoolean">
             <tr>
                 <th class="header">Order Id</th>
                 <th class="header">Date</th>
@@ -68,15 +175,10 @@
                 <th class="header">Email</th>
                 <th class="header">Phone</th>
                 <th class="header">Coupon</th>
-                <th class="header">Ordered On</th>
                 <th class="header">Price</th>
-                <th class="header">Discount</th>
-                <th class="header">GC Debit</th>
-                <th class="header">GC Number</th>
-                <th class="header">Waiver</th>
-                <!-- <th class="header">Delete</th> -->
+                
             </tr>
-            <tr *ngFor="let order of sortedOrderDisplays; let even = even; let odd = odd" 
+            <tr *ngFor="let order of monthlyOrderDisplays; let even = even; let odd = odd" 
             [ngClass]="{ odd: odd, even: even }">
                 <td class="data id">{{order.id}}</td>
                 <td class="data">{{order.date | date:'shortDate'}}</td>
@@ -89,160 +191,59 @@
                 <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
                 <td class="data">{{order.phone}}</td>
                 <td class="data">{{order.coupon}}</td>
-                <td class="data">{{order.orderedOn | date: 'shortDate'}}</td>
                 <td class="data">{{order.price | currency: 'USD'}}</td>
-                <td class="data">{{order.discount | currency: 'USD'}}</td>
-                <td class="data">{{order.gcDebit | currency: 'USD'}}</td>
-                <td class="data">{{order.giftCard}}</td>
-                <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
-                <td class="data"><button class="btn btn-danger delete" (click)="deleteBoat(order.boatId)"><span class="x">X</span></button></td>
-                
             </tr>
         </table>
-        <table *ngIf="couponTable" class="coupon-table">
-            <tr>
-                <th class="header">Id</th>
-                <th class="header">Code</th>
-                <th class="header">Discount</th>
-                <th class="header">Good Until</th>
-                <th class="header">Delete</th>
-            </tr>
-            <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
-            [ngClass]="{ odd: odd, even: even }">
-                <td class="data">{{coupon.id}}</td>
-                <td class="data">{{coupon.code}}</td>
-                <td class="data">{{coupon.discount}}</td>
-                <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
-                <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
-            </tr>
-           
-            
-        </table>
-        <div class="add-btn mt-2" *ngIf="couponTable">
-            <button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button>
-        </div>
+    </div>
 
-        <table *ngIf="giftCardTable" class="coupon-table">
-            <tr>
-                <th class="header">Card Number</th>
-                <th class="header">Balance</th>
-                <th class="header">Email</th>
-                <th class="header">Purchased</th>
-                <th class="header">Delete</th>
-            </tr>
-            <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
-            [ngClass]="{ odd: odd, even: even }">
-                <td class="data">{{gc.cardNumber}}</td>
-                <td class="data">{{gc.balance / 100 | currency:USD}}</td>
-                <td class="data">{{gc.email}}</td>
-                <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
-                <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
-            </tr>
-            <!-- <tr>
-                <td></td>
-            </tr> -->
-        </table>
-        <div class="add-btn mt-2">
-            <button *ngIf="giftCardTable" class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
-        </div>
-            
-        <div class="month mt-4" *ngIf="monthBoolean">
+    <div class="add-coupon" *ngIf="addCouponBoolean">
+        <form class="coupon-form form mt-4" >
+            <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+            <h1>Add A Coupon</h1>
             <mat-form-field>
-                <mat-label >Select Month</mat-label>
-                <input name="month" matInput type="string" [(ngModel)]="monthNum" class="monthNum"  required>
+                <mat-label >Code</mat-label>
+                <input name="code" matInput type="text" [(ngModel)]="code" class="code" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" required>
             </mat-form-field>
-            &nbsp;
-            &nbsp;
-            <!-- <br> -->
-            <mat-form-field>
-                <mat-label >Select Year</mat-label>
-                <input name="year" matInput type="string" [(ngModel)]="yearNum" class="yearNum"  required>
-            </mat-form-field>
-            &nbsp;
-            <!-- <br> -->
-            <button class="btn btn-secondary mb-4 submit" (click)="monthlySubmit()">Submit</button>
-
-            <table *ngIf="monthlyDisplayBoolean">
-                <tr>
-                    <th class="header">Order Id</th>
-                    <th class="header">Date</th>
-                    <th class="header">Time</th>
-                    <th class="header">Duration</th>
-                    <th class="header">Boat</th>
-                    <th class="header">Name</th>
-                    <th class="header">Height</th>
-                    <th class="header">Weight</th>
-                    <th class="header">Email</th>
-                    <th class="header">Phone</th>
-                    <th class="header">Coupon</th>
-                    <th class="header">Price</th>
-                    
-                </tr>
-                <tr *ngFor="let order of monthlyOrderDisplays; let even = even; let odd = odd" 
-                [ngClass]="{ odd: odd, even: even }">
-                    <td class="data id">{{order.id}}</td>
-                    <td class="data">{{order.date | date:'shortDate'}}</td>
-                    <td class="data">{{order.time}}</td>
-                    <td class="data">{{order.duration}} hours</td>
-                    <td class="data">{{order.boat}}</td>
-                    <td class="data">{{order.name}}</td>
-                    <td class="data">{{order.height}}</td>
-                    <td class="data">{{order.weight}}</td>
-                    <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
-                    <td class="data">{{order.phone}}</td>
-                    <td class="data">{{order.coupon}}</td>
-                    <td class="data">{{order.price | currency: 'USD'}}</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="add-coupon" *ngIf="addCouponBoolean">
-            <form class="coupon-form form mt-4" >
-                <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
-                <h1>Add A Coupon</h1>
-                <mat-form-field>
-                    <mat-label >Code</mat-label>
-                    <input name="code" matInput type="text" [(ngModel)]="code" class="code" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" required>
-                </mat-form-field>
-                <br>
-                
-                <mat-form-field>
-                    <mat-label >Discount</mat-label>
-                    <input name="discount" matInput type="number" [(ngModel)]="discount" class="discount"  required>
-                </mat-form-field>
-                <br>
-                <mat-form-field class="date-picker" appearance="fill">
-                    <mat-label>Good Until</mat-label>
-                    <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <br>
-                <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
-            </form>    
-        </div>
-        <div class="add-coupon" *ngIf="addGiftCardBoolean">
+            <br>
             
-            <form class="coupon-form form mt-4" >
-                <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
-                <h1>Add A Gift Card</h1>
-                <mat-form-field>
-                    <mat-label >Card Number</mat-label>
-                    <input name="cardNumber" matInput type="number" [(ngModel)]="cardNumber" class="cardNumber" required>
-                </mat-form-field>
-                <br>
-                
-                <mat-form-field>
-                    <mat-label >Amount</mat-label>
-                    <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance"  required>
-                </mat-form-field>
-                <br>
-                <mat-form-field>
-                    <mat-label >Email</mat-label>
-                    <input name="email" matInput type="email" [(ngModel)]="email" class="email"  required>
-                </mat-form-field>
-                <br>
-                <button class="btn btn-secondary mb-4  submit" (click)="submitGiftCard()" >Submit</button>
-            </form>    
-        </div>
+            <mat-form-field>
+                <mat-label >Discount</mat-label>
+                <input name="discount" matInput type="number" [(ngModel)]="discount" class="discount"  required>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="date-picker" appearance="fill">
+                <mat-label>Good Until</mat-label>
+                <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
+        </form>    
+    </div>
+        
+    <div class="add-coupon" *ngIf="addGiftCardBoolean">
+        
+        <form class="coupon-form form mt-4" >
+            <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+            <h1>Add A Gift Card</h1>
+            <mat-form-field>
+                <mat-label >Card Number</mat-label>
+                <input name="cardNumber" matInput type="number" [(ngModel)]="cardNumber" class="cardNumber" required>
+            </mat-form-field>
+            <br>
+            
+            <mat-form-field>
+                <mat-label >Amount</mat-label>
+                <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance"  required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label >Email</mat-label>
+                <input name="email" matInput type="email" [(ngModel)]="email" class="email"  required>
+            </mat-form-field>
+            <br>
+            <button class="btn btn-secondary mb-4  submit" (click)="submitGiftCard()" >Submit</button>
+        </form>    
+    </div>
 </div>
