@@ -10,6 +10,7 @@ import { of, Subject } from 'rxjs';
 import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SubscribeService } from 'src/app/services/subscribe.service';
 import { GiftCard } from 'src/app/models/GiftCard';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-cart',
@@ -53,6 +54,11 @@ export class CartComponent implements OnInit {
   goodUntil: Date;
   discountDollars: number;
   total: number = 0;
+  priceRemainder:number = 0;
+  gcRemainder: number = 0;
+  gcSingleDebit: number = 0;
+  totalDebit:number = 0;
+  arrLength:number = 0;
 
   couponErrorMsg: string;
   giftCardErrorMsg: string;
@@ -103,15 +109,15 @@ export class CartComponent implements OnInit {
         this.total = 0;
         this.projectedBalance = this.giftCardBalance - this.afterCoupon;
         console.log(this.total);
-        
-        
       }else{
         this.total = this.afterCoupon - this.giftCardBalance;
         this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
         console.log(this.total);
-        
-        
+        console.log("calculating totals");
+        console.log(this.boatsArray);
+        this.boatsArray.forEach(boat => console.log(boat.price));
+    
       }
       
     }else if(this.couponBoolean){
@@ -138,6 +144,14 @@ export class CartComponent implements OnInit {
     }else {
       this.total = this.subTotal;
     }    
+    console.log("get totals");
+    console.log(this.boatsArray);
+    this.boatsArray.forEach(boat => console.log(boat.price))
+    console.log("giftCardDebit "+ this.giftCardDebit);
+    
+    
+    
+    
   }
 
   submitCoupon(){
@@ -211,10 +225,19 @@ export class CartComponent implements OnInit {
   checkOut(){
     this.infoBoolean = true;
     this.tableBoolean = false;
-
+    console.log("check out");
+    console.log(this.boatsArray);
+    this.boatsArray.forEach(boat => console.log(boat.price))
+    
+    
+    
   }
 
   infoSubmit(){
+    console.log("boatsArray Very First");
+      console.log(this.boatsArray);
+      this.boatsArray.forEach(boat => console.log(boat.price))
+      
     // validates empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
@@ -231,52 +254,80 @@ export class CartComponent implements OnInit {
       }
       // constructs an orderObj object
       this.orderObj.customer = customer;
-      const arrLength = this.boatsArray.length;
+      console.log("boatsArray First");
+      console.log(this.boatsArray);
+      this.boatsArray.forEach(boat => console.log(boat.price))
+      
+      console.log(this.total);
+      this.arrLength = this.boatsArray.length;
+      
+      
       if(this.couponBoolean && this.giftCardBoolean){
-        if(this.total == 0){
+        console.log("both true");
+        
+        if(this.total === 0){
+          this.boatsArray.forEach(boat=> {
+            boat.gcDebit = boat.price * 100;
+          });
           this.boatsArray.forEach(boat => {boat.price = 0;
-            boat.discount = this.discountDollars *100;
+            boat.discount = (this.discountDollars / arrLength) *100;
             boat.giftCard = this.giftCardNumber;
-            boat.gcDebit = this.giftCardDebit *100;
             console.log(boat);
             
           })
         }else{
-          //working
-          const totalDebit = (this.discountDollars + this.giftCardDebit) / arrLength; 
-
+          this.totalDebit = (this.discountDollars + this.giftCardDebit) / this.arrLength; 
+          
           this.boatsArray.forEach(boat => {
-            boat.price = (boat.price - totalDebit) * 100; 
-            boat.discount = this.discountDollars *100;
+            let price = boat.price;
+            console.log(price);
+            //determines individual boat price after giftcard is applied
+            price = this.priceResolver(price, this.giftCardDebit, true);
+            console.log("giftcards done");
+            
+            // determines individual boat price after coupon is applied
+            price = this.priceResolver(price, this.discountDollars ) * 100;
+            console.log("coupons done");
+            console.log("final price" + price);
+            console.log(boat);
+            
+            boat.price = price;
+            boat.gcDebit = this.gcSingleDebit * 100;
+            boat.discount = (this.discountDollars / this.arrLength) *100;
             boat.giftCard = this.giftCardNumber;
-            boat.gcDebit = this.giftCardDebit *100;
           })
+          
         }
       }else if(this.couponBoolean){
+        this.totalDebit = this.discountDollars / this.arrLength;
         this.boatsArray.forEach(boat => {
-          boat.price = boat.price - (this.discountDollars / arrLength) * 100;
-          boat.discount = this.discountDollars *100;
+          boat.price = this.priceResolver(boat.price, this.totalDebit ) * 100;
+          boat.discount = this.totalDebit *100;
+          console.log(boat.price);
           console.log(boat);
           
         })
       }else if(this.giftCardBoolean){
         if(this.total == 0){
+          this.boatsArray.forEach(boat=> {
+            boat.gcDebit = boat.price *100;
+          });
           this.boatsArray.forEach(boat => {boat.price = 0;
             boat.giftCard = this.giftCardNumber;
-            boat.gcDebit = this.giftCardDebit *100;
-            console.log(boat);
-            
-          })
-        }else{
-          this.boatsArray.forEach(boat => {
-            boat.price = boat.price - (this.giftCardDebit / arrLength) * 100; 
-            boat.giftCard = this.giftCardNumber;
-            boat.gcDebit = this.giftCardDebit *100;
             console.log(boat);
             
           })
         }
+      }else{
+        this.boatsArray.forEach(boat=>{
+          boat.gcDebit = boat.price - (boat.price * (this.discount/100));})
+        this.boatsArray.forEach(boat => {
+          boat.price = (boat.price - (this.giftCardDebit / this.arrLength)) * 100; 
+          boat.giftCard = this.giftCardNumber;
+          console.log(boat);
+        })
       }
+
       this.orderObj.boats = this.boatsArray;
 
       //builds updated gift card
@@ -308,6 +359,64 @@ export class CartComponent implements OnInit {
     
   }
 
+  priceResolver(price:number, totalDebit:number, gc?:boolean){
+    const singleDebit = totalDebit / this.arrLength
+    
+    const newPrice = price - singleDebit;
+    console.log("price " + price);
+    console.log("single Debit " + singleDebit);
+    console.log("=");
+    console.log("newPrice " + newPrice);
+    console.log("previous Remainder "+ this.priceRemainder);
+    
+    if(newPrice < 0){
+      if(gc){
+        this.gcRemainder += newPrice;
+        this.gcSingleDebit = price;
+        console.log("gcRemainder "+ this.gcRemainder);
+        console.log("gcSingleDebit " + this.gcSingleDebit);
+        
+         
+      }
+      this.priceRemainder += newPrice;
+      price = 0;
+      console.log("remainder after price " + this.priceRemainder);
+      console.log("new price " +price);
+      
+    }else{
+      if(gc){
+        if(singleDebit + this.gcRemainder > price){
+          this.gcSingleDebit = price;
+          this.gcRemainder = singleDebit + this.gcRemainder - price;
+        } else {
+          this.gcSingleDebit = singleDebit - this.gcRemainder; 
+          this.gcRemainder = 0;
+          console.log("gcSingleDebit "+ this.gcSingleDebit);
+
+        }
+        
+      }
+      if(this.priceRemainder <= 0){
+        if(((price - singleDebit) + this.priceRemainder) < 0){
+          this.priceRemainder = (price - singleDebit) + this.priceRemainder;
+          price = 0;
+        }else{
+          price = ((price - singleDebit) +  this.priceRemainder);
+          this.priceRemainder = 0;
+          console.log("price after + price remainder " + price);
+          
+        }
+        
+
+      }else{
+        price = (price - singleDebit);
+
+      }
+    }
+    return price;
+  }
+
+
   emailSubscribe(){
     this.subscribeEmail = !this.subscribeEmail
     console.log(this.subscribeEmail);
@@ -325,7 +434,6 @@ export class CartComponent implements OnInit {
     this.isLoading = true;
     this.stripeFailBoolean = false;
 
-    console.log(this.subscribeEmail);
     
     if(this.subscribeEmail){
       this.subscribeData.email = this.email;
