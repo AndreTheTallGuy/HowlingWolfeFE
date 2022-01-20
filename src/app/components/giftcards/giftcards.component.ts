@@ -90,6 +90,7 @@ export class GiftcardsComponent implements OnInit {
       this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
       console.log(this.giftObj);
       
+      
     }, err => {
       console.log(this.recipientEmail);
       this.stripeCheckout = false;

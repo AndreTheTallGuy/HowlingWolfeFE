@@ -270,7 +270,7 @@ export class CartComponent implements OnInit {
             boat.gcDebit = boat.price * 100;
           });
           this.boatsArray.forEach(boat => {boat.price = 0;
-            boat.discount = (this.discountDollars / arrLength) *100;
+            boat.discount = (this.discountDollars / this.arrLength) *100;
             boat.giftCard = this.giftCardNumber;
             console.log(boat);
             
@@ -291,6 +291,7 @@ export class CartComponent implements OnInit {
             console.log("final price" + price);
             console.log(boat);
             
+
             boat.price = price;
             boat.gcDebit = this.gcSingleDebit * 100;
             boat.discount = (this.discountDollars / this.arrLength) *100;
