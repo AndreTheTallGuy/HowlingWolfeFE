@@ -361,6 +361,7 @@ export class AdminComponent implements OnInit {
     })
   }
 
+  
   displayify(orders){
     this.orderDisplays = [];
     //loops through orders and then through each boat and converts them to a view friendly display
