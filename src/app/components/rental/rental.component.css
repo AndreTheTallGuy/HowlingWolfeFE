@@ -63,6 +63,12 @@ p {
   font-family: "Montserrat", sans-serif;
 }
 
+#gc-text {
+  display: block;
+  font-size: 150%;
+  text-align: center;
+}
+
 td {
   margin: 5px 0 5px 0;
   font-family: "Montserrat", sans-serif;
