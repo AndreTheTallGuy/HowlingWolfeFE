@@ -4,6 +4,11 @@
   text-align: center;
 }
 
+#textbox {
+  max-width: 1000px;
+  margin: auto;
+}
+
 #text {
   margin: 30px 40px;
 }
@@ -33,7 +38,6 @@ p {
   font-size: 23px;
 }
 
-/* Tooltip text */
 #tooltip #tooltiptext {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
@@ -41,11 +45,8 @@ p {
   background-color: white;
   color: black;
   text-align: center;
-  /* padding: 5px 0; */
   border: 1px solid grey;
   border-radius: 10px;
-
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   margin-bottom: 10px;
   z-index: 1;
@@ -55,7 +56,6 @@ p {
   margin-left: -175px;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 #tooltip:hover #tooltiptext {
   visibility: visible;
 }
@@ -89,7 +89,9 @@ td {
 
 #main {
   display: flex;
+  margin: auto;
   margin-bottom: 65px;
+  max-width: 1000px;
 }
 
 #left {
