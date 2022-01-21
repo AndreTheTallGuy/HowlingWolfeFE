@@ -225,19 +225,9 @@ export class CartComponent implements OnInit {
   checkOut(){
     this.infoBoolean = true;
     this.tableBoolean = false;
-    console.log("check out");
-    console.log(this.boatsArray);
-    this.boatsArray.forEach(boat => console.log(boat.price))
-    
-    
-    
   }
 
   infoSubmit(){
-    console.log("boatsArray Very First");
-      console.log(this.boatsArray);
-      this.boatsArray.forEach(boat => console.log(boat.price))
-      
     // validates empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
@@ -252,80 +242,65 @@ export class CartComponent implements OnInit {
         phone: this.phone,
         coupon: this.coupon
       }
+      
       // constructs an orderObj object
       this.orderObj.customer = customer;
-      console.log("boatsArray First");
-      console.log(this.boatsArray);
-      this.boatsArray.forEach(boat => console.log(boat.price))
-      
-      console.log(this.total);
       this.arrLength = this.boatsArray.length;
       
-      
       if(this.couponBoolean && this.giftCardBoolean){
-        console.log("both true");
-        
         if(this.total === 0){
-          this.boatsArray.forEach(boat=> {
+          // if total price is 0 make gc debit the price of the boat, calculate individual boat discount, and set the boat price to 0
+          this.boatsArray.forEach(boat => {
+            boat.price = 0;
             boat.gcDebit = boat.price * 100;
-          });
-          this.boatsArray.forEach(boat => {boat.price = 0;
             boat.discount = (this.discountDollars / this.arrLength) *100;
             boat.giftCard = this.giftCardNumber;
-            console.log(boat);
-            
           })
         }else{
-          this.totalDebit = (this.discountDollars + this.giftCardDebit) / this.arrLength; 
-          
+          //if price after gc and coupon is > 0 loop through to calculate individual boat price, gcdebit, and coupon discount
           this.boatsArray.forEach(boat => {
             let price = boat.price;
-            console.log(price);
+
             //determines individual boat price after giftcard is applied
             price = this.priceResolver(price, this.giftCardDebit, true);
-            console.log("giftcards done");
             
             // determines individual boat price after coupon is applied
             price = this.priceResolver(price, this.discountDollars ) * 100;
-            console.log("coupons done");
-            console.log("final price" + price);
-            console.log(boat);
-            
 
             boat.price = price;
             boat.gcDebit = this.gcSingleDebit * 100;
-            boat.discount = (this.discountDollars / this.arrLength) *100;
+            boat.discount = (this.discountDollars / this.arrLength) * 100;
             boat.giftCard = this.giftCardNumber;
           })
           
         }
       }else if(this.couponBoolean){
-        this.totalDebit = this.discountDollars / this.arrLength;
+        //If coupon used, calculate price of boat after discount
         this.boatsArray.forEach(boat => {
-          boat.price = this.priceResolver(boat.price, this.totalDebit ) * 100;
-          boat.discount = this.totalDebit *100;
-          console.log(boat.price);
-          console.log(boat);
-          
+          boat.price = this.priceResolver(boat.price, this.discountDollars ) * 100;
+          boat.discount = (this.discountDollars / this.arrLength) * 100;
         })
       }else if(this.giftCardBoolean){
+        //If gc used, calculate price of boat after gcdebit
         if(this.total == 0){
-          this.boatsArray.forEach(boat=> {
-            boat.gcDebit = boat.price *100;
-          });
-          this.boatsArray.forEach(boat => {boat.price = 0;
+          this.boatsArray.forEach(boat => {
+            boat.price = 0;
+            boat.gcDebit = boat.price * 100;
             boat.giftCard = this.giftCardNumber;
-            console.log(boat);
-            
+            console.log(boat.price);
+          })
+        }else{
+          this.boatsArray.forEach(boat =>{
+            //determines individual boat price after giftcard is applied
+            boat.price = this.priceResolver(boat.price, this.giftCardDebit, true);
+            boat.gcDebit = this.gcSingleDebit * 100;
+            boat.giftCard = this.giftCardNumber;
           })
         }
       }else{
-        this.boatsArray.forEach(boat=>{
-          boat.gcDebit = boat.price - (boat.price * (this.discount/100));})
-        this.boatsArray.forEach(boat => {
-          boat.price = (boat.price - (this.giftCardDebit / this.arrLength)) * 100; 
-          boat.giftCard = this.giftCardNumber;
-          console.log(boat);
+        //If no gc or coupon, set boat.price to * 100
+          this.boatsArray.forEach(boat => {
+            boat.price = boat.price * 100
         })
       }
 
@@ -333,11 +308,11 @@ export class CartComponent implements OnInit {
 
       //builds updated gift card
       if(this.giftCardBoolean){
-        console.log(this.giftCardNumber);
         this.updatedGiftCard.email = this.giftCardEmail;
         this.updatedGiftCard.cardNumber = this.giftCardNumber;
         this.updatedGiftCard.balance = this.projectedBalance * 100;
       }
+      // if total price is 0, submit order without stripe
       if(this.total == 0){
         this.isLoading = true;
         this.api.submitOrder(this.orderObj).subscribe(res=>{
@@ -345,13 +320,11 @@ export class CartComponent implements OnInit {
             this.saveCoupon();
           }
           if(this.giftCardBoolean){
-            this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{
-            })
+            this.api.updateGiftCard(this.updatedGiftCard).subscribe();
           }
           this.isLoading = false;
           sessionStorage.clear();
           this.router.navigate(['/thank-you'])              
-        
         })
       }else{
         this.stripeCheckout = true;
@@ -362,58 +335,48 @@ export class CartComponent implements OnInit {
 
   priceResolver(price:number, totalDebit:number, gc?:boolean){
     const singleDebit = totalDebit / this.arrLength
-    
     const newPrice = price - singleDebit;
-    console.log("price " + price);
-    console.log("single Debit " + singleDebit);
-    console.log("=");
-    console.log("newPrice " + newPrice);
-    console.log("previous Remainder "+ this.priceRemainder);
-    
+    //if price after debit < 0, calculate remainders
     if(newPrice < 0){
+      //if using a gc, add gcRemainder to the new price
       if(gc){
         this.gcRemainder += newPrice;
         this.gcSingleDebit = price;
-        console.log("gcRemainder "+ this.gcRemainder);
-        console.log("gcSingleDebit " + this.gcSingleDebit);
-        
-         
       }
+      //add priceRemainder to newPrice and price to 0
       this.priceRemainder += newPrice;
       price = 0;
-      console.log("remainder after price " + this.priceRemainder);
-      console.log("new price " +price);
-      
     }else{
+    //it price is > 0 after debit
+      //if using gc
       if(gc){
+        // if debit + remainder is > price, increase remainder
         if(singleDebit + this.gcRemainder > price){
           this.gcSingleDebit = price;
           this.gcRemainder = singleDebit + this.gcRemainder - price;
         } else {
+          // if debit + remainder < price, subtract remainder from singleDebit
           this.gcSingleDebit = singleDebit - this.gcRemainder; 
           this.gcRemainder = 0;
-          console.log("gcSingleDebit "+ this.gcSingleDebit);
-
         }
-        
       }
+      // if remainder
       if(this.priceRemainder <= 0){
+        // if still remainder after new price + remainder, increase remainder
         if(((price - singleDebit) + this.priceRemainder) < 0){
           this.priceRemainder = (price - singleDebit) + this.priceRemainder;
           price = 0;
         }else{
+          //if no remainder, calculate new price and remainder = 0
           price = ((price - singleDebit) +  this.priceRemainder);
           this.priceRemainder = 0;
-          console.log("price after + price remainder " + price);
-          
         }
-        
-
       }else{
         price = (price - singleDebit);
 
       }
     }
+    //if no remainders to calculate, return price
     return price;
   }
 
@@ -430,79 +393,73 @@ export class CartComponent implements OnInit {
       this.stripeFailBoolean = true;
       this.stripeFailText = "All fields are mandatory";
     } else {
-
       this.stripeCheckout = false;
-    this.isLoading = true;
-    this.stripeFailBoolean = false;
-
-    
-    if(this.subscribeEmail){
-      this.subscribeData.email = this.email;
-      this.subscribeToMailChimp();
-    }
-
-    // sends CC info to stripe and gets back a token
-    (<any>window).Stripe.card.createToken({
-      number: this.cardNumber,
-      exp_month: this.expMonth,
-      exp_year: this.expYear,
-      cvc: this.cvc
-    }, (status: number, response: any) => {
-      this.ngZone.run(() => {
-      if (status === 200) {
-        console.log(this.total);
-        
-        let charge: Charge = {
-          token: response.id,
-          price: this.total
-        }
-        this.loadText = "Charging Card..."
-        // sends charge object to the backend
-        this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
-          
-        }), switchMap((res: any)=>{
-          if(res === "Success"){
-            this.loadText = "Finishing up..."
-            // if successful, orderObj is submitted to the DB
-            return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
-              if(this.couponBoolean){
-                this.saveCoupon();
-              }
-              if(this.giftCardBoolean){
-                this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{
-                  console.log(res);
-                  
-                })
-              }
-              this.isLoading = false;
-              sessionStorage.clear();
-              this.router.navigate(['/thank-you'])              
-            }))
-          } else {
-            return of(res).pipe(tap(()=>{
-            this.stripeFailText = res;
-            this.stripeFailBoolean = true;
-            this.stripeCheckout = true;
-            this.isLoading = false;
-            }))
-          }
-          
-        })).subscribe();
-      }else {
-            this.stripeFailText = response.error.message;
-            this.stripeFailBoolean = true;
-            this.stripeCheckout = true;
-            this.isLoading = false;
+      this.isLoading = true;
+      this.stripeFailBoolean = false;
+      
+      if(this.subscribeEmail){
+        this.subscribeData.email = this.email;
+        this.subscribeToMailChimp();
       }
-    })
-  }); 
-  }
+
+      // sends CC info to stripe and gets back a token
+      (<any>window).Stripe.card.createToken({
+        number: this.cardNumber,
+        exp_month: this.expMonth,
+        exp_year: this.expYear,
+        cvc: this.cvc
+      }, (status: number, response: any) => {
+        this.ngZone.run(() => {
+        if (status === 200) {
+          console.log(this.total);
+          
+          let charge: Charge = {
+            token: response.id,
+            price: this.total
+          }
+          this.loadText = "Charging Card..."
+          // sends charge object to the backend
+          this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
+            
+          }), switchMap((res: any)=>{
+            if(res === "Success"){
+              this.loadText = "Finishing up..."
+              // if successful, orderObj is submitted to the DB
+              return this.api.submitOrder(this.orderObj).pipe(tap(()=>{
+                if(this.couponBoolean){
+                  this.saveCoupon();
+                }
+                if(this.giftCardBoolean){
+                  this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{
+                  })
+                }
+                this.isLoading = false;
+                sessionStorage.clear();
+                this.router.navigate(['/thank-you'])              
+              }))
+            } else {
+              return of(res).pipe(tap(()=>{
+              this.stripeFailText = res;
+              this.stripeFailBoolean = true;
+              this.stripeCheckout = true;
+              this.isLoading = false;
+              }))
+            }
+          })).subscribe();
+        }else {
+          this.stripeFailText = response.error.message;
+          this.stripeFailBoolean = true;
+          this.stripeCheckout = true;
+          this.isLoading = false;
+        }
+        })
+      }); 
+    }
   }   
 
   subscribeToMailChimp(){
     this.subscribe.subscribeToList(this.subscribeData).subscribe(res => {
       console.log("subscribed");
-      console.log(this.subscribeData);
     }, err => console.log(err)
     );
   }
