@@ -97,7 +97,6 @@ export class RentComponent implements OnInit {
 
   // resets availability to how many boats there are in total
   resetTimesArray(){
-    console.log("times array reset");
     
     this.availability = [
     {time:"8am", boats:{kayak: 9, canoe: 2, tandem: 1}},
@@ -125,10 +124,8 @@ export class RentComponent implements OnInit {
     this.errorBoolean = false;
     this.resetTimesArray();
       // Gets all orders by the user's selected date
-      console.log(this.date);
 
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
-        console.log(res);
         //loops through orders to get each boat
         for(let order of res){
           for(let boat of order.boats){
@@ -152,7 +149,6 @@ export class RentComponent implements OnInit {
         }
         // subtracts user's selected boat from pool
         this.pool(this.selectedBoat, this.duration, this.time);
-        console.log(this.availability);
         // checks if the pool count is less than 0 on any of the time slots
       if(this.selectedBoat === "Canoe" && this.availability[0].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[0].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[0].boats.tandem < 0 || 
         this.selectedBoat === "Canoe" && this.availability[1].boats.canoe < 0 || this.selectedBoat === "Single Kayak" && this.availability[1].boats.kayak <0 || this.selectedBoat === "Tandem" && this.availability[1].boats.tandem < 0 || 
@@ -231,7 +227,6 @@ export class RentComponent implements OnInit {
       this.cartArray = this.cartArray.sort((a:any,b:any)=>{
         return a.price - b.price;
       })
-      console.log(this.cartArray);
       
       //convert cartArray to string
       this.cartList = JSON.stringify(this.cartArray);

@@ -1,5 +1,7 @@
-<div id="title" class="mt-4">Gift Cards</div>
+<div class="container">
 
+    <div id="title" class="mt-4">Gift Cards</div>
+    
     <div id="textbox">
         <p id="text">Give the unique gift of a float trip on the Fox River! Paddling the Fox River is safe, fun, and highly Instagramable! Please feel free to call at <a href="tel:630-344-9744">(630)-344-9744 </a> or <a href="https://howlingwolfe.com/contact">contact us</a> with any questions.</p>
     </div>
@@ -41,7 +43,7 @@
         </div>
         <div id="amount">
             <span id="dollar-sign">$</span>
-            <input type="text" [(ngModel)]="amount" [style.width]="dollarWidth" id="dollars" >
+            <input type="number" [(ngModel)]="amount" [style.width]="dollarWidth" id="dollars" >
         </div>
         <p id="expiration">Gift certificates may be used for rentals, lessons, guided trips, and shuttles.</p>
     </div>
@@ -79,14 +81,14 @@
 
 <div *ngIf="stripeFailBoolean" class="alert alert-danger"> {{stripeFailText}}</div>
 
-    <div *ngIf="stripeCheckout" class="stripe">
-        <form class="form mt-4">
-            <mat-form-field>
-                <mat-label>Credit Card</mat-label>
-                <input type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
+<div *ngIf="stripeCheckout" class="stripe">
+    <form class="form mt-4">
+        <mat-form-field>
+            <mat-label>Credit Card</mat-label>
+            <input type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
                 <mat-label>Expiration Month (MM)</mat-label>
                 <input type="number" matInput [(ngModel)]="expMonth" name="expMonth" required>
             </mat-form-field>
@@ -101,10 +103,11 @@
                 <input type="text" matInput [(ngModel)]="cvc" name="cvc" required>
             </mat-form-field>
             <br>
-           
+            
             <button class="btn btn-secondary submit" (click)="stripeSubmit()" >Submit</button>
-          </form>
+        </form>
     </div>
-
-<hr>
-<app-footer></app-footer>
+    
+    <hr>
+</div>
+    <app-footer></app-footer>

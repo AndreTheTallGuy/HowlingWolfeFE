@@ -13,9 +13,9 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit {
 
-  loginBoolean: boolean = false; //true
-  orderBoolean: boolean = true; //false
-  buttonBoolean: boolean = true; //false
+  loginBoolean: boolean = true; //true
+  orderBoolean: boolean = false; //false
+  buttonBoolean: boolean = false; //false
   errorBoolean: boolean = false;
   invalidBoolean: boolean = false;
   safetyBoolean: boolean = false;
@@ -361,7 +361,7 @@ export class AdminComponent implements OnInit {
     })
   }
 
-  
+
   displayify(orders){
     this.orderDisplays = [];
     //loops through orders and then through each boat and converts them to a view friendly display
