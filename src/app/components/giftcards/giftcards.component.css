@@ -153,9 +153,9 @@ form {
   text-align: center;
 }
 
-mat-form-field {
-  /* padding: 0 15px 0 15px; */
-}
+/* mat-form-field {
+  padding: 0 15px 0 15px;
+} */
 
 .btn {
   border-radius: 5px;
