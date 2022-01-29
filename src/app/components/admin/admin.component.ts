@@ -174,7 +174,6 @@ export class AdminComponent implements OnInit {
       console.log(this.orderDisplays);
       this.sort();
       })
-
   }
 
   today(){
@@ -192,7 +191,6 @@ export class AdminComponent implements OnInit {
       this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
       this.sort();
       })    
-  
   }
 
   coupon(){
@@ -220,8 +218,6 @@ export class AdminComponent implements OnInit {
       this.giftCards = res;
       this.giftCards = this.giftCards.sort((a:any,b:any)=>{
         return +new Date(b.purchased_on) - +new Date(a.purchased_on)});
-
-      console.log(this.giftCards);
       
     });
   }
