@@ -97,7 +97,6 @@ export class RentComponent implements OnInit {
 
   // resets availability to how many boats there are in total
   resetTimesArray(){
-    
     this.availability = [
     {time:"8am", boats:{kayak: 9, canoe: 2, tandem: 1}},
     {time:"9am", boats:{kayak: 9, canoe: 2, tandem: 1}},
@@ -109,8 +108,7 @@ export class RentComponent implements OnInit {
     {time: "3pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
     {time: "4pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
     {time: "5pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "6pm", boats: {kayak: 9, canoe: 2, tandem: 1}}
-  ]
+    {time: "6pm", boats: {kayak: 9, canoe: 2, tandem: 1}}]
   }
 
   submitDate(){
@@ -124,14 +122,12 @@ export class RentComponent implements OnInit {
     this.errorBoolean = false;
     this.resetTimesArray();
       // Gets all orders by the user's selected date
-
       this.api.getAllOrdersByDate(this.date).subscribe((res)=>{
         //loops through orders to get each boat
         for(let order of res){
           for(let boat of order.boats){
            // if boat's date matches user's date, it is subtracted from the pool
           //  let boatDate = boat.date;
-           
             if(Date.parse(boat.date.toString()) === Date.parse(this.date.toISOString())){
               this.pool(boat.boat, boat.duration, boat.time);
             }
@@ -165,7 +161,6 @@ export class RentComponent implements OnInit {
           this.noAvailText = `Sorry, we do not have any ${this.selectedBoat}s for that date and time. Please try another date or time.`
           this.noAvailError = true;
           this.dateBoolean = true;
-
         }else{
           // if on the customer facing rental page
           if(this.router.url.includes('rentals')){
@@ -184,7 +179,6 @@ export class RentComponent implements OnInit {
             time: this.time,
             price: this.price,
           }
-
           // add boat to session storage
           this.addToSessionStorage(this.boatInfo);
           this.isLoading = false;
@@ -242,7 +236,6 @@ export class RentComponent implements OnInit {
       //clear cartArray
       this.cartArray = [];
     }
-
   }
 
   addAnotherBoat(){
@@ -261,7 +254,6 @@ export class RentComponent implements OnInit {
 
    priceResolver(boat:string, shuttle: string){
      // checks type of boat and shuttle and then sets price
-     
       if(boat == "Single Kayak"){
         switch(shuttle){
           case "None": this.price = 20; break;
@@ -697,7 +689,5 @@ export class RentComponent implements OnInit {
         this.availability[10].boats.tandem -= 1;
       }
     } 
-    
   }
-
 }
