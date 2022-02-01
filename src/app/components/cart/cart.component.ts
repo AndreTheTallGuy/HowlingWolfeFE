@@ -89,9 +89,6 @@ export class CartComponent implements OnInit {
       }}
     this.getTotals();
   }
-  // ngDoCheck(){
-  //   this.getTotals();  
-  // }
 
   getTotals(){
     // calculates totals
@@ -108,22 +105,16 @@ export class CartComponent implements OnInit {
         this.giftCardDebit = this.afterCoupon;
         this.total = 0;
         this.projectedBalance = this.giftCardBalance - this.afterCoupon;
-        console.log(this.total);
       }else{
         this.total = this.afterCoupon - this.giftCardBalance;
         this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
-        console.log(this.total);
-        console.log("calculating totals");
-        console.log(this.boatsArray);
         this.boatsArray.forEach(boat => console.log(boat.price));
-    
       }
       
     }else if(this.couponBoolean){
       this.discountDollars = this.subTotal * (this.discount/100);
       this.total = this.subTotal - this.discountDollars;
-      console.log(this.total);
       
     }else if(this.giftCardBoolean){
       if(this.giftCardBalance > this.subTotal){
@@ -132,26 +123,16 @@ export class CartComponent implements OnInit {
         this.projectedBalance = this.giftCardBalance - this.subTotal;
         console.log(this.total);
         
-        
       }else{
         this.total = this.subTotal - this.giftCardBalance;
         this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
-        console.log(this.total);
-        
         
       }
     }else {
       this.total = this.subTotal;
     }    
-    console.log("get totals");
-    console.log(this.boatsArray);
     this.boatsArray.forEach(boat => console.log(boat.price))
-    console.log("giftCardDebit "+ this.giftCardDebit);
-    
-    
-    
-    
   }
 
   submitCoupon(){
@@ -201,12 +182,9 @@ export class CartComponent implements OnInit {
     this.api.getGiftCard(this.giftCardNumber).subscribe(res=>{
 
       if(res){
-        console.log(res.balance/100);
-        
         this.giftCardBalance = res.balance / 100;
         this.giftCardEmail = res.email;
         this.giftCardBoolean = true;
-        
         this.getTotals();
       }else {
         this.giftCardError = true;
@@ -287,7 +265,6 @@ export class CartComponent implements OnInit {
             boat.price = 0;
             boat.gcDebit = boat.price * 100;
             boat.giftCard = this.giftCardNumber;
-            console.log(boat.price);
           })
         }else{
           this.boatsArray.forEach(boat =>{
@@ -383,8 +360,6 @@ export class CartComponent implements OnInit {
 
   emailSubscribe(){
     this.subscribeEmail = !this.subscribeEmail
-    console.log(this.subscribeEmail);
-    
   }
 
   stripeSubmit(){
@@ -459,7 +434,6 @@ export class CartComponent implements OnInit {
 
   subscribeToMailChimp(){
     this.subscribe.subscribeToList(this.subscribeData).subscribe(res => {
-      console.log("subscribed");
     }, err => console.log(err)
     );
   }
