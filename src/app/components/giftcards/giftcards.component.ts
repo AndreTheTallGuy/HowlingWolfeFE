@@ -31,7 +31,7 @@ export class GiftcardsComponent implements OnInit {
 
   giftObj: GiftObj;
   giftCard: GiftCard;
-  giftCardNumber: number;
+  // giftCardNumber: number;
 
   recipientEmail: string;
   senderName: string;
@@ -80,24 +80,26 @@ export class GiftcardsComponent implements OnInit {
     console.log(this.recipientEmail);
     
     this.api.getGiftCard(tempNum).subscribe(res=>{
-      if(res == null){
-        this.giftCardNumber = tempNum;
-      } else {
-        console.log("restarting number generator");
+      if(res !== null){
         this.objectBuilder();
+      } else {
+        this.giftCard = {
+          cardNumber: tempNum, 
+          balance:this.amount * 100, 
+          email: this.recipientEmail 
+        };
+        this.giftObj = {
+          giftCard: this.giftCard, 
+          fromName: this.senderName, 
+          fromEmail: this.senderEmail, 
+          message: this.message
+        };
       }
-      this.giftCard = {cardNumber: this.giftCardNumber, balance:this.amount * 100, email: this.recipientEmail };
-      this.giftObj = {giftCard: this.giftCard, fromName: this.senderName, fromEmail: this.senderEmail, message: this.message};
-      console.log(this.giftObj);
-      
-      
     }, err => {
       console.log(this.recipientEmail);
       this.stripeCheckout = false;
       this.mainBoolean = true;
-      
     });
-    
   }
 
     stripeSubmit(){
@@ -133,8 +135,6 @@ export class GiftcardsComponent implements OnInit {
             this.loadText = "Finishing up..."
             // if successful, giftObj is submitted to the DB
             return this.api.submitGiftCard(this.giftObj).pipe(tap(()=>{
-              
-              this.giftCardNumber = null;
               this.isLoading = false;
               sessionStorage.clear();
               this.router.navigate(['/thank-you'])    
