@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Coupon } from 'src/app/models/Coupon';
 import { GiftCard } from 'src/app/models/GiftCard';
+import { GiftObj } from 'src/app/models/GiftObj';
 import { Order } from 'src/app/models/Order';
 import { OrderDisplay } from 'src/app/models/OrderDisplay';
 import { ApiService } from 'src/app/services/api.service';
@@ -30,6 +31,7 @@ export class AdminComponent implements OnInit {
   monthBoolean: boolean = false;
   monthlyDisplayBoolean: boolean = false;
 
+  isLoggedIn: boolean = false;
   userName: string;
   password: string;
 
@@ -57,12 +59,12 @@ export class AdminComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.upcoming();
+    this.api.getAllOrdersUpcoming().subscribe();
   }
 
   resetBooleans(){
-      this.loginBoolean = false; 
       this.orderBoolean = false; 
+      this.buttonBoolean = true; 
       this.errorBoolean = false;
       this.invalidBoolean = false;
       this.safetyBoolean = false;
@@ -76,7 +78,6 @@ export class AdminComponent implements OnInit {
       this.deleteBoolean = false;
       this.monthBoolean = false;
       this.monthlyDisplayBoolean = false;
-      this.buttonBoolean = true; 
   }
 
   dropdown(){
@@ -134,6 +135,8 @@ export class AdminComponent implements OnInit {
           this.orderBoolean = true;
           this.buttonBoolean = true;
           this.isLoading = false;
+          this.isLoggedIn = true;
+          this.upcoming();
         }else{
           this.isLoading = false;
           this.loginBoolean = true;
@@ -164,12 +167,12 @@ export class AdminComponent implements OnInit {
 
   upcoming(){
     this.resetBooleans();
+    this.orderBoolean = true;
     this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       console.log(res);
       this.isLoading = false;
-      this.orderBoolean = true;
       this.displayify(res);      
       console.log(this.orderDisplays);
       this.sort();
@@ -201,7 +204,10 @@ export class AdminComponent implements OnInit {
     this.api.getAllCoupons().subscribe(res => {
       this.isLoading = false;
       this.couponTable = true;
-      this.coupons = res;
+      this.coupons = res.sort((a:any,b:any)=>{
+        return +new Date(b.goodUntil) - +new Date(a.goodUntil)
+      });
+      
     });
   }
   
@@ -215,8 +221,7 @@ export class AdminComponent implements OnInit {
       this.giftCardTable = true;
       console.log(res);
       
-      this.giftCards = res;
-      this.giftCards = this.giftCards.sort((a:any,b:any)=>{
+      this.giftCards = res.sort((a:any,b:any)=>{
         return +new Date(b.purchased_on) - +new Date(a.purchased_on)});
       
     });
@@ -245,36 +250,55 @@ export class AdminComponent implements OnInit {
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        console.log(res);
        this.isLoading = false;
-       this.addCouponBoolean = false;
        this.couponTable = true;
        this.couponAlert = true;
+       console.log(this.couponAlert);
        this.couponMsg = res;
+       console.log(this.couponMsg);
        setTimeout(() => {
          this.couponAlert = false;
        }, 4000);
+       this.coupon();
     })
   }
   
   submitGiftCard(){
     this.addGiftCardBoolean = false;
     this.isLoading = true;
-    // Creates giftcard object with submitted data
-    let newGiftCard: GiftCard = {
-      cardNumber: this.cardNumber,
-      balance: this.balance * 100,
-      email: this.email
-    }
-    // Posts giftcard object to the database
-    this.api.submitGiftCard(newGiftCard).subscribe(res =>{
-       console.log(res);
-       this.isLoading = false;
-       this.addGiftCardBoolean = false;
-       this.giftCardTable = true;
-       this.couponAlert = true;
-       this.couponMsg = res;
-       setTimeout(() => {
-         this.couponAlert = false;
-       }, 4000);
+
+    let tempNum = Math.floor(10000000 + Math.random() * 90000000);
+    console.log(tempNum);
+    
+    this.api.getGiftCard(tempNum).subscribe(res=>{
+      if(res !== null){
+        this.submitGiftCard();
+      } else {
+        // Creates giftcard object with submitted data
+        let newGiftCard: GiftCard = {
+          cardNumber: tempNum,
+          balance: this.balance * 100,
+          email: this.email
+        };
+        let giftObj:GiftObj = {
+          giftCard: newGiftCard,
+          fromName: null,
+          fromEmail: null,
+          message: null
+        }
+        // Posts giftcard object to the database
+        this.api.submitGiftCard(giftObj).subscribe(res =>{
+           console.log(res);
+           this.isLoading = false;
+           this.addGiftCardBoolean = false;
+           this.giftCardTable = true;
+           this.couponAlert = true;
+           this.couponMsg = res;
+           setTimeout(() => {
+             this.couponAlert = false;
+           }, 4000);
+           this.giftCard();
+      });
+      }
     })
   }
 

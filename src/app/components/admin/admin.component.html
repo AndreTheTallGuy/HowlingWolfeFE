@@ -99,51 +99,55 @@
             
         </tr>
     </table>
-    <table *ngIf="couponTable" class="coupon-table">
-        <tr>
-            <th class="header">Id</th>
-            <th class="header">Code</th>
-            <th class="header">Discount</th>
-            <th class="header">Good Until</th>
-            <th class="header">Delete</th>
-        </tr>
-        <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
-        [ngClass]="{ odd: odd, even: even }">
-            <td class="data">{{coupon.id}}</td>
-            <td class="data">{{coupon.code}}</td>
-            <td class="data">{{coupon.discount}}</td>
-            <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
-            <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
-        </tr>
-        
-        
-    </table>
-    <div class="add-btn mt-2" *ngIf="couponTable">
-        <button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button>
+    <div *ngIf="couponTable">
+        <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+        <table class="coupon-table">
+            <tr>
+                <th class="header">Id</th>
+                <th class="header">Code</th>
+                <th class="header">Discount</th>
+                <th class="header">Good Until</th>
+                <th class="header">Delete</th>
+            </tr>
+            <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
+            [ngClass]="{ odd: odd, even: even }">
+                <td class="data">{{coupon.id}}</td>
+                <td class="data">{{coupon.code}}</td>
+                <td class="data">{{coupon.discount}}</td>
+                <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
+                <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
+            </tr>
+        </table>
+        <div class="add-btn mt-2" >
+            <button class="add-coupon-btn btn btn-secondary" (click)="addCoupon()">Add Coupon</button>
+        </div>
     </div>
+    <div *ngIf="giftCardTable">
+            <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
+        <table class="coupon-table">
+            <tr>
+                <th class="header">Card Number</th>
+                <th class="header">Balance</th>
+                <th class="header">Email</th>
+                <th class="header">Purchased</th>
+                <th class="header">Delete</th>
+            </tr>
+            <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
+            [ngClass]="{ odd: odd, even: even }">
+                <td class="data">{{gc.cardNumber}}</td>
+                <td class="data">{{gc.balance / 100 | currency:USD}}</td>
+                <td class="data">{{gc.email}}</td>
+                <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
+                <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
+            </tr>
+            <!-- <tr>
+                <td></td>
+            </tr> -->
+        </table>
+        <div class="add-btn mt-2">
+            <button class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
+        </div>
 
-    <table *ngIf="giftCardTable" class="coupon-table">
-        <tr>
-            <th class="header">Card Number</th>
-            <th class="header">Balance</th>
-            <th class="header">Email</th>
-            <th class="header">Purchased</th>
-            <th class="header">Delete</th>
-        </tr>
-        <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
-        [ngClass]="{ odd: odd, even: even }">
-            <td class="data">{{gc.cardNumber}}</td>
-            <td class="data">{{gc.balance / 100 | currency:USD}}</td>
-            <td class="data">{{gc.email}}</td>
-            <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
-            <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
-        </tr>
-        <!-- <tr>
-            <td></td>
-        </tr> -->
-    </table>
-    <div class="add-btn mt-2">
-        <button *ngIf="giftCardTable" class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
     </div>
             
     <div class="month mt-4" *ngIf="monthBoolean">
@@ -198,7 +202,6 @@
 
     <div class="add-coupon" *ngIf="addCouponBoolean">
         <form class="coupon-form form mt-4" >
-            <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
             <h1>Add A Coupon</h1>
             <mat-form-field>
                 <mat-label >Code</mat-label>
@@ -223,24 +226,21 @@
     </div>
         
     <div class="add-coupon" *ngIf="addGiftCardBoolean">
-        
         <form class="coupon-form form mt-4" >
-            <div class="alert alert-success" *ngIf="couponAlert">{{couponMsg}}</div>
             <h1>Add A Gift Card</h1>
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-label >Card Number</mat-label>
                 <input name="cardNumber" matInput type="number" [(ngModel)]="cardNumber" class="cardNumber" required>
             </mat-form-field>
-            <br>
-            
+            <br> -->
             <mat-form-field>
                 <mat-label >Amount</mat-label>
                 <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance"  required>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <mat-label >Email</mat-label>
-                <input name="email" matInput type="email" [(ngModel)]="email" class="email"  required>
+                <mat-label >Recipient Email</mat-label>
+                <input name="email" matInput type="email" [(ngModel)]="email" class="recipient-email"  required>
             </mat-form-field>
             <br>
             <button class="btn btn-secondary mb-4  submit" (click)="submitGiftCard()" >Submit</button>
