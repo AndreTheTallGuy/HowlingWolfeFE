@@ -197,10 +197,7 @@ export class RentComponent implements OnInit {
         this.noAvailError = true;
         this.noAvailText = err.message;
         this.dateBoolean = true;
-        
-        
       })
-      
     }
   }
 
@@ -273,7 +270,6 @@ export class RentComponent implements OnInit {
           case "Batavia": this.price = 80; break;
         }
       }
-    
   }
 
   durationResolver(){
