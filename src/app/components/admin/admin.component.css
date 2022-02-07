@@ -22,7 +22,7 @@ h1 {
 }
 
 .alert {
-  max-width: 200px;
+  max-width: 400px;
   text-align: center;
   margin: auto;
 }
@@ -40,6 +40,15 @@ h1 {
 
 .month {
   text-align: center;
+}
+
+#edit-gc {
+  margin: 5% auto 0px auto;
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 25px;
 }
 
 .btn-secondary {

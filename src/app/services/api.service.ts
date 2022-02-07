@@ -81,8 +81,8 @@ export class ApiService {
     return this.http.get(this.baseUrl + `giftcard/${cardNumber}`);
   }
 
-  public updateGiftCard(giftObj: any):Observable<any> {
-    return this.http.put(this.baseUrl + `giftcard/update`, giftObj, {responseType: 'text'} );
+  public updateGiftCard(giftCard: any):Observable<any> {
+    return this.http.put(this.baseUrl + `giftcard/update`, giftCard, {responseType: 'text'} );
   }
 
   public deleteGiftCard(cardNumber: number): Observable<any> {

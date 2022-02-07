@@ -131,6 +131,7 @@
                 <th class="header">Email</th>
                 <th class="header">Purchased</th>
                 <th class="header">Delete</th>
+                <th class="header">Edit</th>
             </tr>
             <tr *ngFor="let gc of giftCards; let even = even; let odd = odd" 
             [ngClass]="{ odd: odd, even: even }">
@@ -139,6 +140,7 @@
                 <td class="data">{{gc.email}}</td>
                 <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
+                <td class="data"><button id="edit" (click)="editGiftCard(gc)"><span class="x"><i class="far fa-edit"></i></span></button></td>
             </tr>
             <!-- <tr>
                 <td></td>
@@ -147,9 +149,22 @@
         <div class="add-btn mt-2">
             <button class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
         </div>
-
     </div>
-            
+
+    <div id="edit-gc" *ngIf="editGiftCardBoolean">
+        <h1>Edit Balance</h1>
+        <div class="text">Card Number: <span id="number">{{cardNumber}}</span></div>
+        <mat-form-field>
+            <mat-label >New Amount</mat-label>
+            <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance" required>
+        </mat-form-field>
+        <div class="buttons">
+            <button class="btn btn-secondary" (click)="editGiftCardSubmit()">Submit</button>
+            <button class="btn btn-secondary" (click)="editGiftCardCancel()">Cancel</button>
+        </div>
+    </div>
+
+
     <div class="month mt-4" *ngIf="monthBoolean">
         <mat-form-field>
             <mat-label >Select Month</mat-label>

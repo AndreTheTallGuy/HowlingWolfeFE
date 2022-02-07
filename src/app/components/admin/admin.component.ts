@@ -30,6 +30,7 @@ export class AdminComponent implements OnInit {
   deleteBoolean: boolean = false;
   monthBoolean: boolean = false;
   monthlyDisplayBoolean: boolean = false;
+  editGiftCardBoolean: boolean = false;
 
   isLoggedIn: boolean = false;
   userName: string;
@@ -78,6 +79,7 @@ export class AdminComponent implements OnInit {
       this.deleteBoolean = false;
       this.monthBoolean = false;
       this.monthlyDisplayBoolean = false;
+      this.editGiftCardBoolean = false;
   }
 
   dropdown(){
@@ -122,6 +124,7 @@ export class AdminComponent implements OnInit {
     this.invalidBoolean = false;
     this.isLoading = true;
     this.loginBoolean = false;
+    this.orderBoolean = false;
     // validates for completed fields
     if(this.userName == undefined || this.password == undefined || this.userName == "" || this.password == ""){
       this.errorBoolean = true;
@@ -132,9 +135,7 @@ export class AdminComponent implements OnInit {
       this.api.login(this.userName).subscribe(res => {
                 
         if(this.password == res){
-          this.orderBoolean = true;
           this.buttonBoolean = true;
-          this.isLoading = false;
           this.isLoggedIn = true;
           this.upcoming();
         }else{
@@ -156,25 +157,21 @@ export class AdminComponent implements OnInit {
     this.isLoading = true;
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
-      console.log(res);
       this.isLoading = false;
       this.orderBoolean = true;
       this.displayify(res);      
-      console.log(this.orderDisplays);
       this.sort();
     })
   }
 
   upcoming(){
     this.resetBooleans();
-    this.orderBoolean = true;
     this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
-      console.log(res);
       this.isLoading = false;
+      this.orderBoolean = true;
       this.displayify(res);      
-      console.log(this.orderDisplays);
       this.sort();
       })
   }
@@ -219,8 +216,6 @@ export class AdminComponent implements OnInit {
     this.api.getAllGiftCards().subscribe(res => {
       this.isLoading = false;
       this.giftCardTable = true;
-      console.log(res);
-      
       this.giftCards = res.sort((a:any,b:any)=>{
         return +new Date(b.purchased_on) - +new Date(a.purchased_on)});
       
@@ -248,7 +243,6 @@ export class AdminComponent implements OnInit {
     }
     // Posts coupon object to the database
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
-       console.log(res);
        this.isLoading = false;
        this.couponTable = true;
        this.couponAlert = true;
@@ -287,7 +281,6 @@ export class AdminComponent implements OnInit {
         }
         // Posts giftcard object to the database
         this.api.submitGiftCard(giftObj).subscribe(res =>{
-           console.log(res);
            this.isLoading = false;
            this.addGiftCardBoolean = false;
            this.giftCardTable = true;
@@ -320,6 +313,45 @@ export class AdminComponent implements OnInit {
       }, err => console.log(err)
       )
     }
+  }
+
+  editGiftCard(gc){
+    this.cardNumber = gc.cardNumber;
+    this.email = gc.email;
+    this.giftCardTable = false;
+    this.editGiftCardBoolean = true;
+    
+  }
+
+  editGiftCardSubmit(){
+    this.editGiftCardBoolean = false;    
+    this.isLoading = true;
+
+    let giftcard:GiftCard = {
+      cardNumber: this.cardNumber,
+      balance: this.balance * 100,
+      email: this.email
+    }
+    this.api.updateGiftCard(giftcard).subscribe(res => {
+           this.giftCard();
+           this.couponAlert = true;
+           this.couponMsg = res;
+           setTimeout(() => {
+             this.couponAlert = false;
+           }, 4000);
+    }, err => {
+           this.giftCard();
+           this.couponAlert = true;
+           this.couponMsg = err;
+           setTimeout(() => {
+             this.couponAlert = false;
+           }, 4000);
+    })
+  }
+
+  editGiftCardCancel(){
+    this.giftCardTable = true;
+    this.editGiftCardBoolean = false;
   }
 
   deleteBoatBoolean(){
