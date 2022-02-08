@@ -13,6 +13,10 @@ table {
   display: none;
 }
 
+#buttons {
+  text-align: center;
+}
+
 h1 {
   font-family: "Cinzel", serif;
 }
@@ -25,12 +29,6 @@ h1 {
   max-width: 400px;
   text-align: center;
   margin: auto;
-}
-
-.safety-link {
-  position: absolute;
-  right: 10%;
-  top: 104px;
 }
 
 .res-table,
@@ -49,6 +47,13 @@ h1 {
   border-radius: 5px;
   width: fit-content;
   padding: 25px;
+}
+
+#edit {
+  border: none;
+  background: none;
+  font-size: 145%;
+  padding-left: 10px;
 }
 
 .btn-secondary {
@@ -87,6 +92,11 @@ mat-form-field {
   padding: 5px;
 }
 
+.data-edit {
+  border: 1px solid darkgray;
+  padding: 5px;
+}
+
 .odd {
   background-color: rgb(214, 211, 211);
 }
@@ -105,6 +115,10 @@ mat-form-field {
 }
 
 .add-btn {
+  text-align: center;
+}
+
+#safety-video {
   text-align: center;
 }
 

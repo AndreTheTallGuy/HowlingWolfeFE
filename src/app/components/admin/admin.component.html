@@ -23,28 +23,26 @@
               <mat-option value="all" (click)="dropdown()">All</mat-option>
               <mat-option value="upcoming" (click)="dropdown()">Upcoming</mat-option>
               <mat-option value="today" (click)="dropdown()">Today</mat-option>
-              <mat-option value="month" (click)="dropdown()">View Month</mat-option>
-              <mat-option value="coupons" (click)="dropdown()">View Coupons</mat-option>
-              <mat-option value="giftcards" (click)="dropdown()">View Gift Cards</mat-option>
+              <mat-option value="month" (click)="dropdown()">Monthly</mat-option>
+              <mat-option value="coupons" (click)="dropdown()">Coupons</mat-option>
+              <mat-option value="giftcards" (click)="dropdown()">Gift Cards</mat-option>
               <mat-option value="reservation" (click)="dropdown()">Add Reservation</mat-option>
               <mat-option value="video" (click)="dropdown()">Safety Video</mat-option>
             </mat-select>
           </mat-form-field>
     </div>
-    <div class="orders " *ngIf="buttonBoolean">
+    <div id="buttons" *ngIf="buttonBoolean">
         <div class="mt-4 links">
             <mat-button-toggle-group name="orderToggle" value="upcoming">
               <mat-button-toggle (click)="all()" value="all">All</mat-button-toggle>
               <mat-button-toggle (click)="upcoming()" value="upcoming">Upcoming</mat-button-toggle>
               <mat-button-toggle (click)="today()" value="today">Today</mat-button-toggle>
+              <mat-button-toggle (click)="month()" value="month">Monthly</mat-button-toggle>
+              <mat-button-toggle (click)="coupon()" value="coupons">Coupons</mat-button-toggle>
+              <mat-button-toggle (click)="giftCard()" value="giftCard">Gift Cards</mat-button-toggle>
+              <mat-button-toggle (click)="reservation()" value="reservation">Add Reservation</mat-button-toggle>
+              <mat-button-toggle (click)="safety()" value="safety">Video</mat-button-toggle>
             </mat-button-toggle-group>
-            <div id="video" class="safety-link links">
-                <button id="month" class="btn btn-secondary" (click)="month()" >View Month</button>
-                <button id="coupon" class="btn btn-secondary" (click)="coupon()" >View Coupons</button>
-                <button id="gift-card" class="btn btn-secondary" (click)="giftCard()" >View Gift Cards</button>
-                <button id="res-btn" class="btn btn-secondary" (click)="reservation()" >Add Reservation</button>
-                <button class="btn btn-secondary" (click)="safety()" >Video</button>
-            </div>
         </div>
     </div>    
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
@@ -140,7 +138,7 @@
                 <td class="data">{{gc.email}}</td>
                 <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
-                <td class="data"><button id="edit" (click)="editGiftCard(gc)"><span class="x"><i class="far fa-edit"></i></span></button></td>
+                <td class="data"><button id="edit" (click)="editGiftCard(gc)"><span id="edit-icon"><i class="far fa-edit"></i></span></button></td>
             </tr>
             <!-- <tr>
                 <td></td>
@@ -153,7 +151,18 @@
 
     <div id="edit-gc" *ngIf="editGiftCardBoolean">
         <h1>Edit Balance</h1>
-        <div class="text">Card Number: <span id="number">{{cardNumber}}</span></div>
+        <!-- <div class="text">Card Number: <span id="number">{{cardNumber}}</span></div>
+        <div class="text">Email: <span id="edit-email">{{email}}</span></div> -->
+        <table id="edit-table">
+            <tr>
+                <td class="data-edit">Number: </td>
+                <td class="data-edit">{{cardNumber}}</td>
+            </tr>
+            <tr>
+                <td class="data-edit">Email: </td>
+                <td class="data-edit">{{email}}</td>
+            </tr>
+        </table>
         <mat-form-field>
             <mat-label >New Amount</mat-label>
             <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance" required>
@@ -243,11 +252,6 @@
     <div class="add-coupon" *ngIf="addGiftCardBoolean">
         <form class="coupon-form form mt-4" >
             <h1>Add A Gift Card</h1>
-            <!-- <mat-form-field>
-                <mat-label >Card Number</mat-label>
-                <input name="cardNumber" matInput type="number" [(ngModel)]="cardNumber" class="cardNumber" required>
-            </mat-form-field>
-            <br> -->
             <mat-form-field>
                 <mat-label >Amount</mat-label>
                 <input name="balance" matInput type="number" [(ngModel)]="balance" class="balance"  required>
