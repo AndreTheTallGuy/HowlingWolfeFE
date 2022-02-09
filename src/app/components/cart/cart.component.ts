@@ -132,7 +132,7 @@ export class CartComponent implements OnInit {
     }else {
       this.total = this.subTotal;
     }    
-    this.boatsArray.forEach(boat => console.log(boat.price))
+    
   }
 
   submitCoupon(){

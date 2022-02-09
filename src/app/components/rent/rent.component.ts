@@ -47,6 +47,7 @@ export class RentComponent implements OnInit {
   cartArray?: Boat[] = [];
   cartList?: string;
   boatsInCart: Boat[];
+  isBoatInCart: boolean = false;
   
   minDate: Date;
 
@@ -66,6 +67,10 @@ export class RentComponent implements OnInit {
       this.adminPageBoolean = true;
     }
     this.resetTimesArray();
+    if(JSON.parse(sessionStorage.getItem("cartList")).length > 0){
+      this.isBoatInCart = true;
+    }
+    
   }
   // ability to prevent certain days from being selected
   myFilter = (d: Date | null): boolean => {
@@ -182,6 +187,7 @@ export class RentComponent implements OnInit {
           // add boat to session storage
           this.addToSessionStorage(this.boatInfo);
           this.isLoading = false;
+          this.isBoatInCart = true;
           // if customer facing, offer to send user to cart or add more boats
           if(this.router.url.includes('rentals')){
             this.addedToCartBoolean = true;
@@ -249,7 +255,13 @@ export class RentComponent implements OnInit {
     this.adminResBoolean = true;
   }
 
-   priceResolver(boat:string, shuttle: string){
+  backToBoatSelect(){
+    this.selectedBoat = null;
+    this.boatBoolean = true;
+    this.dateBoolean = false;
+  }
+
+  priceResolver(boat:string, shuttle: string){
      // checks type of boat and shuttle and then sets price
       if(boat == "Single Kayak"){
         switch(shuttle){
@@ -686,4 +698,6 @@ export class RentComponent implements OnInit {
       }
     } 
   }
+
+
 }
