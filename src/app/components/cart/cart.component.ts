@@ -149,7 +149,6 @@ export class CartComponent implements OnInit {
     } else {
       this.verifyCode();
     }
-    
   }
   
   verifyCode(){
@@ -174,13 +173,11 @@ export class CartComponent implements OnInit {
         this.couponError = true;
         this.couponErrorMsg = "Coupon not found"
       }
-      
     })
   }
   
   submitGiftCard(){
     this.api.getGiftCard(this.giftCardNumber).subscribe(res=>{
-
       if(res){
         this.giftCardBalance = res.balance / 100;
         this.giftCardEmail = res.email;
@@ -350,13 +347,11 @@ export class CartComponent implements OnInit {
         }
       }else{
         price = (price - singleDebit);
-
       }
     }
     //if no remainders to calculate, return price
     return price;
   }
-
 
   emailSubscribe(){
     this.subscribeEmail = !this.subscribeEmail
