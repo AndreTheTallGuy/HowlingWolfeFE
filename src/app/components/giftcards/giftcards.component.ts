@@ -124,7 +124,8 @@ export class GiftcardsComponent implements OnInit {
       if (status === 200) {
         let charge: Charge = {
           token: response.id,
-          price: this.amount
+          price: this.amount,
+          orderId: this.giftCard.cardNumber
         }
         this.loadText = "Charging Card..."
         // sends charge object to the backend

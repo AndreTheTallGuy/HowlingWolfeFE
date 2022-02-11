@@ -16,8 +16,9 @@ export class AdminresComponent implements OnInit {
   isLoading: boolean = false;
   resAdded: boolean = false;
 
-  orderObj: Order = {order_id:"", customer: {}, boats: []};
-  
+  orderObj: Order = {order_id:0, customer: {}, boats: []};
+  orderId: number;
+
   firstName!: any;
   lastName!: any;
   email!: any;
@@ -49,7 +50,11 @@ export class AdminresComponent implements OnInit {
         email: this.email,
         phone: this.phone
       }
-      // this.orderObj.order_id = uuid.v4();
+      this.api.getAllOrdersUpcoming().subscribe(res=>{
+        this.orderId = res[res.length -1].order_id+1;
+        console.log(this.orderId);
+      });
+      this.orderObj.order_id = this.orderId;
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
       // submits constructed order to DB

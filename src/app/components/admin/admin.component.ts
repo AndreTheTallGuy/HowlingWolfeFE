@@ -35,13 +35,16 @@ export class AdminComponent implements OnInit {
   isLoggedIn: boolean = false;
   userName: string;
   password: string;
+  loginErrorMessage: string;
 
   date: Date; 
   code: string;
   discount: number;
   couponMsg: string;
   monthNum: string;
-  yearNum: string; 
+  yearNum: string;
+  discountType: string;
+  whenGood: string;
 
   cardNumber: number;
   balance: number;
@@ -135,19 +138,23 @@ export class AdminComponent implements OnInit {
       this.api.login(this.userName).subscribe(res => {
                 
         if(this.password == res){
-          this.buttonBoolean = true;
           this.isLoggedIn = true;
           this.upcoming();
         }else{
           this.isLoading = false;
           this.loginBoolean = true;
           this.invalidBoolean = true;
+          this.loginErrorMessage = "Username or Password are incorrect";
         }
       }, error =>{
         console.log(error);
         this.isLoading = false;
         this.invalidBoolean = true;
         this.loginBoolean = true;
+        this.loginErrorMessage = error.message;
+        setTimeout(()=>{
+          this.invalidBoolean = false;
+        }, 4000);
       })
     }
   }
@@ -199,6 +206,8 @@ export class AdminComponent implements OnInit {
 
 // gets all coupons and puts them in to this.coupons
     this.api.getAllCoupons().subscribe(res => {
+      // Date.parse(res.goodUntil.toString())
+      
       this.isLoading = false;
       this.couponTable = true;
       this.coupons = res.sort((a:any,b:any)=>{
@@ -212,7 +221,7 @@ export class AdminComponent implements OnInit {
     this.resetBooleans();
     this.isLoading = true;
 
-// gets all giftcards and puts them in this.giftcards
+    // gets all giftcards and puts them in this.giftcards
     this.api.getAllGiftCards().subscribe(res => {
       this.isLoading = false;
       this.giftCardTable = true;
@@ -233,22 +242,32 @@ export class AdminComponent implements OnInit {
   }
 
   submitCoupon(){
+    
     this.addCouponBoolean = false;
     this.isLoading = true;
     // creates coupon object if submitted data
     let newCoupon: Coupon = {
       code: this.code,
-      discount: this.discount,
-      goodUntil: this.date
+      discountType: this.discountType,
+      discount: this.discount*100,
+      goodUntil: this.date,
+      whenGood: this.whenGood
     }
     // Posts coupon object to the database
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        this.isLoading = false;
        this.couponTable = true;
        this.couponAlert = true;
-       console.log(this.couponAlert);
        this.couponMsg = res;
-       console.log(this.couponMsg);
+       setTimeout(() => {
+         this.couponAlert = false;
+       }, 4000);
+       this.coupon();
+    }, error =>{
+      this.isLoading = false;
+       this.couponTable = true;
+       this.couponAlert = true;
+       this.couponMsg = error;
        setTimeout(() => {
          this.couponAlert = false;
        }, 4000);

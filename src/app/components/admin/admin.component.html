@@ -1,6 +1,6 @@
 <div class="container">
     <div *ngIf="invalidBoolean" class="alert alert-danger">
-        Username or Password are incorrect
+        {{loginErrorMessage}}
     </div>
     <form *ngIf="loginBoolean" class="form mt-4 center">
         <mat-form-field>
@@ -232,7 +232,14 @@
                 <input name="code" matInput type="text" [(ngModel)]="code" class="code" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" required>
             </mat-form-field>
             <br>
-            
+            <mat-form-field>
+                <mat-label>Discount Type</mat-label>
+                <mat-select [(value)]="discountType" >
+                    <mat-option value="percent">Percent</mat-option>
+                    <mat-option value="dollar">Dollar</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
             <mat-form-field>
                 <mat-label >Discount</mat-label>
                 <input name="discount" matInput type="number" [(ngModel)]="discount" class="discount"  required>
@@ -245,6 +252,10 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <br>
+            <!-- <mat-form-field>
+                <mat-checkbox >Weekdays</mat-checkbox>
+                <mat-checkbox >Weekends</mat-checkbox>
+            </mat-form-field> -->
             <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
         </form>    
     </div>

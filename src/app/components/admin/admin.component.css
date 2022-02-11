@@ -66,6 +66,8 @@ h1 {
 
 .add-coupon {
   text-align: center;
+  border: 1px solid darkgray;
+  border-radius: 5px;
 }
 
 mat-form-field {
