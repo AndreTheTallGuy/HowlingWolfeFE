@@ -1,3 +1,4 @@
+import * as uuid from 'uuid';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Order } from 'src/app/models/Order';
@@ -34,7 +35,7 @@ export class CartComponent implements OnInit {
   discBoolean: boolean = false;
   
   boatsArray: Boat[] = [];
-  orderObj: Order = {order_id:"", customer: {}, boats: []};
+  orderObj: Order = {order_id:0, customer: {}, boats: []};
   updatedGiftCard: GiftCard = {cardNumber:null, balance:null, email: null};
   
   firstName!: any;
@@ -42,6 +43,7 @@ export class CartComponent implements OnInit {
   email!: any;
   phone!: any;
 
+  orderId: number;
   subTotal: number = 0;
   coupon: string;
   afterCoupon: number;
@@ -52,6 +54,8 @@ export class CartComponent implements OnInit {
   giftCardDebit: number;
   discount: number;
   goodUntil: Date;
+  discountType: string;
+  whenGood: string;
   discountDollars: number;
   total: number = 0;
   priceRemainder:number = 0;
@@ -75,6 +79,7 @@ export class CartComponent implements OnInit {
   subscribeData: any = <any>{};
 
   private unsubscibe = new Subject();
+
 
   constructor(private api: ApiService, private subscribe: SubscribeService, private ngZone: NgZone, private router: Router) { }
 
@@ -158,6 +163,8 @@ export class CartComponent implements OnInit {
       if(res){
         this.goodUntil = res.goodUntil;
         this.discount = res.discount;
+        this.discountType = res.discountType;
+        this.whenGood = res.whenGood;
         let today = new Date()        
         
         if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
@@ -217,7 +224,8 @@ export class CartComponent implements OnInit {
         phone: this.phone,
         coupon: this.coupon
       }
-      
+
+
       // constructs an orderObj object
       this.orderObj.customer = customer;
       this.arrLength = this.boatsArray.length;
@@ -366,11 +374,18 @@ export class CartComponent implements OnInit {
       this.stripeCheckout = false;
       this.isLoading = true;
       this.stripeFailBoolean = false;
+      this.loadText = "Charging Card..."
       
       if(this.subscribeEmail){
         this.subscribeData.email = this.email;
         this.subscribeToMailChimp();
       }
+
+      this.api.getAllOrdersUpcoming().subscribe(res=>{
+        this.orderId = res[res.length -1].order_id+1;
+        console.log(this.orderId);
+        this.orderObj.order_id = this.orderId;
+      });
 
       // sends CC info to stripe and gets back a token
       (<any>window).Stripe.card.createToken({
@@ -381,13 +396,12 @@ export class CartComponent implements OnInit {
       }, (status: number, response: any) => {
         this.ngZone.run(() => {
         if (status === 200) {
-          console.log(this.total);
-          
           let charge: Charge = {
             token: response.id,
-            price: this.total
+            price: this.total,
+            orderId: this.orderId
           }
-          this.loadText = "Charging Card..."
+          
           // sends charge object to the backend
           this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
             
