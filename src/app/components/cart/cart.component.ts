@@ -224,13 +224,9 @@ export class CartComponent implements OnInit {
         phone: this.phone,
         coupon: this.coupon
       }
-      this.api.getAllOrdersUpcoming().subscribe(res=>{
-        this.orderId = res[res.length -1].order_id+1;
-        console.log(this.orderId);
-      });
+
 
       // constructs an orderObj object
-      this.orderObj.order_id = this.orderId;
       this.orderObj.customer = customer;
       this.arrLength = this.boatsArray.length;
       
@@ -378,11 +374,18 @@ export class CartComponent implements OnInit {
       this.stripeCheckout = false;
       this.isLoading = true;
       this.stripeFailBoolean = false;
+      this.loadText = "Charging Card..."
       
       if(this.subscribeEmail){
         this.subscribeData.email = this.email;
         this.subscribeToMailChimp();
       }
+
+      this.api.getAllOrdersUpcoming().subscribe(res=>{
+        this.orderId = res[res.length -1].order_id+1;
+        console.log(this.orderId);
+        this.orderObj.order_id = this.orderId;
+      });
 
       // sends CC info to stripe and gets back a token
       (<any>window).Stripe.card.createToken({
@@ -398,7 +401,7 @@ export class CartComponent implements OnInit {
             price: this.total,
             orderId: this.orderId
           }
-          this.loadText = "Charging Card..."
+          
           // sends charge object to the backend
           this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
             
