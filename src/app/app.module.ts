@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -56,6 +57,7 @@ import { GiftcardsComponent } from './components/giftcards/giftcards.component'
     FooterComponent,
     GiftcardsComponent,
     
+    
 
   ],
   imports: [
@@ -77,7 +79,8 @@ import { GiftcardsComponent } from './components/giftcards/giftcards.component'
     MatSelectModule,
     MatButtonToggleModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule
     
   ],
   providers: [],
