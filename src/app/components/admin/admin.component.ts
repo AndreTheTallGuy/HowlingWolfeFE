@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Coupon } from 'src/app/models/Coupon';
 import { GiftCard } from 'src/app/models/GiftCard';
 import { GiftObj } from 'src/app/models/GiftObj';
@@ -10,7 +10,9 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
+  encapsulation:ViewEncapsulation.None
+
 })
 export class AdminComponent implements OnInit {
 
@@ -44,7 +46,6 @@ export class AdminComponent implements OnInit {
   monthNum: string;
   yearNum: string;
   discountType: string;
-  whenGood: string;
 
   cardNumber: number;
   balance: number;
@@ -59,6 +60,10 @@ export class AdminComponent implements OnInit {
   monthlyOrderDisplays: OrderDisplay[]= [];
 
   navigation: string;
+
+
+  daysSelected: any[] = [];
+  event: any;
 
   constructor(private api: ApiService) { }
 
@@ -207,7 +212,6 @@ export class AdminComponent implements OnInit {
 // gets all coupons and puts them in to this.coupons
     this.api.getAllCoupons().subscribe(res => {
       // Date.parse(res.goodUntil.toString())
-      
       this.isLoading = false;
       this.couponTable = true;
       this.coupons = res.sort((a:any,b:any)=>{
@@ -249,10 +253,12 @@ export class AdminComponent implements OnInit {
     let newCoupon: Coupon = {
       code: this.code,
       discountType: this.discountType,
-      discount: this.discount*100,
+      discount: this.discount,
       goodUntil: this.date,
-      whenGood: this.whenGood
+      whenGood: this.daysSelected
     }
+    console.log(newCoupon);
+    
     // Posts coupon object to the database
     this.api.postNewCoupon(newCoupon).subscribe(res =>{
        this.isLoading = false;
@@ -438,37 +444,63 @@ export class AdminComponent implements OnInit {
     //loops through orders and then through each boat and converts them to a view friendly display
     for(let order of orders){
       for(let boat of order.boats){
-      const display: OrderDisplay ={
-        id: order.order_id,
-        boatId: boat.id, 
-        date: boat.date,
-        shuttle: boat.shuttle,
-        time: boat.time,
-        duration: boat.duration,
-        boat: boat.boat,
-        name: order.customer.firstName +" "+ order.customer.lastName,
-        height: boat.height,
-        weight: boat.weight,
-        email: order.customer.email,
-        phone: order.customer.phone,
-        coupon: order.customer.coupon,
-        price: boat.price /100,
-        discount: boat.discount /100,
-        giftCard: boat.giftCard,
-        gcDebit: boat.gcDebit/100,
-        orderedOn: order.ordered_on
+        const display: OrderDisplay ={
+          id: order.order_id,
+          boatId: boat.id, 
+          date: boat.date,
+          shuttle: boat.shuttle,
+          time: boat.time,
+          duration: boat.duration,
+          boat: boat.boat,
+          name: order.customer.firstName +" "+ order.customer.lastName,
+          height: boat.height,
+          weight: boat.weight,
+          email: order.customer.email,
+          phone: order.customer.phone,
+          coupon: order.customer.coupon,
+          price: boat.price /100,
+          discount: boat.discount /100,
+          giftCard: boat.giftCard,
+          gcDebit: boat.gcDebit/100,
+          orderedOn: order.ordered_on
+        }
+        if(display.price < 1.18){
+          display.price = display.price *100;
+        }
+        if(display.discount === 0){
+          display.discount = null;
+        }
+        if(display.gcDebit === 0){
+          display.gcDebit = null;
+        }
+        this.orderDisplays.push(display);
       }
-      if(display.price < 1.18){
-        display.price = display.price *100;
-      }
-      if(display.discount === 0){
-        display.discount = null;
-      }
-      if(display.gcDebit === 0){
-        display.gcDebit = null;
-      }
-      this.orderDisplays.push(display);
     }
   }
+
+
+  isSelected = (event: any) => {
+    const date =
+      event.getFullYear() +
+      "-" +
+      ("00" + (event.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + event.getDate()).slice(-2);
+    return this.daysSelected.find(x => x == date) ? "selected" : null;
+  };
+  
+  select(event: any, calendar: any) {
+    const date =
+      event.getFullYear() +
+      "-" +
+      ("00" + (event.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + event.getDate()).slice(-2);
+    const index = this.daysSelected.findIndex(x => x == date);
+    if (index < 0) this.daysSelected.push(date);
+    else this.daysSelected.splice(index, 1);
+  
+    calendar.updateTodaysDate();
   }
+
 }
