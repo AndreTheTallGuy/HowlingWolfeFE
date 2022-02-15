@@ -111,7 +111,7 @@
             [ngClass]="{ odd: odd, even: even }">
                 <td class="data">{{coupon.id}}</td>
                 <td class="data">{{coupon.code}}</td>
-                <td class="data">{{coupon.discount}}</td>
+                <td class="data">{{coupon.discount}}%</td>
                 <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
             </tr>
@@ -252,14 +252,25 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <br>
-            <!-- <mat-form-field>
-                <mat-checkbox >Weekdays</mat-checkbox>
-                <mat-checkbox >Weekends</mat-checkbox>
-            </mat-form-field> -->
+                <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                    <mat-icon>calendar_today</mat-icon>
+                  </button>
+                  <mat-menu #appMenu="matMenu">
+                      <div (click)="$event.stopPropagation()">
+                          <mat-calendar #calendar 
+                             (selectedChange)="select($event,calendar)" 
+                              [dateClass]="isSelected">
+                          </mat-calendar>
+                      </div>
+                  </mat-menu>
+                  <pre>
+                    {{daysSelected|json}}
+                    </pre>
             <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
         </form>    
     </div>
         
+
     <div class="add-coupon" *ngIf="addGiftCardBoolean">
         <form class="coupon-form form mt-4" >
             <h1>Add A Gift Card</h1>

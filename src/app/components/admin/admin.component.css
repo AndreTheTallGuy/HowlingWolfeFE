@@ -124,6 +124,45 @@ mat-form-field {
   text-align: center;
 }
 
+.mat-menu-content:not(:empty) {
+  padding-top: 0px;
+}
+
+.mat-menu-content {
+  padding: 0 15px 8px 15px;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  padding-right: 0;
+}
+
+.mat-calendar-table {
+  overflow-x: visible;
+}
+.mat-calendar-header {
+  padding: 0px 8px 0 8px;
+}
+
+.mat-calendar-body-cell-content.mat-focus-indicator {
+  position: relative !important;
+}
+
+.mat-calendar-body-cell-content {
+  line-height: 0 !important;
+  padding: 0 4px;
+}
+
+.mat-calendar-body-cell.selected {
+  background-color: rgb(83, 143, 255);
+  border-radius: 50%;
+}
+.drop-calendar {
+  width: 30rem;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

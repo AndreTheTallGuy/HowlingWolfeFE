@@ -21,7 +21,6 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 
-
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RentalComponent } from './components/rental/rental.component';
 import { LessonsComponent } from './components/lessons/lessons.component';
