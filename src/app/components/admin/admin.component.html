@@ -105,6 +105,7 @@
                 <th class="header">Code</th>
                 <th class="header">Discount</th>
                 <th class="header">Good Until</th>
+                <th class="header">Days Good</th>
                 <th class="header">Delete</th>
             </tr>
             <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
@@ -113,6 +114,16 @@
                 <td class="data">{{coupon.code}}</td>
                 <td class="data">{{coupon.discount}}%</td>
                 <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
+                <td class="data"><button mat-icon-button [matMenuTriggerFor]="appMenu" >
+                    <mat-icon>calendar_today</mat-icon>
+                </button>
+                <mat-menu #appMenu="matMenu">
+                    <div (click)="$event.stopPropagation()">
+                        <mat-calendar #calendar [minDate]="minDate" 
+                            [dateClass]="openCal(coupon.id)">
+                        </mat-calendar>
+                    </div>
+                </mat-menu></td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
             </tr>
         </table>
@@ -224,7 +235,7 @@
         </table>
     </div>
 
-    <div class="add-coupon" *ngIf="addCouponBoolean">
+    <div class="add-coupon mt-5" *ngIf="addCouponBoolean">
         <form class="coupon-form form mt-4" >
             <h1>Add A Coupon</h1>
             <mat-form-field>
@@ -247,25 +258,34 @@
             <br>
             <mat-form-field class="date-picker" appearance="fill">
                 <mat-label>Good Until</mat-label>
-                <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
+                <input matInput [min]="minDate" [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <br>
-                <button mat-icon-button [matMenuTriggerFor]="appMenu">
-                    <mat-icon>calendar_today</mat-icon>
-                  </button>
-                  <mat-menu #appMenu="matMenu">
-                      <div (click)="$event.stopPropagation()">
-                          <mat-calendar #calendar 
-                             (selectedChange)="select($event,calendar)" 
-                              [dateClass]="isSelected">
-                          </mat-calendar>
-                      </div>
-                  </mat-menu>
-                  <pre>
-                    {{daysSelected|json}}
-                    </pre>
+            
+            <button id="when-good" mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-label id="when-label">Days Good *</mat-label>
+                <span class="spacer"> </span>
+                <mat-icon>calendar_today</mat-icon>
+            </button>
+            <mat-menu #appMenu="matMenu">
+                <div (click)="$event.stopPropagation()">
+                    <mat-calendar #calendar [minDate]="minDate"
+                        (selectedChange)="select($event,calendar)" 
+                        [dateClass]="isSelected">
+                    </mat-calendar>
+                </div>
+            </mat-menu>
+            <br>
+            <mat-chip-list class="mt-3 chippies" #chipList aria-label="placeholder" [selectable]="false"
+               (click)="focus()">
+                <mat-chip *ngFor="let item of daysSelected" removable (removed)="remove(item)">
+                    {{ item | date }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+            <br>
             <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
         </form>    
     </div>

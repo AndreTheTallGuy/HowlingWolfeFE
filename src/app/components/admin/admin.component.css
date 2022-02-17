@@ -68,6 +68,8 @@ h1 {
   text-align: center;
   border: 1px solid darkgray;
   border-radius: 5px;
+  max-width: 400px;
+  margin: auto;
 }
 
 mat-form-field {
@@ -159,6 +161,38 @@ mat-form-field {
   background-color: rgb(83, 143, 255);
   border-radius: 50%;
 }
+
+#when-good {
+  border: none;
+  border-bottom: 1px solid black;
+  width: 180px;
+  height: 52px;
+  color: rgb(100, 100, 100);
+}
+
+#when-label {
+  padding: 0 52px 0 0;
+  vertical-align: top;
+}
+
+.chippies {
+  max-width: 300px;
+  margin: auto;
+}
+
+.mat-chip-list-wrapper {
+  margin: 10px auto -10px auto !important;
+  max-width: 280px;
+}
+
+.mat-chip {
+  min-width: 130px;
+}
+
+.spacer {
+  width: 20px;
+}
+
 .drop-calendar {
   width: 30rem;
 }
@@ -178,5 +212,11 @@ input[type="number"] {
   }
   #dropdown {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .mat-chip-list-wrapper {
+    max-width: 130px;
   }
 }
