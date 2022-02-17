@@ -280,7 +280,7 @@
             <br>
             <mat-chip-list class="mt-3 chippies" #chipList aria-label="placeholder" [selectable]="false"
                (click)="focus()">
-                <mat-chip *ngFor="let item of daysSelected" removable (removed)="remove(item)">
+                <mat-chip *ngFor="let item of calTempDateArray" removable (removed)="remove(item)">
                     {{ item | date }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>

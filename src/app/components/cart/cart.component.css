@@ -1,15 +1,15 @@
-.background {
-  /* background-image: url("../../../assets/sunsetPaddling.jpg"); */
-  /* background-position: center;
+/* .background { */
+/* background-image: url("../../../assets/sunsetPaddling.jpg"); */
+/* background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100vh;
   width: 99vw;
   z-index: -20; */
-  /* min-height: 60vh; */
-  /* animation: slide 0.5s; */
-}
+/* min-height: 60vh; */
+/* animation: slide 0.5s; */
+/* } */
 
 @keyframes slide {
   0% {

@@ -63,7 +63,8 @@ export class AdminComponent implements OnInit {
   navigation: string;
 
 
-  daysSelected: any[] = [];
+  daysSelected: Date[] = [];
+  calTempDateArray: any[] = [];
   event: any;
   minDate: Date;
 
@@ -214,9 +215,7 @@ export class AdminComponent implements OnInit {
     this.isLoading = true;
 
 // gets all coupons and puts them in to this.coupons
-    this.api.getAllCoupons().subscribe(res => {
-      console.log(res);
-      
+    this.api.getAllCoupons().subscribe(res => {      
       this.isLoading = false;
       this.couponTable = true;
       this.coupons = res.sort((a:any,b:any)=>{
@@ -291,8 +290,9 @@ export class AdminComponent implements OnInit {
   }
 
   remove(date: string){
-    for (let i = 0; i < this.daysSelected.length; i++) {
-      if(this.daysSelected[i] === date){
+    for (let i = 0; i < this.calTempDateArray.length; i++) {
+      if(this.calTempDateArray[i] === date){
+        this.calTempDateArray.splice(i,1);
         this.daysSelected.splice(i,1);
       }
     }
@@ -503,7 +503,7 @@ export class AdminComponent implements OnInit {
       ("00" + (event.getMonth() + 1)).slice(-2) +
       "-" +
       ("00" + event.getDate()).slice(-2);
-    return this.daysSelected.find(x => x == date) ? "selected" : null;
+    return this.calTempDateArray.find(x => x == date) ? "selected" : null;
   };
   
   select(event: any, calendar: any) {
@@ -513,20 +513,21 @@ export class AdminComponent implements OnInit {
       ("00" + (event.getMonth() + 1)).slice(-2) +
       "-" +
       ("00" + event.getDate()).slice(-2);
-    const index = this.daysSelected.findIndex(x => x == date);
-    if (index < 0) this.daysSelected.push(date);
-    else this.daysSelected.splice(index, 1);
-  
+    const index = this.calTempDateArray.findIndex(x => x == date);
+    if (index < 0) {
+      this.calTempDateArray.push(date);
+      this.daysSelected.push(event);
+    }
+    else {
+      this.calTempDateArray.splice(index, 1);
+      this.daysSelected.splice(index, 1);
+    }
     calendar.updateTodaysDate();
   }
 
   openCal(couponId) {
-    console.log(couponId);
     const coupon = this.coupons.find(x => x.id == couponId);
-    console.log(coupon);
-    
     const dates = coupon.whenGood;
-
       return (date: Date): MatCalendarCellCssClasses => {
         const highlightDate = dates
           .map((strDate) => new Date(strDate))
@@ -538,8 +539,5 @@ export class AdminComponent implements OnInit {
           );
         return highlightDate ? 'selected' : null;
       };
-
-
   }
-
 }
