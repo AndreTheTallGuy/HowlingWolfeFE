@@ -100,9 +100,8 @@
             <br>
         </div>
         
-        <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Add to Cart</button>
-
         <button class="btn btn-danger mb-4 back" (click)="backToBoatSelect()">Back</button>
+        <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Add to Cart</button>
         
         <div *ngIf="adminPageBoolean && isBoatInCart" class="cancel">
             <button class="btn btn-danger" (click)="adminResFinish()">Cancel and Add Client Info</button>

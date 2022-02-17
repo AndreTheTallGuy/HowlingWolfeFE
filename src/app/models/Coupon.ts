@@ -4,5 +4,5 @@ export interface Coupon {
     discountType: string;
     discount: number;
     goodUntil: Date;
-    whenGood: string[];
+    whenGood: Date[];
 }

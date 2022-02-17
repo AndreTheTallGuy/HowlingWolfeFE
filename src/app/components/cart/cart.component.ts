@@ -55,7 +55,8 @@ export class CartComponent implements OnInit {
   discount: number;
   goodUntil: Date;
   discountType: string;
-  whenGood: string;
+  whenGood: string[];
+  isGood: boolean;
   discountDollars: number;
   total: number = 0;
   priceRemainder:number = 0;
@@ -158,23 +159,59 @@ export class CartComponent implements OnInit {
   
   verifyCode(){
     this.couponError = false;
+    let tripDates: string[] = [];
+
+    // create array of trip dates
+    for(let i = 0; i<this.boatsArray.length; i++){
+      console.log(this.boatsArray[i].date);
+      
+      tripDates.push(this.boatsArray[i].date.toString())
+    }
+    console.log(tripDates);
+    
+
     // verify code is in db
     this.api.getCouponByCode(this.coupon).subscribe(res => {
       if(res){
+        console.log(res);
+        
         this.goodUntil = res.goodUntil;
         this.discount = res.discount;
         this.discountType = res.discountType;
         this.whenGood = res.whenGood;
-        let today = new Date()        
-        
-        if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
-          // show subtotal and discount view
-          this.couponBoolean = true;
-          // rerun totals with discount
-          this.getTotals();
-        } else {
-          this.couponError = true;
-          this.couponErrorMsg = "Coupon is expired"
+        const today = new Date()    
+
+        // compare trip dates to coupon valid dates
+        for(let i = 0; i < this.whenGood.length; i++){
+          for(let j = 0; j < tripDates.length; j++){
+            console.log(Date.parse(tripDates[j]));
+            console.log(Date.parse(this.whenGood[i]));
+            
+            if(Date.parse(this.whenGood[i].toString()) == Date.parse(tripDates[j].toString())){
+              this.isGood = true;
+            } else {
+              this.isGood = false;
+              this.couponError = true;
+              this.couponErrorMsg = "Coupon is not valid for the dates selected"
+              break;
+            }
+
+          }
+          if(this.isGood){
+            break;
+          }
+        }
+        console.log(this.isGood);
+        if(this.isGood){
+          if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
+            // show subtotal and discount view
+            this.couponBoolean = true;
+            // rerun totals with discount
+            this.getTotals();
+          } else {
+            this.couponError = true;
+            this.couponErrorMsg = "Coupon is expired"
+          }
         }
       } else {
         this.couponError = true;
