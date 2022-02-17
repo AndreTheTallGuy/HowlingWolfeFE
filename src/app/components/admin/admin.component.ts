@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { Coupon } from 'src/app/models/Coupon';
 import { GiftCard } from 'src/app/models/GiftCard';
 import { GiftObj } from 'src/app/models/GiftObj';
@@ -64,11 +65,14 @@ export class AdminComponent implements OnInit {
 
   daysSelected: any[] = [];
   event: any;
+  minDate: Date;
 
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     this.api.getAllOrdersUpcoming().subscribe();
+    this.minDate = new Date;
+    this.minDate.setDate(this.minDate.getDate());
   }
 
   resetBooleans(){
@@ -211,7 +215,8 @@ export class AdminComponent implements OnInit {
 
 // gets all coupons and puts them in to this.coupons
     this.api.getAllCoupons().subscribe(res => {
-      // Date.parse(res.goodUntil.toString())
+      console.log(res);
+      
       this.isLoading = false;
       this.couponTable = true;
       this.coupons = res.sort((a:any,b:any)=>{
@@ -246,39 +251,51 @@ export class AdminComponent implements OnInit {
   }
 
   submitCoupon(){
-    
-    this.addCouponBoolean = false;
-    this.isLoading = true;
-    // creates coupon object if submitted data
-    let newCoupon: Coupon = {
-      code: this.code,
-      discountType: this.discountType,
-      discount: this.discount,
-      goodUntil: this.date,
-      whenGood: this.daysSelected
+    if(this.daysSelected.length == 0){
+      this.errorBoolean = true;
+    }else {
+      this.errorBoolean = false;
+      this.addCouponBoolean = false;
+      this.isLoading = true;
+      // creates coupon object if submitted data
+      let newCoupon: Coupon = {
+        code: this.code,
+        discountType: this.discountType,
+        discount: this.discount,
+        goodUntil: this.date,
+        whenGood: this.daysSelected
+      }
+      console.log(newCoupon);
+      
+      // Posts coupon object to the database
+      this.api.postNewCoupon(newCoupon).subscribe(res =>{
+         this.isLoading = false;
+         this.couponTable = true;
+         this.couponAlert = true;
+         this.couponMsg = res;
+         setTimeout(() => {
+           this.couponAlert = false;
+         }, 4000);
+         this.coupon();
+      }, error =>{
+        this.isLoading = false;
+         this.couponTable = true;
+         this.couponAlert = true;
+         this.couponMsg = error;
+         setTimeout(() => {
+           this.couponAlert = false;
+         }, 4000);
+         this.coupon();
+      })
     }
-    console.log(newCoupon);
-    
-    // Posts coupon object to the database
-    this.api.postNewCoupon(newCoupon).subscribe(res =>{
-       this.isLoading = false;
-       this.couponTable = true;
-       this.couponAlert = true;
-       this.couponMsg = res;
-       setTimeout(() => {
-         this.couponAlert = false;
-       }, 4000);
-       this.coupon();
-    }, error =>{
-      this.isLoading = false;
-       this.couponTable = true;
-       this.couponAlert = true;
-       this.couponMsg = error;
-       setTimeout(() => {
-         this.couponAlert = false;
-       }, 4000);
-       this.coupon();
-    })
+  }
+
+  remove(date: string){
+    for (let i = 0; i < this.daysSelected.length; i++) {
+      if(this.daysSelected[i] === date){
+        this.daysSelected.splice(i,1);
+      }
+    }
   }
   
   submitGiftCard(){
@@ -501,6 +518,28 @@ export class AdminComponent implements OnInit {
     else this.daysSelected.splice(index, 1);
   
     calendar.updateTodaysDate();
+  }
+
+  openCal(couponId) {
+    console.log(couponId);
+    const coupon = this.coupons.find(x => x.id == couponId);
+    console.log(coupon);
+    
+    const dates = coupon.whenGood;
+
+      return (date: Date): MatCalendarCellCssClasses => {
+        const highlightDate = dates
+          .map((strDate) => new Date(strDate))
+          .some(
+            (d) =>
+              d.getDate() === date.getDate() &&
+              d.getMonth() === date.getMonth() &&
+              d.getFullYear() === date.getFullYear()
+          );
+        return highlightDate ? 'selected' : null;
+      };
+
+
   }
 
 }
