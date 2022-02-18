@@ -20,6 +20,14 @@ export class GiftcardsComponent implements OnInit {
   isLoading: boolean = false;
   stripeFailBoolean: boolean = false;
   stripeCheckout: boolean = false;
+  couponBoolean: boolean = false;
+  couponError: boolean = false;
+
+  couponErrorMsg: string = '';
+  coupon: string;
+  subTotal: number;
+  discount: number;
+
 
   loadText: string = "Placing your order...";
 
@@ -41,6 +49,12 @@ export class GiftcardsComponent implements OnInit {
   dollarWidth: string = "125px";
 
   private unsubscibe = new Subject();
+  goodUntil: Date;
+  discountType: string;
+  couponList: any;
+  discountDollars: number;
+  total: number;
+  goodForGC: boolean = false;
 
   constructor(private ngZone: NgZone, private router: Router, private api: ApiService,) { }
 
@@ -65,6 +79,9 @@ export class GiftcardsComponent implements OnInit {
         this.dollarWidth = "190px";
         break;
     }
+    if(this.couponBoolean){
+      this.getTotals();
+    }
   }
 
   submit(){
@@ -76,10 +93,9 @@ export class GiftcardsComponent implements OnInit {
   objectBuilder(){
 
     let tempNum = Math.floor(10000000 + Math.random() * 90000000);
-    console.log(tempNum);
-    console.log(this.recipientEmail);
     
     this.api.getGiftCard(tempNum).subscribe(res=>{
+      
       if(res !== null){
         this.objectBuilder();
       } else {
@@ -94,15 +110,16 @@ export class GiftcardsComponent implements OnInit {
           fromEmail: this.senderEmail, 
           message: this.message
         };
+        
       }
     }, err => {
-      console.log(this.recipientEmail);
       this.stripeCheckout = false;
       this.mainBoolean = true;
     });
+    
   }
 
-    stripeSubmit(){
+  stripeSubmit(){
     // validates empty fields
     if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
       this.stripeFailBoolean = true;
@@ -124,7 +141,7 @@ export class GiftcardsComponent implements OnInit {
       if (status === 200) {
         let charge: Charge = {
           token: response.id,
-          price: this.amount,
+          price: this.total,
           orderId: this.giftCard.cardNumber
         }
         this.loadText = "Charging Card..."
@@ -161,6 +178,65 @@ export class GiftcardsComponent implements OnInit {
   }); 
   }
   }   
+
+  submitCoupon(){
+    // check local storage for coupon list
+    if(localStorage.getItem("howlingwolfe")){
+      this.couponList = JSON.parse(localStorage.getItem("howlingwolfe"));
+      // if list includes coupon, give error
+      if(this.couponList.includes(this.coupon)){
+        this.couponError = true;
+        this.couponErrorMsg = "This code has already been used"
+      } else {
+        this.verifyCode();
+      }
+    } else {
+      this.verifyCode();
+    }
+  }
+  
+  verifyCode(){
+    this.couponError = false;
+
+    // verify code is in db
+    this.api.getCouponByCode(this.coupon).subscribe(res => {
+      if(res){
+        this.goodUntil = res.goodUntil;
+        this.discount = res.discount;
+        this.discountType = res.discountType;
+        this.goodForGC = res.goodForGC;
+        const today = new Date()    
+
+        // compare trip dates to coupon valid dates
+        if(this.goodForGC){
+          if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
+            // show subtotal and discount view
+            this.couponBoolean = true;
+            // rerun totals with discount
+            this.getTotals();
+          } else {
+            this.couponError = true;
+            this.couponErrorMsg = "Coupon is expired"
+          }
+        }else {
+          this.couponError = true;
+          this.couponErrorMsg = "Coupon is not good for gift cards"
+        }
+      } else {
+        this.couponError = true;
+        this.couponErrorMsg = "Coupon not found"
+      }
+    })
+  }
+
+  getTotals(){
+    if(this.couponBoolean){
+      this.discountDollars = this.amount * (this.discount/100);
+      this.total = this.amount - this.discountDollars;
+    } else {
+      this.total = this.amount;
+    }
+  }
   
   ngOnDestroy(){
     this.unsubscibe.next();

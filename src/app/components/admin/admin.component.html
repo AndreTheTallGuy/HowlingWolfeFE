@@ -106,6 +106,7 @@
                 <th class="header">Discount</th>
                 <th class="header">Good Until</th>
                 <th class="header">Days Good</th>
+                <th class="header">Good For GC</th>
                 <th class="header">Delete</th>
             </tr>
             <tr *ngFor="let coupon of coupons; let even = even; let odd = odd" 
@@ -124,6 +125,7 @@
                         </mat-calendar>
                     </div>
                 </mat-menu></td>
+                <td class="data">{{coupon.goodForGC}}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
             </tr>
         </table>
@@ -285,6 +287,9 @@
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
             </mat-chip-list>
+            <br>
+            <input type="checkbox" name="goodForGC" id="checkbox" [(ngModel)]="goodForGC">
+            <mat-label>&nbsp; Works with Gift Cards</mat-label>
             <br>
             <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
         </form>    

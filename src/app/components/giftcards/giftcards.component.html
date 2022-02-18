@@ -44,10 +44,26 @@
             <input type="number" [(ngModel)]="amount" [style.width]="dollarWidth" id="dollars" >
         </div>
         <p id="expiration">Gift certificates may be used for rentals, lessons, guided trips, and shuttles.</p>
+
+        <div class="totals">
+            <div *ngIf="!couponBoolean">
+                <div class="alert alert-danger mb-1" *ngIf="couponError">{{couponErrorMsg}}</div>
+                <mat-form-field class="coupon" >
+                    <mat-label >Coupon Code</mat-label>
+                    <input name="coupon" matInput type="text" [(ngModel)]="coupon" class="coupon" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()">
+                </mat-form-field>
+                <button class="btn btn-secondary" (click)="submitCoupon()">Submit</button>
+            </div>
+            <div id="update-totals" *ngIf="couponBoolean">
+                <p class="sub-total calculations"> Subtotal: &nbsp; {{amount | currency:USD}}</p>
+                <p class="discount calculations">Coupon: &nbsp; &nbsp; &nbsp; - {{discount}}%</p>
+                <p class="calculations total"> Total: &nbsp; {{total | currency:USD}}</p>
+            </div>
+        </div>
     </div>
 
     <div id="right">
-        <div class="header">Who is it for?</div>
+        <div class="header mt-2">Who is it for?</div>
         <form class="form" >
             <mat-form-field >
                 <mat-label>Recipient's Email</mat-label>
