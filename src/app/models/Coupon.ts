@@ -5,4 +5,5 @@ export interface Coupon {
     discount: number;
     goodUntil: Date;
     whenGood: Date[];
+    goodForGC: boolean;
 }

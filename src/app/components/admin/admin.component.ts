@@ -47,6 +47,7 @@ export class AdminComponent implements OnInit {
   monthNum: string;
   yearNum: string;
   discountType: string;
+  goodForGC: boolean;
 
   cardNumber: number;
   balance: number;
@@ -262,7 +263,8 @@ export class AdminComponent implements OnInit {
         discountType: this.discountType,
         discount: this.discount,
         goodUntil: this.date,
-        whenGood: this.daysSelected
+        whenGood: this.daysSelected,
+        goodForGC: this.goodForGC
       }
       console.log(newCoupon);
       

@@ -95,12 +95,12 @@ td {
 }
 
 #left {
-  width: 30%;
+  width: fit-content;
   padding-top: 40px;
 }
 
 #right {
-  width: 60%;
+  width: 75%;
 }
 
 #left,
@@ -185,6 +185,42 @@ mat-form-field {
   margin-bottom: 95px;
 }
 
+.coupon {
+  width: 100px;
+  margin-right: 20px;
+}
+
+.calculations {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  font-size: 120%;
+  font-family: "Cinzel", serif;
+}
+
+.totals {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.total {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-size: 150%;
+  font-family: "Cinzel", serif;
+}
+
+#update-totals {
+  float: right;
+  padding-right: 35px;
+}
+
+.alert {
+  max-width: fit-content;
+  padding: 10px;
+  text-align: center;
+  margin: auto;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -207,11 +243,17 @@ input[type="number"] {
   }
 
   #left {
-    height: 300px;
+    height: 335px;
   }
 
   #right {
     margin-bottom: 40px;
+  }
+}
+
+@media only screen and (max-width: 4850px) {
+  #left {
+    height: 352px;
   }
 }
 
