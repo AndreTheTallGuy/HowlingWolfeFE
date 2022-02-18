@@ -35,7 +35,8 @@ import { ThankyouComponent } from './components/thankyou/thankyou.component';
 import { ThankyouemailComponent } from './components/thankyouemail/thankyouemail.component';
 import { AdminresComponent } from './components/adminres/adminres.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { GiftcardsComponent } from './components/giftcards/giftcards.component'
+import { GiftcardsComponent } from './components/giftcards/giftcards.component';
+import { YesNoPipe } from './pipes/yes-no.pipe'
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { GiftcardsComponent } from './components/giftcards/giftcards.component'
     AdminresComponent,
     FooterComponent,
     GiftcardsComponent,
+    YesNoPipe,
     
     
 
