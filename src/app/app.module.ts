@@ -57,8 +57,6 @@ import { YesNoPipe } from './pipes/yes-no.pipe'
     FooterComponent,
     GiftcardsComponent,
     YesNoPipe,
-    
-    
 
   ],
   imports: [

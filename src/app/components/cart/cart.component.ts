@@ -138,7 +138,6 @@ export class CartComponent implements OnInit {
     }else {
       this.total = this.subTotal;
     }    
-    
   }
 
   submitCoupon(){
@@ -167,13 +166,10 @@ export class CartComponent implements OnInit {
       
       tripDates.push(this.boatsArray[i].date.toString())
     }
-    console.log(tripDates);
     
-
     // verify code is in db
     this.api.getCouponByCode(this.coupon).subscribe(res => {
       if(res){
-        console.log(res);
         
         this.goodUntil = res.goodUntil;
         this.discount = res.discount;
@@ -184,8 +180,6 @@ export class CartComponent implements OnInit {
         // compare trip dates to coupon valid dates
         for(let i = 0; i < this.whenGood.length; i++){
           for(let j = 0; j < tripDates.length; j++){
-            console.log(Date.parse(tripDates[j]));
-            console.log(Date.parse(this.whenGood[i]));
             
             if(Date.parse(this.whenGood[i].toString()) == Date.parse(tripDates[j].toString())){
               this.isGood = true;
@@ -201,7 +195,6 @@ export class CartComponent implements OnInit {
             break;
           }
         }
-        console.log(this.isGood);
         if(this.isGood){
           if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
             // show subtotal and discount view
@@ -261,7 +254,6 @@ export class CartComponent implements OnInit {
         phone: this.phone,
         coupon: this.coupon
       }
-
 
       // constructs an orderObj object
       this.orderObj.customer = customer;
@@ -420,7 +412,6 @@ export class CartComponent implements OnInit {
 
       this.api.getAllOrdersUpcoming().subscribe(res=>{
         this.orderId = res[res.length -1].order_id+1;
-        console.log(this.orderId);
         this.orderObj.order_id = this.orderId;
       });
 
