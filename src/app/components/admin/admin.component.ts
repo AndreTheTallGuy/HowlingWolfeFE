@@ -63,7 +63,6 @@ export class AdminComponent implements OnInit {
 
   navigation: string;
 
-
   daysSelected: Date[] = [];
   calTempDateArray: any[] = [];
   event: any;

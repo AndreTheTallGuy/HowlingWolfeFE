@@ -125,7 +125,7 @@
                         </mat-calendar>
                     </div>
                 </mat-menu></td>
-                <td class="data">{{coupon.goodForGC}}</td>
+                <td class="data">{{coupon.goodForGC | yesNo }}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteCoupon(coupon.id)"><span class="x">X</span></button></td>
             </tr>
         </table>
