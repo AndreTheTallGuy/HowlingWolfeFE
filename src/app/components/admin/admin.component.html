@@ -153,9 +153,6 @@
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
                 <td class="data"><button id="edit" (click)="editGiftCard(gc)"><span id="edit-icon"><i class="far fa-edit"></i></span></button></td>
             </tr>
-            <!-- <tr>
-                <td></td>
-            </tr> -->
         </table>
         <div class="add-btn mt-2">
             <button class=" btn btn-secondary" (click)="addGiftCard()">Add Gift Card</button>
@@ -164,8 +161,6 @@
 
     <div id="edit-gc" *ngIf="editGiftCardBoolean">
         <h1>Edit Balance</h1>
-        <!-- <div class="text">Card Number: <span id="number">{{cardNumber}}</span></div>
-        <div class="text">Email: <span id="edit-email">{{email}}</span></div> -->
         <table id="edit-table">
             <tr>
                 <td class="data-edit">Number: </td>
@@ -294,7 +289,6 @@
             <button class="btn btn-secondary mb-4 submit" (click)="submitCoupon()" >Submit</button>
         </form>    
     </div>
-        
 
     <div class="add-coupon" *ngIf="addGiftCardBoolean">
         <form class="coupon-form form mt-4" >
