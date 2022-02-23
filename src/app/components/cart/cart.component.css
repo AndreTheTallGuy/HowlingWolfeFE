@@ -39,6 +39,7 @@
   font-family: "Cinzel", serif;
   text-align: center;
 }
+
 .table {
   margin: auto;
   margin-top: 50px;
@@ -53,6 +54,7 @@
 .empty {
   text-align: center;
 }
+
 .empty-cart {
   font-size: 200%;
   font-family: "Cinzel", serif;
@@ -67,12 +69,15 @@
   z-index: -5;
   position: absolute;
 }
+
 .data {
   padding: 0 10px;
 }
+
 .right {
   text-align: right;
 }
+
 .totals {
   /* margin-top: 10px;
   margin-right: 20%; */
@@ -137,6 +142,7 @@
 td {
   padding: 3px 0;
 }
+
 .subscribe {
   margin: 10px 0 20px 0;
 }
@@ -151,6 +157,7 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -160,6 +167,7 @@ input[type="number"] {
     margin-right: 10%;
   }
 }
+
 @media only screen and (max-width: 775px) {
   .header {
     padding: 0 5px;
