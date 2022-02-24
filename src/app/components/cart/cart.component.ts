@@ -102,8 +102,15 @@ export class CartComponent implements OnInit {
     for(let i =0; i< this.boatsArray.length; i++){
       this.subTotal += this.boatsArray[i].price;
     }
+    
     if(this.couponBoolean && this.giftCardBoolean){
-      this.discountDollars = this.subTotal * (this.discount/100);
+      if(this.discountType == "percent"){
+        this.discountDollars = this.subTotal * (this.discount/100);
+        
+      }else if(this.discountType == "dollar"){
+        this.discountDollars = this.discount;
+      }
+
       this.afterCoupon = this.subTotal - this.discountDollars;
       this.discBoolean = true;
       
@@ -119,7 +126,11 @@ export class CartComponent implements OnInit {
       }
       
     }else if(this.couponBoolean){
-      this.discountDollars = this.subTotal * (this.discount/100);
+      if(this.discountType == "percent"){
+        this.discountDollars = this.subTotal * (this.discount/100);
+      }else if(this.discountType == "dollar"){
+        this.discountDollars = this.discount;
+      }
       this.total = this.subTotal - this.discountDollars;
       
     }else if(this.giftCardBoolean){
@@ -162,8 +173,6 @@ export class CartComponent implements OnInit {
 
     // create array of trip dates
     for(let i = 0; i<this.boatsArray.length; i++){
-      console.log(this.boatsArray[i].date);
-      
       tripDates.push(this.boatsArray[i].date.toString())
     }
     
@@ -176,7 +185,8 @@ export class CartComponent implements OnInit {
         this.discountType = res.discountType;
         this.whenGood = res.whenGood;
         const today = new Date()    
-
+        console.log(this.discountType);
+        
         // compare trip dates to coupon valid dates
         for(let i = 0; i < this.whenGood.length; i++){
           for(let j = 0; j < tripDates.length; j++){

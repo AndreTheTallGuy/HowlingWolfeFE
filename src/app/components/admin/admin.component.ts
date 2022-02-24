@@ -215,7 +215,9 @@ export class AdminComponent implements OnInit {
     this.isLoading = true;
 
 // gets all coupons and puts them in to this.coupons
-    this.api.getAllCoupons().subscribe(res => {      
+    this.api.getAllCoupons().subscribe(res => {   
+      console.log(res);
+         
       this.isLoading = false;
       this.couponTable = true;
       this.coupons = res.sort((a:any,b:any)=>{

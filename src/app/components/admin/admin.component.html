@@ -113,7 +113,7 @@
             [ngClass]="{ odd: odd, even: even }">
                 <td class="data">{{coupon.id}}</td>
                 <td class="data">{{coupon.code}}</td>
-                <td class="data">{{coupon.discount}}%</td>
+                <td class="data"><span *ngIf="coupon.discountType == 'dollar'">$</span>{{coupon.discount}}<span *ngIf="coupon.discountType == 'percent'">%</span></td>
                 <td class="data">{{coupon.goodUntil | date: 'shortDate'}}</td>
                 <td class="data"><button mat-icon-button [matMenuTriggerFor]="appMenu" >
                     <mat-icon>calendar_today</mat-icon>
