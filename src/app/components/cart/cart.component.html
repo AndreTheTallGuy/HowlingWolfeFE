@@ -55,7 +55,7 @@
                 <button class="btn btn-secondary" (click)="submitCoupon()">Submit</button>
             </div>
             <p class="sub-total calculations" *ngIf="couponBoolean || giftCardBoolean"> Subtotal: &nbsp; {{subTotal | currency:USD}}</p>
-            <p class="discount calculations" *ngIf="couponBoolean">Coupon: &nbsp; &nbsp; &nbsp; - {{discount}}%</p>
+            <p class="discount calculations" *ngIf="couponBoolean">Coupon: &nbsp; &nbsp; &nbsp; - <span *ngIf="discountType == 'dollar'">$</span>{{discount}}<span *ngIf="discountType == 'percent'">%</span></p>
             <p class="calculations" id="after-coupon" *ngIf="discBoolean">After Discount: &nbsp; {{afterCoupon | currency:USD}}</p>
             <p class="calculations" id="balance" *ngIf="giftCardBoolean">Gift Card Balance:&nbsp; {{giftCardBalance | currency:USD}}</p>
             <p class="calculations" class="total"> Total: {{total | currency:USD}}</p>

@@ -172,9 +172,11 @@ input[type="number"] {
   .header {
     padding: 0 5px;
   }
+
   .height {
     display: none;
   }
+
   .weight {
     display: none;
   }
@@ -185,15 +187,18 @@ input[type="number"] {
   td {
     font-size: 10px;
   }
+
   .header,
   .data {
     padding: 0 1px;
   }
+
   .total,
   .check-out {
     float: right;
     margin-bottom: 0;
   }
+
   .more {
     margin-right: 0;
   }
