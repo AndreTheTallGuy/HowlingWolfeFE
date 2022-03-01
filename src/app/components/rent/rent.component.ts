@@ -266,14 +266,14 @@ export class RentComponent implements OnInit {
       if(boat == "Single Kayak"){
         switch(shuttle){
           case "None": this.price = 20; break;
-          case "North-Aurora": this.price = 30; break;
-          case "Batavia": this.price = 55; break;
+          case "North-Aurora": this.price = 39; break;
+          case "Batavia": this.price = 69; break;
         }
       } else if(boat == "Tandem" || boat == "Canoe"){
         switch(shuttle){
           case "None": this.price = 40; break;
-          case "North-Aurora": this.price = 60; break;
-          case "Batavia": this.price = 110; break;
+          case "North-Aurora": this.price = 78; break;
+          case "Batavia": this.price = 138; break;
         }
       } else if(boat == "Fishing Kayak"){
         switch(shuttle){
