@@ -254,7 +254,7 @@
             </mat-form-field>
             <br>
             <mat-form-field class="date-picker" appearance="fill">
-                <mat-label>Good Until</mat-label>
+                <mat-label>Expires</mat-label>
                 <input matInput [min]="minDate" [matDatepicker]="picker" name="date" [(ngModel)]="date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
