@@ -19,7 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RentalComponent } from './components/rental/rental.component';
@@ -36,7 +36,8 @@ import { ThankyouemailComponent } from './components/thankyouemail/thankyouemail
 import { AdminresComponent } from './components/adminres/adminres.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { GiftcardsComponent } from './components/giftcards/giftcards.component';
-import { YesNoPipe } from './pipes/yes-no.pipe'
+import { YesNoPipe } from './pipes/yes-no.pipe';
+import { ContactformComponent } from './components/contactform/contactform.component'
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { YesNoPipe } from './pipes/yes-no.pipe'
     FooterComponent,
     GiftcardsComponent,
     YesNoPipe,
+    ContactformComponent,
 
   ],
   imports: [

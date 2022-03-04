@@ -1,6 +1,6 @@
 <div class="background">
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
-    <div class="container" *ngIf="!isLoading">
+    <div class="contain" *ngIf="!isLoading">
         <div class="rowflex">
             <div class="col text-body">
                 <p class="text">Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! 
@@ -19,43 +19,11 @@
                 </p>
                 
             </div>
-            <div class="col">
-                <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
-                <form class="form" >
-                   
-                    <mat-form-field class="first">
-                        <mat-label >First Name</mat-label>
-                        <input name="firstName" matInput type="text" [(ngModel)]="firstName" class="firstName"  required>
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field>
-                        <mat-label >Last Name</mat-label>
-                        <input name="lastName" matInput type="text" [(ngModel)]="lastName" class="lastName"  required>
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field>
-                        <mat-label >Email</mat-label>
-                        <input name="email" matInput type="text" [(ngModel)]="email" class="email"  required>
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field>
-                        <mat-label >Phone</mat-label>
-                        <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field class="last">
-                        <mat-label >Message</mat-label>
-                        <textarea name="message" matInput type="text" [(ngModel)]="message" class="message"  required></textarea>
-                    </mat-form-field>
-                    <br>
-                    
-                    <button class="btn-secondary mb-4 submit" (click)="submit()">Send</button>
-                        
-            
-                </form>
+            <div class="col right">
+                <app-contactform (customerEvent)="custEventHandler($event)"></app-contactform>
+               
             </div>
         </div>
-    
     </div>
 </div>
 <br><br>

@@ -1,0 +1,53 @@
+<div id="con-form">
+    <form [formGroup]="contact" (ngSubmit)="submit()">
+        <div class="form">
+            <mat-form-field class="first">
+                <mat-label >First Name</mat-label>
+                <input name="firstName" matInput type="text"  class="firstName"  formControlName="firstName" >
+            </mat-form-field>
+            <div *ngIf="submitted && f.firstName.errors" class="err-msg">
+                <div *ngIf="f.firstName.errors.required">First name is required</div>
+            </div>
+            <br>
+            <mat-form-field>
+                <mat-label >Last Name</mat-label>
+                <input name="lastName" matInput type="text"  class="lastName"  formControlName="lastName" >
+            </mat-form-field>
+            <div *ngIf="submitted && f.lastName.errors" class="err-msg">
+                <div *ngIf="f.lastName.errors.required">Last name is required</div>
+            </div>
+            <br>
+            <mat-form-field>
+                <mat-label >Email</mat-label>
+                <input name="email" matInput type="text" class="email" formControlName="email" email />
+            </mat-form-field>
+            <div *ngIf="submitted && f.email.errors" class="err-msg">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Must be a valid email address</div>
+            </div>
+            
+            <br>
+            <mat-form-field>
+                <mat-label >Phone</mat-label>
+                <input name="phone" matInput type="text" class="phone"  formControlName="phone" >
+            </mat-form-field>
+            <div *ngIf="submitted && f.phone.errors" class="err-msg">
+                <div *ngIf="f.phone.errors.required">Phone number is required</div>
+                <div *ngIf="f.phone.errors.pattern">Must be valid phone number</div>
+            </div>
+            <br>
+            <mat-form-field>
+                <mat-label >Message</mat-label>
+                <textarea name="message" matInput type="text" class="message"  formControlName="message" ></textarea>
+            </mat-form-field>
+            <div *ngIf="submitted && f.message.errors" class="err-msg last">
+                <div *ngIf="f.message.errors.required">Message is required</div>
+            </div>
+            <br>
+        </div>
+        
+        <button type="submit" class="btn-secondary mb-4 submit">Send</button>
+            
+        
+    </form>
+</div>
