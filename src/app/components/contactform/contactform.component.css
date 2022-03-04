@@ -1,0 +1,52 @@
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+form {
+  margin-top: 50px;
+  width: fit-content;
+  text-align: center;
+}
+
+.form {
+  padding: 0 15px 0 15px;
+  background: rgba(255, 255, 255, 0.82);
+  width: 210px;
+  border-radius: 10px;
+}
+
+.mat-form-field {
+  font-family: "Montserrat", sans-serif;
+}
+
+.mat-form-field-wrapper {
+  margin-bottom: -17px !important;
+}
+
+.err-msg {
+  margin-top: -17px;
+  margin-bottom: -25px;
+  font-size: 12px;
+  color: red;
+  font-family: "Montserrat", sans-serif;
+  text-align: left;
+  padding: 2px 0 9px 0;
+  line-height: 15px;
+}
+
+button {
+  background: rgba(255, 255, 255, 0.82);
+  width: 100px;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  margin-top: 17px;
+}
+
+.first {
+  margin-top: 10px;
+}
+
+.last {
+  margin-bottom: -10px;
+}
