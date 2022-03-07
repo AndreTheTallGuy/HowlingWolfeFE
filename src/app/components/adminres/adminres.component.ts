@@ -16,6 +16,8 @@ export class AdminresComponent implements OnInit {
   isLoading: boolean = false;
   resAdded: boolean = false;
 
+  alertText: string;
+
   orderObj: Order = {order_id:0, customer: {}, boats: []};
   orderId: number;
 
@@ -33,12 +35,17 @@ export class AdminresComponent implements OnInit {
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
     }
+    this.api.getAllOrdersUpcoming().subscribe(res=>{
+      this.orderId = res[res.length -1].order_id+1;
+     
+    });
   }
 
   infoSubmit(){
     // validates for empty fields
     if(this.firstName == "" || this.lastName == "" || this.email == "" || this.phone == "" || this.firstName == undefined || this.lastName == undefined || this.email == undefined || this.phone == undefined){
       this.alertBoolean = true;
+      this.alertText = "All fields are mandatory"
     } else {
       this.isLoading = true;
       this.alertBoolean=false;
@@ -50,20 +57,25 @@ export class AdminresComponent implements OnInit {
         email: this.email,
         phone: this.phone
       }
-      this.api.getAllOrdersUpcoming().subscribe(res=>{
-        this.orderId = res[res.length -1].order_id+1;
-        console.log(this.orderId);
-      });
       this.orderObj.order_id = this.orderId;
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
+        
       // submits constructed order to DB
       this.api.submitOrder(this.orderObj).subscribe((res)=> {
+        
         this.isLoading = false;
         this.infoBoolean = false;
         sessionStorage.clear()
         this.resAdded = true;
-      })
+      }, err =>{
+        console.log(err.message);
+        this.isLoading = false;
+        this.infoBoolean = true;
+        this.alertBoolean = true;
+        this.alertText = err.message
+      });
+      
     }
     
   }

@@ -98,6 +98,18 @@
                 <input name="price" matInput type="text" [(ngModel)]="price" class="price"  required>
             </mat-form-field>
             <br>
+            <mat-form-field>
+                <mat-label >Type</mat-label>
+                <mat-select matNativeControl  name="type" class="type" [(ngModel)]="type" required>
+                    <mat-option *ngFor="let type of typeArray" [value]="type" >{{type}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Comment</mat-label>
+                <input name="comment" matInput type="text" [(ngModel)]="comment">
+            </mat-form-field>
+            <br>
         </div>
         
         <button class="btn btn-danger mb-4 back" (click)="backToBoatSelect()">Back</button>

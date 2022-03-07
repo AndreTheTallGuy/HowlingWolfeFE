@@ -11,4 +11,6 @@ export interface Boat{
     discount?: number;
     giftCard?: number;
     gcDebit?: number; 
+    type?: string;
+    comment?: string;
 }
