@@ -43,6 +43,10 @@ export class RentComponent implements OnInit {
   height: any;
   weight: any;
   price: number;
+  comment: string;
+  
+  typeArray: string[] = ["Rental", "Guided", "Lesson", "Blocked"]
+  type: string;
 
   cartArray?: Boat[] = [];
   cartList?: string;
@@ -67,7 +71,7 @@ export class RentComponent implements OnInit {
       this.adminPageBoolean = true;
     }
     this.resetTimesArray();
-    if(JSON.parse(sessionStorage.getItem("cartList")).length > 0){
+    if(JSON.parse(sessionStorage.getItem("cartList")) && JSON.parse(sessionStorage.getItem("cartList")).length > 0){
       this.isBoatInCart = true;
     }
     
@@ -171,8 +175,7 @@ export class RentComponent implements OnInit {
           if(this.router.url.includes('rentals')){
           // if time is available, get price and construct boatInfo object
           this.priceResolver(this.selectedBoat, this.shuttle);
-          //if on the admin facing rental page
-        } 
+          } 
           this.boatInfo = {
             id: uuid.v4(),
             boat: this.selectedBoat,
@@ -183,6 +186,8 @@ export class RentComponent implements OnInit {
             duration: this.duration,
             time: this.time,
             price: this.price,
+            type: this.type,
+            comment: this.comment
           }
           // add boat to session storage
           this.addToSessionStorage(this.boatInfo);

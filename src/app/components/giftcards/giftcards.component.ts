@@ -197,7 +197,7 @@ export class GiftcardsComponent implements OnInit {
   
   verifyCode(){
     this.couponError = false;
-
+    
     // verify code is in db
     this.api.getCouponByCode(this.coupon).subscribe(res => {
       if(res){

@@ -39,6 +39,7 @@ export class AdminComponent implements OnInit {
   userName: string;
   password: string;
   loginErrorMessage: string;
+  loadText: string;
 
   date: Date; 
   code: string;
@@ -186,6 +187,8 @@ export class AdminComponent implements OnInit {
     this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
+      console.log(res);
+      
       this.isLoading = false;
       this.orderBoolean = true;
       this.displayify(res);      
@@ -431,13 +434,15 @@ export class AdminComponent implements OnInit {
       // gets all orders and sorts them by month
       this.api.getAllOrders().subscribe(res=>{
         this.monthBoolean = true;
-        this.monthlyDisplayBoolean = true; 
+        // this.monthlyDisplayBoolean = true; 
+        this.orderBoolean = true;
         this.isLoading = false;
         this.displayify(res);      
         this.sort();
         this.yearlyOrderDisplays = this.sortedOrderDisplays.filter(order => order.date.toString().substring(0,4) === this.yearNum
         )
-        this.monthlyOrderDisplays = this.yearlyOrderDisplays.filter(order => order.date.toString().substring(5,7) === this.monthNum)        
+        this.sortedOrderDisplays = this.yearlyOrderDisplays.filter(order => order.date.toString().substring(5,7) === this.monthNum)
+               
       })
   }
 
@@ -482,7 +487,9 @@ export class AdminComponent implements OnInit {
           discount: boat.discount /100,
           giftCard: boat.giftCard,
           gcDebit: boat.gcDebit/100,
-          orderedOn: order.ordered_on
+          orderedOn: order.ordered_on,
+          type: boat.type,
+          comment: boat.comment
         }
         if(display.price < 1.18){
           display.price = display.price *100;

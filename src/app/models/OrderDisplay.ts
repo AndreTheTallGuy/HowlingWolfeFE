@@ -16,5 +16,7 @@ export interface OrderDisplay {
     discount?: number;
     giftCard?: number;
     gcDebit?: number; 
+    type?: string;
+    comment?: string;
     orderedOn: Date;
 }
