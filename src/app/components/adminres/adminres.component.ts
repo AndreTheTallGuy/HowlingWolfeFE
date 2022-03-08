@@ -37,7 +37,6 @@ export class AdminresComponent implements OnInit {
     }
     this.api.getAllOrdersUpcoming().subscribe(res=>{
       this.orderId = res[res.length -1].order_id+1;
-     
     });
   }
 
