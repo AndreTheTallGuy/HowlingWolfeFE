@@ -57,14 +57,17 @@ p {
   width: 99vw;
   z-index: -20;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 @media only screen and (max-width: 647px) {
   p {
     float: none;

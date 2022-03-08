@@ -148,7 +148,6 @@ export class RentComponent implements OnInit {
           for(let boat of this.boatsInCart){
             if(boat.date === this.date.toISOString()){
               this.pool(boat.boat, boat.duration, boat.time);
-              
             }
           }
         }
