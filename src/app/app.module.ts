@@ -81,7 +81,7 @@ import { ContactformComponent } from './components/contactform/contactform.compo
     MatButtonToggleModule,
     MatMenuModule,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
     
   ],
   providers: [],
