@@ -6,6 +6,7 @@ import { GiftObj } from 'src/app/models/GiftObj';
 import { Order } from 'src/app/models/Order';
 import { OrderDisplay } from 'src/app/models/OrderDisplay';
 import { ApiService } from 'src/app/services/api.service';
+import { CsvService } from 'src/app/services/csv.service';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class AdminComponent implements OnInit {
   yearNum: string;
   discountType: string;
   goodForGC: boolean;
+  fileName: string;
 
   cardNumber: number;
   balance: number;
@@ -69,12 +71,25 @@ export class AdminComponent implements OnInit {
   event: any;
   minDate: Date;
 
-  constructor(private api: ApiService) { }
+  options = {
+    title: "test",
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: true,
+    showTitle: false,
+    useBom: false,
+    headers: ['Order Id', 'Date', 'Time', 'Duration', 'Shuttle', 'Boat', 'Name', 'Height', 'Weight', 'Email', 'Phone', 'Coupon', 'Ordered On', 'Price', 'Discount', 'GC Debit', 'GC Number', 'Type', 'Comment', 'Boat Id']
+  };
+
+  constructor(private api: ApiService, private csv: CsvService) { }
 
   ngOnInit(): void {
     this.api.getAllOrdersUpcoming().subscribe();
     this.minDate = new Date;
     this.minDate.setDate(this.minDate.getDate());
+    
+
   }
 
   resetBooleans(){
@@ -172,6 +187,7 @@ export class AdminComponent implements OnInit {
 
   all(){
     this.resetBooleans();
+    this.fileName = "All - " + this.minDate.toString().substring(0,15);
     this.isLoading = true;
     //gets all orders and displays them in a view friendly way
       this.api.getAllOrders().subscribe(res=>{
@@ -184,6 +200,7 @@ export class AdminComponent implements OnInit {
 
   upcoming(){
     this.resetBooleans();
+    this.fileName = "Upcoming - " + this.minDate.toString().substring(0,15);
     this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
@@ -198,6 +215,7 @@ export class AdminComponent implements OnInit {
 
   today(){
     this.resetBooleans();
+    this.fileName = "Today - " + this.minDate.toString().substring(0,15);
     this.isLoading = true;
     //gets all of today's orders and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
@@ -431,18 +449,22 @@ export class AdminComponent implements OnInit {
     if(this.yearNum.length === 2){
       this.yearNum = "20" + this.yearNum;
     }
+    this.fileName = this.yearNum + "-" + this.monthNum;
       // gets all orders and sorts them by month
       this.api.getAllOrders().subscribe(res=>{
+        this.sortedOrderDisplays = [];
         this.monthBoolean = true;
         // this.monthlyDisplayBoolean = true; 
         this.orderBoolean = true;
         this.isLoading = false;
         this.displayify(res);      
         this.sort();
+        
         this.yearlyOrderDisplays = this.sortedOrderDisplays.filter(order => order.date.toString().substring(0,4) === this.yearNum
         )
+        
         this.sortedOrderDisplays = this.yearlyOrderDisplays.filter(order => order.date.toString().substring(5,7) === this.monthNum)
-               
+        
       })
   }
 
@@ -463,7 +485,6 @@ export class AdminComponent implements OnInit {
     })
   }
 
-
   displayify(orders){
     this.orderDisplays = [];
     //loops through orders and then through each boat and converts them to a view friendly display
@@ -471,25 +492,25 @@ export class AdminComponent implements OnInit {
       for(let boat of order.boats){
         const display: OrderDisplay ={
           id: order.order_id,
-          boatId: boat.id, 
-          date: boat.date,
-          shuttle: boat.shuttle,
+          date: boat.date.toString().substring(0,10),
           time: boat.time,
           duration: boat.duration,
+          shuttle: boat.shuttle,
           boat: boat.boat,
           name: order.customer.firstName +" "+ order.customer.lastName,
           height: boat.height,
           weight: boat.weight,
           email: order.customer.email,
           phone: order.customer.phone,
-          coupon: order.customer.coupon,
+          coupon: order.customer.coupon || " ",
+          orderedOn: order.ordered_on !== null ? order.ordered_on.toString().substring(0,10) : null,
           price: boat.price /100,
           discount: boat.discount /100,
-          giftCard: boat.giftCard,
           gcDebit: boat.gcDebit/100,
-          orderedOn: order.ordered_on,
-          type: boat.type,
-          comment: boat.comment
+          giftCard: boat.giftCard,
+          type: boat.type || " ",
+          comment: boat.comment || " ",
+          boatId: boat.id, 
         }
         if(display.price < 1.18){
           display.price = display.price *100;
@@ -500,11 +521,11 @@ export class AdminComponent implements OnInit {
         if(display.gcDebit === 0){
           display.gcDebit = null;
         }
+        
         this.orderDisplays.push(display);
       }
     }
   }
-
 
   isSelected = (event: any) => {
     const date =
@@ -550,4 +571,11 @@ export class AdminComponent implements OnInit {
         return highlightDate ? 'selected' : null;
       };
   }
+
+  downloadCSV(){
+    this.csv.downloadFile(this.sortedOrderDisplays, this.fileName)
+  
+  }
+
+
 }

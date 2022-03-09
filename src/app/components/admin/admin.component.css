@@ -31,7 +31,10 @@ h1 {
   margin: auto;
 }
 
-.res-table,
+.res-table {
+  margin-top: 10px;
+}
+
 .coupon-table {
   margin-top: 5%;
 }
