@@ -71,16 +71,16 @@ export class AdminComponent implements OnInit {
   event: any;
   minDate: Date;
 
-  options = {
-    title: "test",
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalseparator: '.',
-    showLabels: true,
-    showTitle: false,
-    useBom: false,
-    headers: ['Order Id', 'Date', 'Time', 'Duration', 'Shuttle', 'Boat', 'Name', 'Height', 'Weight', 'Email', 'Phone', 'Coupon', 'Ordered On', 'Price', 'Discount', 'GC Debit', 'GC Number', 'Type', 'Comment', 'Boat Id']
-  };
+  // options = {
+  //   title: "test",
+  //   fieldSeparator: ',',
+  //   quoteStrings: '"',
+  //   decimalseparator: '.',
+  //   showLabels: true,
+  //   showTitle: false,
+  //   useBom: false,
+  //   headers: ['Order Id', 'Date', 'Time', 'Duration', 'Shuttle', 'Boat', 'Name', 'Height', 'Weight', 'Email', 'Phone', 'Coupon', 'Ordered On', 'Price', 'Discount', 'GC Debit', 'GC Number', 'Type', 'Comment', 'Boat Id']
+  // };
 
   constructor(private api: ApiService, private csv: CsvService) { }
 
@@ -88,8 +88,6 @@ export class AdminComponent implements OnInit {
     this.api.getAllOrdersUpcoming().subscribe();
     this.minDate = new Date;
     this.minDate.setDate(this.minDate.getDate());
-    
-
   }
 
   resetBooleans(){
@@ -521,7 +519,6 @@ export class AdminComponent implements OnInit {
         if(display.gcDebit === 0){
           display.gcDebit = null;
         }
-        
         this.orderDisplays.push(display);
       }
     }

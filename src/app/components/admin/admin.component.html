@@ -121,10 +121,8 @@
                 <td class="data comment">{{order.comment}}</td>
                 <td class="data"><a download="{{order.date |date:'yyyy_MMM_d'}}-{{order.name}}" href="../../../assets/Waiver.pdf">Download</a></td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteBoat(order.boatId)"><span class="x">X</span></button></td>
-                
             </tr>
         </table>
-        
     </div>
 
     <div *ngIf="couponTable">
