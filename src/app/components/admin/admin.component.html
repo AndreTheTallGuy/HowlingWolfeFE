@@ -169,6 +169,7 @@
                 <th class="header">Balance</th>
                 <th class="header">Email</th>
                 <th class="header">Purchased</th>
+                <th class="header">Coupon</th>
                 <th class="header">Delete</th>
                 <th class="header">Edit</th>
             </tr>
@@ -178,6 +179,7 @@
                 <td class="data">{{gc.balance / 100 | currency:USD}}</td>
                 <td class="data">{{gc.email}}</td>
                 <td class="data">{{gc.purchased_on | date: 'shortDate'}}</td>
+                <td class="data">{{gc.coupon}}</td>
                 <td class="data"><button class="btn btn-danger delete" (click)="deleteGiftCard(gc.cardNumber)"><span class="x">X</span></button></td>
                 <td class="data"><button id="edit" (click)="editGiftCard(gc)"><span id="edit-icon"><i class="far fa-edit"></i></span></button></td>
             </tr>

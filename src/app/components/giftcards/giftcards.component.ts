@@ -55,6 +55,7 @@ export class GiftcardsComponent implements OnInit {
   discountDollars: number;
   total: number;
   goodForGC: boolean = false;
+  usedCoupon: boolean = false;
 
   constructor(private ngZone: NgZone, private router: Router, private api: ApiService,) { }
 
@@ -102,7 +103,8 @@ export class GiftcardsComponent implements OnInit {
         this.giftCard = {
           cardNumber: tempNum, 
           balance:this.amount * 100, 
-          email: this.recipientEmail 
+          email: this.recipientEmail,
+          coupon: this.coupon 
         };
         this.giftObj = {
           giftCard: this.giftCard, 
@@ -206,7 +208,7 @@ export class GiftcardsComponent implements OnInit {
         this.discountType = res.discountType;
         this.goodForGC = res.goodForGC;
         const today = new Date()    
-
+        
         // compare trip dates to coupon valid dates
         if(this.goodForGC){
           if(Date.parse(this.goodUntil.toString()) > Date.parse(today.toISOString())){
