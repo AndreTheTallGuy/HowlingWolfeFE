@@ -71,17 +71,6 @@ export class AdminComponent implements OnInit {
   event: any;
   minDate: Date;
 
-  // options = {
-  //   title: "test",
-  //   fieldSeparator: ',',
-  //   quoteStrings: '"',
-  //   decimalseparator: '.',
-  //   showLabels: true,
-  //   showTitle: false,
-  //   useBom: false,
-  //   headers: ['Order Id', 'Date', 'Time', 'Duration', 'Shuttle', 'Boat', 'Name', 'Height', 'Weight', 'Email', 'Phone', 'Coupon', 'Ordered On', 'Price', 'Discount', 'GC Debit', 'GC Number', 'Type', 'Comment', 'Boat Id']
-  // };
-
   constructor(private api: ApiService, private csv: CsvService) { }
 
   ngOnInit(): void {
@@ -202,8 +191,6 @@ export class AdminComponent implements OnInit {
     this.isLoading = true;
     //gets all orders from today forward and displays them in a view friendly way
     this.api.getAllOrdersUpcoming().subscribe(res=>{
-      console.log(res);
-      
       this.isLoading = false;
       this.orderBoolean = true;
       this.displayify(res);      
@@ -256,7 +243,6 @@ export class AdminComponent implements OnInit {
       this.giftCardTable = true;
       this.giftCards = res.sort((a:any,b:any)=>{
         return +new Date(b.purchased_on) - +new Date(a.purchased_on)});
-      
     });
   }
 
