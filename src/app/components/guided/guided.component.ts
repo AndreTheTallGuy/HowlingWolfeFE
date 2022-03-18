@@ -15,9 +15,9 @@ export class GuidedComponent implements OnInit {
   isLoading: boolean = false;
   submitted: boolean = false;  
 
-  constructor(private api: ApiService, private router: Router) {
-    
-   }
+  constructor(private api: ApiService, private router: Router) {}
+  
+  rentalType: string = "guided";
 
   ngOnInit(): void {
 

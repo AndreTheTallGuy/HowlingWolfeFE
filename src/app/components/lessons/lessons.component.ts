@@ -14,6 +14,8 @@ export class LessonsComponent implements OnInit {
 
   constructor(private api: ApiService, private router: Router) { }
 
+  rentalType: string = "lessons";
+
   ngOnInit(): void {
   }
 

@@ -1,8 +1,9 @@
-<div class="title m-4">Rent A Boat</div>
+<div class="title">Rent A Boat</div>
 <div class="container">
 
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div *ngIf="noAvailError" class="alert alert-danger">{{ noAvailText }}</div>
+
     <div *ngIf="boatBoolean" class="container mt-4">
         <div class="row">
             <div class="col-sm card" (click)="boatSelection('Single Kayak')">
@@ -51,12 +52,14 @@
     <form class="dateForm form mt-4" >
         <mat-form-field class="date-picker" appearance="fill">
             <mat-label>Choose a date</mat-label>
-            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="dateReset()">
+            <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required (click)="dateReset()" disabled>
             <mat-datepicker-toggle (click)="dateReset()" matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
         </mat-form-field>
-        <br>
-        *Please call for same day availability <a href="tel:630-344-9744" class="phone">(630) 344-9744</a>
+        <!-- <br> -->
+        <div *ngIf="rentalType != 'admin'">
+            *Please call for same day availability <a href="tel:630-344-9744" class="phone">(630) 344-9744</a>
+        </div>
         <br>
         <mat-form-field>
             <mat-label >Shuttle</mat-label>
@@ -92,7 +95,7 @@
         </mat-form-field>
         <br>
 
-        <div *ngIf="adminPageBoolean" class="price-field">
+        <div *ngIf="rentalType === 'admin'" class="price-field">
             <mat-form-field>
                 <mat-label >Add Custom Price</mat-label>
                 <input name="price" matInput type="text" [(ngModel)]="price" class="price"  required>
@@ -115,7 +118,7 @@
         <button class="btn btn-danger mb-4 back" (click)="backToBoatSelect()">Back</button>
         <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Add to Cart</button>
         
-        <div *ngIf="adminPageBoolean && isBoatInCart" class="cancel">
+        <div *ngIf="rentalType === 'admin' && isBoatInCart" class="cancel">
             <button class="btn btn-danger" (click)="adminResFinish()">Cancel and Add Client Info</button>
         </div>
         
