@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Boat } from 'src/app/models/Boat';
 import { Time } from 'src/app/models/Time';
@@ -17,6 +17,8 @@ import { LogicalFileSystem } from '@angular/compiler-cli/src/ngtsc/file_system';
   styleUrls: ['./rent.component.css']
 })
 export class RentComponent implements OnInit {
+
+  @Input() rentalType: string;
 
   boatList: string[] = [];
   selectedBoat?: string;
@@ -58,17 +60,18 @@ export class RentComponent implements OnInit {
   timeOptions: Time[];
   durationOptions: Duration[];
 
-  availability: Times[] = []
+  availability: Times[] = [];
+
+  guidedLessonsDates: number[] = [new Date("3/20/2022").getTime(),
+  new Date("3/24/2022").getTime()];
 
   constructor(private api: ApiService, private router: Router ) { }
   
   ngOnInit(): void {
     // if url is /rentals, sets the datepickers mindate to tomorrow
-    if(this.router.url.includes('rentals')){
+    if(this.rentalType === 'rental'){
       this.minDate = new Date;
       this.minDate.setDate(this.minDate.getDate() + 1);
-    } else {
-      this.adminPageBoolean = true;
     }
     this.resetTimesArray();
     if(JSON.parse(sessionStorage.getItem("cartList")) && JSON.parse(sessionStorage.getItem("cartList")).length > 0){
@@ -77,11 +80,16 @@ export class RentComponent implements OnInit {
     
   }
   // ability to prevent certain days from being selected
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Monday and Tuesday from being selected.
-    // return day !== 1 && day !== 2;
-    return true;
+  myFilter = (d: Date): boolean => {
+    if(this.rentalType === 'guided' || this.rentalType === 'lessons'){
+      if(d != undefined){
+        return !(!this.guidedLessonsDates.find(x=>x==d.getTime()));
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
 
   resetDuration(){
@@ -395,7 +403,7 @@ export class RentComponent implements OnInit {
     }
     }
 
-    pool(boat, duration, time){
+  pool(boat, duration, time){
       // subtracts from availability based on duration of trip plus one hour buffer
       if(boat === "Single Kayak" && duration === "1"){
         if(time === "8am"){

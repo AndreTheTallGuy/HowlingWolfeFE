@@ -10,6 +10,8 @@ export class RentalComponent implements OnInit {
 
   constructor(private api: ApiService) { }
 
+  rentalType: string = "rental"
+
   ngOnInit(): void {
     this.api.getAllOrdersToday().subscribe();
   }

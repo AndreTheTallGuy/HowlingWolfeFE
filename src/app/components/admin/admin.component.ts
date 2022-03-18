@@ -18,6 +18,8 @@ import { CsvService } from 'src/app/services/csv.service';
 })
 export class AdminComponent implements OnInit {
 
+  rentalType: string = "admin";
+
   loginBoolean: boolean = true; //true
   orderBoolean: boolean = false; //false
   buttonBoolean: boolean = false; //false

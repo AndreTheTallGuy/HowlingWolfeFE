@@ -53,7 +53,8 @@ p {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 100vh;
+  /* height: fit-content; */
+  padding-bottom: 35px;
   width: 99vw;
   z-index: -20;
 }
@@ -84,18 +85,18 @@ input[type="number"] {
     padding: 0;
     max-width: fit-content;
   }
-  .background {
+  /* .background {
     height: 150vh;
-  }
+  } */
 }
 
 @media only screen and (max-width: 400px) {
   .text {
     max-width: 220px;
   }
-  .background {
+  /* .background {
     height: 160vh;
-  }
+  } */
   .contain {
     margin-left: -5px;
   }

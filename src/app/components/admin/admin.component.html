@@ -51,7 +51,7 @@
     </div>    
     <div *ngIf="errorBoolean" class="alert alert-danger">All fields required</div>
     <div id="reservation" *ngIf="resBoolean">
-        <app-rent></app-rent>
+        <app-rent [rentalType]="rentalType"></app-rent>
     </div>
     <div id="safety-video" class="mt-5" *ngIf="safetyBoolean" >
         <iframe width="900px" height="490px" allow="fullscreen" src="../../../assets/Rental_Boat_Safety.mp4" ></iframe>
