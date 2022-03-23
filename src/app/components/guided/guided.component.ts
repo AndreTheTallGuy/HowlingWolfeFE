@@ -16,13 +16,11 @@ export class GuidedComponent implements OnInit {
   submitted: boolean = false;  
 
   constructor(private api: ApiService, private router: Router) {}
-  
+
   rentalType: string = "guided";
 
   ngOnInit(): void {
-
   }
-  
 
   custEventHandler(event: any){
     const customer: Customer = event;
