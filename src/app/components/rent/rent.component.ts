@@ -115,17 +115,17 @@ export class RentComponent implements OnInit {
   // resets availability to how many boats there are in total
   resetTimesArray(){
     this.availability = [
-    {time:"8am", boats:{kayak: 9, canoe: 2, tandem: 1}},
-    {time:"9am", boats:{kayak: 9, canoe: 2, tandem: 1}},
-    {time: "10am", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "11am", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "12pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "1pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "2pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "3pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "4pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "5pm", boats: {kayak: 9, canoe: 2, tandem: 1}},
-    {time: "6pm", boats: {kayak: 9, canoe: 2, tandem: 1}}]
+    {time:"8am", boats:{kayak: 16, canoe: 2, tandem: 5}},
+    {time:"9am", boats:{kayak: 16, canoe: 2, tandem: 5}},
+    {time: "10am", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "11am", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "12pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "1pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "2pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "3pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "4pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "5pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "6pm", boats: {kayak: 16, canoe: 2, tandem: 5}}]
   }
 
   submitDate(){
