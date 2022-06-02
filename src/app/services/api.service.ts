@@ -41,6 +41,10 @@ export class ApiService {
     return this.http.get(this.baseUrl + `orders/today`);
   }
 
+  public getMaxOrderId():Observable<any>{
+    return this.http.get(this.baseUrl + 'orders/maxId');
+  }
+
   public deleteBoat(id:string):Observable<any>{
     return this.http.delete(this.baseUrl + `boats/${id}`, {responseType: 'text'});
   }

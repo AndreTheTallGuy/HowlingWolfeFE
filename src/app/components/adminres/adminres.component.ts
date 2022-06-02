@@ -35,9 +35,7 @@ export class AdminresComponent implements OnInit {
     if(sessionStorage.getItem("cartList")){
       this.boatsArray = JSON.parse(sessionStorage.getItem("cartList"));
     }
-    this.api.getAllOrdersUpcoming().subscribe(res=>{
-      this.orderId = res[res.length -1].order_id+1;
-    });
+    this.api.getMaxOrderId().subscribe(res=> this.orderId = res +1);
   }
 
   infoSubmit(){
@@ -59,9 +57,12 @@ export class AdminresComponent implements OnInit {
       this.orderObj.order_id = this.orderId;
       this.orderObj.customer = customer;
       this.orderObj.boats = this.boatsArray;
+      console.log(this.orderObj);
+      
         
       // submits constructed order to DB
       this.api.submitOrder(this.orderObj).subscribe((res)=> {
+        console.log(res);
         
         this.isLoading = false;
         this.infoBoolean = false;
