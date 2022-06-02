@@ -1,4 +1,4 @@
-<div class="container">
+<div class="contain">
     <div *ngIf="invalidBoolean" class="alert alert-danger">
         {{loginErrorMessage}}
     </div>
@@ -74,7 +74,7 @@
         <button class="btn btn-secondary submit" (click)="monthlySubmit()">Submit</button>
     </div>
     <div *ngIf="orderBoolean" class="order-cont">
-        <button id="csv-button" class="btn btn-secondary" (click)="downloadCSV()" >Download</button>
+        <button id="csv-button" class="btn btn-secondary" (click)="downloadCSV()" >Download CSV</button>
         
         <table class="res-table">
             <tr>
@@ -110,7 +110,7 @@
                 <td class="data">{{order.height}}</td>
                 <td class="data">{{order.weight}}</td>
                 <td class="data email"><a target="_blank" href="mailto:{{order.email}}">{{order.email}}</a></td>
-                <td class="data">{{order.phone}}</td>
+                <td class="data" href="tel:{{order.phone}}">{{order.phone}}</td>
                 <td class="data">{{order.coupon}}</td>
                 <td class="data">{{order.orderedOn | date: 'shortDate'}}</td>
                 <td class="data">{{order.price | currency: 'USD'}}</td>
