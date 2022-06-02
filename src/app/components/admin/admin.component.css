@@ -4,8 +4,10 @@ table {
   display: block;
   max-width: -moz-fit-content;
   max-width: fit-content;
+  max-height: 73vh;
   /* margin: 0 auto; */
   overflow-x: auto;
+  overflow-y: auto;
   white-space: nowrap;
 }
 
@@ -21,14 +23,21 @@ h1 {
   font-family: "Cinzel", serif;
 }
 
-.container {
+.contain {
   padding-bottom: 40px;
+  max-width: 93%;
+  margin: auto;
 }
 
 .alert {
   max-width: 400px;
   text-align: center;
   margin: auto;
+}
+
+#csv-button {
+  margin: 30px auto;
+  display: block;
 }
 
 .res-table {
@@ -41,6 +50,10 @@ h1 {
 
 .month {
   text-align: center;
+}
+
+#reservation {
+  margin-top: 40px;
 }
 
 #edit-gc {

@@ -326,7 +326,8 @@ export class CartComponent implements OnInit {
       }
 
       this.orderObj.boats = this.boatsArray;
-
+      console.log(this.orderObj.boats);
+      
       //builds updated gift card
       if(this.giftCardBoolean){
         this.updatedGiftCard.email = this.giftCardEmail;
@@ -414,16 +415,15 @@ export class CartComponent implements OnInit {
       this.isLoading = true;
       this.stripeFailBoolean = false;
       this.loadText = "Charging Card..."
+      console.log(this.orderObj);
+      
       
       if(this.subscribeEmail){
         this.subscribeData.email = this.email;
         this.subscribeToMailChimp();
       }
 
-      this.api.getAllOrdersUpcoming().subscribe(res=>{
-        this.orderId = res[res.length -1].order_id+1;
-        this.orderObj.order_id = this.orderId;
-      });
+      this.api.getMaxOrderId().subscribe(res=> this.orderObj.order_id = res +1);
 
       // sends CC info to stripe and gets back a token
       (<any>window).Stripe.card.createToken({
@@ -437,13 +437,16 @@ export class CartComponent implements OnInit {
           let charge: Charge = {
             token: response.id,
             price: this.total,
-            orderId: this.orderId
+            orderId: this.orderObj.order_id
           }
+          console.log(charge);
           
           // sends charge object to the backend
           this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
             
           }), switchMap((res: any)=>{
+            console.log(res);
+            
             if(res === "Success"){
               this.loadText = "Finishing up..."
               // if successful, orderObj is submitted to the DB
@@ -452,9 +455,10 @@ export class CartComponent implements OnInit {
                   this.saveCoupon();
                 }
                 if(this.giftCardBoolean){
-                  this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{
-                  })
+                  this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{})
                 }
+                console.log(res);
+                
                 this.isLoading = false;
                 sessionStorage.clear();
                 this.router.navigate(['/thank-you'])              

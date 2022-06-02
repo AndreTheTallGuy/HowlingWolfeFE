@@ -127,11 +127,9 @@ export class GiftcardsComponent implements OnInit {
       this.stripeFailBoolean = true;
       this.stripeFailText = "All fields are mandatory";
     } else {
-
     this.stripeCheckout = false;
     this.isLoading = true;
-    this.stripeFailBoolean = false;
-
+    this.stripeFailBoolean = false;      
     // sends CC info to stripe and gets back a token
     (<any>window).Stripe.card.createToken({
       number: this.cardNumber,
@@ -143,7 +141,7 @@ export class GiftcardsComponent implements OnInit {
       if (status === 200) {
         let charge: Charge = {
           token: response.id,
-          price: this.total,
+          price: this.giftCard.balance,
           orderId: this.giftCard.cardNumber
         }
         this.loadText = "Charging Card..."
@@ -161,6 +159,8 @@ export class GiftcardsComponent implements OnInit {
             }))
           } else {
             return of(res).pipe(tap(()=>{
+              console.log(res);
+              
             this.stripeFailText = res;
             this.stripeFailBoolean = true;
             this.stripeCheckout = true;
