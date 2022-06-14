@@ -38,6 +38,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { GiftcardsComponent } from './components/giftcards/giftcards.component';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import { ContactformComponent } from './components/contactform/contactform.component'
+import { PoolCheckerService } from './services/pool-checker.service';
+import { ApiService } from './services/api.service';
+import { CsvService } from './services/csv.service';
+import { SessionStorageService } from './services/session-storage.service';
+import { SubscribeService } from './services/subscribe.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +89,13 @@ import { ContactformComponent } from './components/contactform/contactform.compo
     MatChipsModule,
     
   ],
-  providers: [],
+  providers: [
+    PoolCheckerService,
+    ApiService,
+    CsvService,
+    SessionStorageService,
+    SubscribeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
