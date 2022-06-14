@@ -121,8 +121,9 @@ export class RentComponent implements OnInit {
     this.dateBoolean = false;
     this.noAvailError = false;
     this.errorBoolean = false;
-    let checkPoolService = this.poolChecker.checkPool(this.date, this.selectedBoat, this.duration, this.time);
-      if(checkPoolService){
+    let checkPoolService = this.poolChecker.checkPool(this.date, this.selectedBoat, this.duration, this.time).subscribe((res)=> {
+      console.log(res)
+      if(res){
         // if on the customer facing rental page
         if(this.router.url.includes('rentals')){
         // if time is available, get price and construct boatInfo object
@@ -160,6 +161,7 @@ export class RentComponent implements OnInit {
           this.noAvailText = `Sorry, we do not have any ${this.selectedBoat}s for that date and time. Please try another date or time.`;
           this.noAvailError = true; 
         }      
+      })
     }
   }
 

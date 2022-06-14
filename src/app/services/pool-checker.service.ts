@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Times } from '../models/Times';
 import { ApiService } from './api.service';
 
@@ -12,11 +13,10 @@ export class PoolCheckerService {
 
   constructor(private api: ApiService) { }
 
-  checkPool(date, selectedBoat, duration, time): boolean{
+  checkPool(date, selectedBoat, duration, time): Observable<boolean>{
     this.resetTimesArray();
-    let result: boolean = false;
-
-    this.api.getAllOrdersByDate(date).subscribe((res)=>{
+    return from(this.api.getAllOrdersByDate(date).toPromise()
+    .then((res)=>{
       //loops through orders to get each boat
       for(let order of res){
         for(let boat of order.boats){
@@ -36,13 +36,9 @@ export class PoolCheckerService {
         }
       }
       // subtracts user's selected boat from pool
-      result = this.pool(selectedBoat, duration, time);
-
-    },(err)=>{
-      console.log(err.message);
-    })
-    return result;
-    
+      this.pool(selectedBoat, duration, time);
+      return this.verifyAvailability(selectedBoat, duration, time);
+    }))
   }
 
   resetTimesArray(){
@@ -60,16 +56,29 @@ export class PoolCheckerService {
     {time: "6pm", boats: {kayak: 16, canoe: 2, tandem: 5}}]
   }
 
-  verifyAvailability(selectedBoat, time){
+  verifyAvailability(selectedBoat, duration, time){
+    let boat:string; 
+    switch (selectedBoat) {
+      case "Single Kayak":
+        boat = "kayak";
+        break;
+        case "Canoe":
+          boat = "canoe";
+          break;
+        case "Tandem":
+        boat = "tandem";
+        break;
+    }
+    
     for (let i = 0; i < this.availability.length; i++) {
-     if(this.availability[i].time === time){
-       let boatsArray = this.availability[i].boats;
-       if(boatsArray[selectedBoat] <1){
-         return false;
-       } else {
-         return true;
-       }
-     }
+        if(this.availability[i].time === time){
+          let boatsArray = this.availability[i].boats;
+          if(boatsArray[boat] <1){
+            return false;
+          } else {
+            return true;
+          }
+        }
     }
   }
 
@@ -379,9 +388,5 @@ export class PoolCheckerService {
         this.availability[10].boats.tandem -= 1;
       }
     } 
-
-    return this.verifyAvailability(boat, time);
   }
-
-
 }
