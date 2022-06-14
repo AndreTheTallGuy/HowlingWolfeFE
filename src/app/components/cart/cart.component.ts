@@ -100,7 +100,7 @@ export class CartComponent implements OnInit {
     // calculates totals
     this.subTotal=0;
     for(let i =0; i< this.boatsArray.length; i++){
-      this.subTotal += this.boatsArray[i].price;
+      this.subTotal += +(this.boatsArray[i].price);
     }
     
     if(this.couponBoolean && this.giftCardBoolean){
@@ -138,7 +138,6 @@ export class CartComponent implements OnInit {
         this.giftCardDebit = this.subTotal;
         this.total = 0;
         this.projectedBalance = this.giftCardBalance - this.subTotal;
-        console.log(this.total);
         
       }else{
         this.total = this.subTotal - this.giftCardBalance;
