@@ -204,15 +204,15 @@ export class AdminComponent implements OnInit {
     this.fileName = "Today - " + this.minDate.toString().substring(0,15);
     this.isLoading = true;
     //gets all of today's orders and displays them in a view friendly way
-    this.api.getAllOrdersUpcoming().subscribe(res=>{
+    this.api.getAllOrdersToday().subscribe(res=>{
       this.isLoading = false;
       this.orderBoolean = true;
       this.displayify(res);      
-      let tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() +1);
-      tomorrow.setHours(0,0,0,0);
-      // filters out boats not scheduled for today
-      this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
+      // let tomorrow = new Date();
+      // tomorrow.setDate(tomorrow.getDate() +1);
+      // tomorrow.setHours(0,0,0,0);
+      // // filters out boats not scheduled for today
+      // this.orderDisplays = this.orderDisplays.filter(order => Date.parse(order.date.toString()) < Date.parse(tomorrow.toISOString()));
       this.sort();
       })    
   }

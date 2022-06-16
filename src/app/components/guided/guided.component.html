@@ -1,30 +1,81 @@
 <div class="background">
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div class="contain" *ngIf="!isLoading">
-        <div class="rowflex">
-            <div class="col text-body">
-                <p class="text">Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! 
-                    <br><br>
-                    Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. 
-                    <br><br>
-                    Guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!
-                    <br><br>
-                    Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! 
-                    <br><br>
-                    Don’t delay, call or text today! 
-                    <br><br>
-                    (630) 344-9744
-                    <br><br>
-                    *Emails may take up to 72 hours to receive a response.
-                </p>
-                
+        <h1 class="title center opaque">Guided Trips</h1>
+        <a href="https://howlingwolfe.com/contact">
+            <img src="../../../assets/underConstruction.png" id="construction" alt="Website under construction">
+        </a>
+        <!-- <div class="text-body center text opaque">
+            <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
+            <p>Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. </p>
+            <p>Guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
+            <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
+        </div>
+        <div *ngIf="errorBoolean" class="alert alert-danger">
+            {{ errorText }}
+        </div>
+
+        <div *ngIf="selectionBoolean" class="cont mt-4">
+            <div class="row">
+                <div class="col-sm card" (click)="cardSelection('Batavia')">
+                    <img src="../../../assets/2kayaksPaddling.jpg" alt="Batavia Guided Trip" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">Batavia</h3>
+                        <p class="card-text">Gentle cruise from Batavia <br> $120 per person</p>
+                    </div>
+                </div>
+                <div class="col-sm card" (click)="cardSelection('NA')">
+                    <img src="../../../assets/bigSmile.jpeg" alt="North Aurora Guided Trip" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">North Aurora</h3>
+                        <p class="card-text">Gentle cruise from North Aurora<br> $120 per person</p>
+                    </div>
+                </div>
+                <div class="col-sm card" (click)="cardSelection('Blues')">
+                    <img src="../../../assets/coronaKayaking.jpg" alt="Blues Cruise Trip" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">Blues Cruise</h3>
+                        <p class="card-text">Cruising while blue<br> $120 per person</p>
+                    </div>
+                </div>
+                <div class="col-sm card" (click)="cardSelection('Sunset')">
+                    <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">Sunset Cruise</h3>
+                        <p class="card-text">Cruising at Sunset<br> $120 per person</p>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <form class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
+            <mat-form-field class="date-picker" appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label >How many people? </mat-label>
+                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required (click)="calcNumOfBoatsAvail()" >
+                    <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <button class="btn btn-danger mb-4 back" routerLink="/guided">Back</button>
+            <button class="btn btn-secondary mb-4 submit" (click)="submitTrip()" >Add to Cart</button>
+        </form> -->
+
+        <!-- <div class="rowflex">
+            
             <div class="col right">
                 <app-contactform (customerEvent)="custEventHandler($event)"></app-contactform>
                
             </div>
-        </div>
+        </div> -->
+
     </div>
 </div>
-<br><br>
+
 <app-footer></app-footer>

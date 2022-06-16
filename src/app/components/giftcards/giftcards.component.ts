@@ -122,6 +122,11 @@ export class GiftcardsComponent implements OnInit {
   }
 
   stripeSubmit(){
+    this.getTotals();
+    console.log(this.amount);
+    console.log(this.giftObj);
+    
+    
     // validates empty fields
     if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
       this.stripeFailBoolean = true;
@@ -141,7 +146,7 @@ export class GiftcardsComponent implements OnInit {
       if (status === 200) {
         let charge: Charge = {
           token: response.id,
-          price: this.giftCard.balance,
+          price: this.amount,
           orderId: this.giftCard.cardNumber
         }
         this.loadText = "Charging Card..."

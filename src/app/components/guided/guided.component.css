@@ -2,6 +2,15 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.title {
+  font-size: 300%;
+  font-family: "Cinzel", serif;
+  text-align: center;
+  width: fit-content;
+  padding: 12px 20px;
+  margin: -15px auto 0px auto;
+}
+
 @keyframes slide {
   0% {
     transform: translateX(1000px);
@@ -22,29 +31,36 @@
   padding-top: 60px;
 }
 
+#construction {
+  margin: auto;
+  display: block;
+  padding-top: 45px;
+  cursor: pointer;
+  max-width: 86vw;
+}
+
 .text-body {
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 52px;
   padding-right: 2%;
 }
 
-.right {
-  padding-left: 2%;
+.opaque {
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 10px;
+}
+
+p {
+  text-align: left;
+  line-height: 1.8;
+  margin-bottom: -30px;
+  padding: 20px;
+  font-family: "Montserrat", sans-serif;  
 }
 
 .rowflex {
   display: flex;
   flex-wrap: wrap;
-}
-
-p {
-  width: 300px;
-  text-align: left;
-  float: right;
-  background: rgba(255, 255, 255, 0.82);
-  padding: 20px;
-  border-radius: 10px;
-  margin-right: 15px;
-  font-family: "Montserrat", sans-serif;
 }
 
 .background {
@@ -53,9 +69,120 @@ p {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 120vh;
-  width: 99vw;
+  width: 100vw;
+  height: fit-content;
   z-index: -20;
+  padding-bottom: 30px;
+}
+
+.dateForm {
+  text-align: center;
+  margin: auto;
+  max-width: 400px;
+  padding-top: 50px;
+  animation: slide 1s;
+}
+
+.cont {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+}
+
+.card {
+  max-width: 330px;
+  min-width: 330px;
+  margin: 10px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+  border-radius: 15px;
+  animation: button 0.5s;
+  cursor: pointer;
+}
+
+.card:active {
+  -ms-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+  transform: translateX(4px);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+  border-bottom: none;
+  border-right: none;
+}
+
+.card-title {
+  text-align: center;
+  font-family: "Cinzel", serif;
+  font-size: 25px;
+}
+.card-text {
+  font-family: "Montserrat", sans-serif;
+}
+
+.card-img-top {
+  width: 300px;
+  height: 300px;
+}
+
+.btn {
+  border-radius: 5px;
+  margin: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(1000px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .card-img-top {
+    max-width: 220px;
+    max-height: 220px;
+  }
+  .card {
+    max-width: 250px;
+    min-width: 250px;
+    max-height: 350px;
+  }
+  .card-text {
+    /* display: none; */
+    padding-bottom: 20px;
+  }
+  .card-body {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .card-img-top {
+    max-width: 120px;
+    max-height: 120px;
+  }
+  .card {
+    max-width: 150px;
+    min-width: 150px;
+    max-height: 300px;
+  }
+  .card-text {
+    display: none;
+  }
+  .card-body {
+    padding: 0;
+  }
+  .added {
+    max-width: 180px;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 647px) {
@@ -80,6 +207,21 @@ p {
 }
 
 @media only screen and (max-width: 400px) {
+  .title {
+    font-size: 230%;
+  }
+  .card-img-top {
+    max-width: 72px;
+    max-height: 72px;
+  }
+  .card {
+    max-width: 95px;
+    min-width: 95px;
+    max-height: 150px;
+  }
+  .card-title {
+    font-size: 16px;
+  }
   .text {
     max-width: 220px;
   }
@@ -91,3 +233,4 @@ p {
     height: 200vh;
   }
 }
+
