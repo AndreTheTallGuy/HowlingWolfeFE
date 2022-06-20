@@ -4,6 +4,7 @@ import { Customer } from 'src/app/models/Customer';
 import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
+import { PoolCheckerService } from 'src/app/services/pool-checker.service';
 
 @Component({
   selector: 'app-guided',
@@ -17,18 +18,23 @@ export class GuidedComponent implements OnInit {
   errorBoolean: boolean = false;
   errorText: string;
   isLoading: boolean = false;
+  mainTextBoolean: boolean = true;
+
+  tripText: string; 
 
   selectedTrip: string;
-  totalBoatsAvailable: number;
+  // totalBoatsAvailable: number;
   totalBoatsArray: number[] = []
   numberOfGuests: number;
 
   date: Date;
-  guidedLessonsDates: number[] = [new Date("6/20/2022").getTime(),
-  new Date("6/24/2022").getTime()];
+  guidedLessonsDates: number[] = [new Date("6/19/2022").getTime(),
+  new Date("6/22/2022").getTime()];
   minDate: Date;
+  duration: string;
+  time: string;
 
-  constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService) {}
+  constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService, private checkPool: PoolCheckerService) {}
 
 
   ngOnInit(): void {
@@ -46,22 +52,43 @@ export class GuidedComponent implements OnInit {
   }
 
   cardSelection(selectedTrip) {
+    this.mainTextBoolean = false;
     this.selectedTrip = selectedTrip;
+    switch (selectedTrip) {
+      case "Batavia":
+       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Batavia!";
+       this.duration = "3";
+       this.time = "1pm";
+        break;
+      case "NA":
+       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is NA!";
+       this.duration = "1" 
+       this.time = "1pm";
+        break;
+      case "Blues":
+       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Blues!";
+       this.duration = "3" 
+       this.time = "1pm";
+        break;
+      case "Sunset":
+       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Sunset!";
+       this.duration = "3"
+       this.time = "1pm";
+        break;
+    
+    }
     this.selectionBoolean = false;
     this.datePickerBoolean = true;
   }
 
   calcNumOfBoatsAvail() {
-    console.log('inside calc');
-    
-    //***************pull current orders and check pool
-    this.totalBoatsAvailable = 16;
-    for (let i = 1; i <= this.totalBoatsAvailable; i++) {
-      console.log("inside loop" + this.totalBoatsArray);
-      
-      this.totalBoatsArray.push(i); 
-      console.log(this.totalBoatsArray);
-    }
+    this.totalBoatsArray = [];
+
+    this.checkPool.checkAvailability(this.date, "Single Kayak", this.duration, this.time).subscribe((res)=>{
+      for (let i = 0; i <= res; i++) {
+        this.totalBoatsArray.push(i); 
+      }
+    });
     
   }
 
@@ -79,21 +106,6 @@ export class GuidedComponent implements OnInit {
     this.datePickerBoolean = false;
 
     console.log(this.numberOfGuests + " " + this.date);
-    
 
   }
-
-  // custEventHandler(event: any){
-  //   const customer: Customer = event;
-  //   this.isLoading = true;
-  //   // sends customer object to backend
-  //   this.api.sendEmail("guided", customer).subscribe(res =>{
-  //     this.isLoading = false;
-  //     this.router.navigate(['thank-you-email']);
-  //   });
-  // }
-  
-  
-
-
 }

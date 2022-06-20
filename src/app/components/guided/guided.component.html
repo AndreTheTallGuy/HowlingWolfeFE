@@ -2,14 +2,21 @@
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div class="contain" *ngIf="!isLoading">
         <h1 class="title center opaque">Guided Trips</h1>
-        <a href="https://howlingwolfe.com/contact">
+        <!-- <a href="https://howlingwolfe.com/contact">
             <img src="../../../assets/underConstruction.png" id="construction" alt="Website under construction">
-        </a>
-        <!-- <div class="text-body center text opaque">
-            <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
-            <p>Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. </p>
-            <p>Guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
-            <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
+        </a> -->
+        <div class="text-body center text opaque">
+            <div id="hero-text" *ngIf="mainTextBoolean">
+                <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
+                <p>Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. </p>
+                <p>Guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
+                <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
+            </div>
+            <div id="trip-text" *ngIf="!mainTextBoolean">
+                <p>
+                    {{ tripText }} 
+                </p>
+            </div>
         </div>
         <div *ngIf="errorBoolean" class="alert alert-danger">
             {{ errorText }}
@@ -51,21 +58,21 @@
         <form class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
             <mat-form-field class="date-picker" appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled >
+                <mat-datepicker-toggle matSuffix [for]="picker"  ></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false" ></mat-datepicker>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label >How many people? </mat-label>
-                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required (click)="calcNumOfBoatsAvail()" >
+                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required (click)="calcNumOfBoatsAvail()">
                     <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <br>
             <button class="btn btn-danger mb-4 back" routerLink="/guided">Back</button>
             <button class="btn btn-secondary mb-4 submit" (click)="submitTrip()" >Add to Cart</button>
-        </form> -->
+        </form>
 
         <!-- <div class="rowflex">
             

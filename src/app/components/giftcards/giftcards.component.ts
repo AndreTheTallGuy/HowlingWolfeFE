@@ -121,11 +121,7 @@ export class GiftcardsComponent implements OnInit {
     
   }
 
-  stripeSubmit(){
-    this.getTotals();
-    console.log(this.amount);
-    console.log(this.giftObj);
-    
+  stripeSubmit(){    
     
     // validates empty fields
     if(this.cardNumber === undefined || this.expMonth === undefined || this.expYear === undefined || this.cvc === undefined){
