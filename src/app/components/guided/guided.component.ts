@@ -1,3 +1,4 @@
+import * as uuid from 'uuid';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/Customer';
@@ -5,6 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 import { PoolCheckerService } from 'src/app/services/pool-checker.service';
+import { Boat } from 'src/app/models/Boat';
 
 @Component({
   selector: 'app-guided',
@@ -14,18 +16,23 @@ import { PoolCheckerService } from 'src/app/services/pool-checker.service';
 export class GuidedComponent implements OnInit {
 
   selectionBoolean: boolean = true;
+  mainTextBoolean: boolean = true;
   datePickerBoolean: boolean = false;
   errorBoolean: boolean = false;
-  errorText: string;
   isLoading: boolean = false;
-  mainTextBoolean: boolean = true;
-
+  quantityBoolean: boolean = false;
+  addedToCartBoolean: boolean = false;
+  
+  errorText: string;
   tripText: string; 
 
   selectedTrip: string;
-  // totalBoatsAvailable: number;
   totalBoatsArray: number[] = []
   numberOfGuests: number;
+
+  shuttle: string;
+  price: number;
+  boatInfo: any;
 
   date: Date;
   guidedLessonsDates: number[] = [new Date("6/19/2022").getTime(),
@@ -56,24 +63,32 @@ export class GuidedComponent implements OnInit {
     this.selectedTrip = selectedTrip;
     switch (selectedTrip) {
       case "Batavia":
+       this.shuttle = "Batavia"
        this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Batavia!";
        this.duration = "3";
-       this.time = "1pm";
+       this.time = "5pm";
+       this.price = 120;
         break;
       case "NA":
+       this.shuttle = "North-Aurora"
        this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is NA!";
        this.duration = "1" 
-       this.time = "1pm";
+       this.time = "5pm";
+       this.price = 120;
         break;
       case "Blues":
+       this.shuttle = "Blues"
        this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Blues!";
        this.duration = "3" 
-       this.time = "1pm";
+       this.time = "5pm";
+       this.price = 120;
         break;
       case "Sunset":
+       this.shuttle = "Sunset"
        this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Sunset!";
        this.duration = "3"
-       this.time = "1pm";
+       this.time = "5pm";
+       this.price = 120;
         break;
     
     }
@@ -81,31 +96,62 @@ export class GuidedComponent implements OnInit {
     this.datePickerBoolean = true;
   }
 
+  submitDate(){
+    //Date Validation *****************
+    this.errorText = "Please enter a date";
+    this.isLoading = true;
+    this.datePickerBoolean = false;
+    this.calcNumOfBoatsAvail();
+  }
+
   calcNumOfBoatsAvail() {
     this.totalBoatsArray = [];
-
     this.checkPool.checkAvailability(this.date, "Single Kayak", this.duration, this.time).subscribe((res)=>{
       for (let i = 0; i <= res; i++) {
         this.totalBoatsArray.push(i); 
       }
+      this.isLoading = false;
+      this.quantityBoolean = true;
     });
-    
   }
 
+
   submitTrip() {
-    //**************Enter Pool Validation
-    this.errorText = "Please enter a date";
-    
+    //Quantity Validation**************
     this.isLoading = true;
 
-    //************** Create Boat info
-    
-    //************** Add to Cart/Session Storage service
+    //Create Boat info multiplied by number of guests
+    for (let i = 0; i < this.numberOfGuests; i++) {
+      this.boatInfo = {
+        id: uuid.v4(),
+        boat: "Single Kayak",
+        shuttle: this.shuttle,
+        height: "N/A",
+        weight: "N/A",
+        date: this.date.toISOString(),
+        duration: this.duration,
+        time: this.time,
+        price: this.price,
+        type: "Guided",
+        comment: ''
+      }
+      this.sessStore.addToSessionStorage(this.boatInfo);
+    }
+
     this.errorBoolean = false;
     this.isLoading = false;
     this.datePickerBoolean = false;
+    this.quantityBoolean = false;
+    this.addedToCartBoolean = true;
+  }
 
-    console.log(this.numberOfGuests + " " + this.date);
-
+  addAnotherBoat(){    
+    this.selectionBoolean = true;
+    this.mainTextBoolean = true;
+    this.datePickerBoolean = false;
+    this.errorBoolean = false;
+    this.isLoading = false;
+    this.quantityBoolean = false;
+    this.addedToCartBoolean = false;
   }
 }

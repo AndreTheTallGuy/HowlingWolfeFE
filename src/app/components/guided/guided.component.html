@@ -13,6 +13,7 @@
                 <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
             </div>
             <div id="trip-text" *ngIf="!mainTextBoolean">
+                <h2 class="title"> {{ shuttle }}</h2>
                 <p>
                     {{ tripText }} 
                 </p>
@@ -63,24 +64,27 @@
                 <mat-datepicker #picker disabled="false" ></mat-datepicker>
             </mat-form-field>
             <br>
+            <button class="btn btn-danger mb-4 back" (click)="addAnotherBoat()">Back</button>
+            <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Next</button>
+        </form>
+
+        <form class="quantity mt-4 opaque dateForm" *ngIf="quantityBoolean">
             <mat-form-field>
                 <mat-label >How many people? </mat-label>
-                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required (click)="calcNumOfBoatsAvail()">
+                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required>
                     <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <br>
-            <button class="btn btn-danger mb-4 back" routerLink="/guided">Back</button>
+            <button class="btn btn-danger mb-4 back" (click)="addAnotherBoat()">Back</button>
             <button class="btn btn-secondary mb-4 submit" (click)="submitTrip()" >Add to Cart</button>
         </form>
 
-        <!-- <div class="rowflex">
-            
-            <div class="col right">
-                <app-contactform (customerEvent)="custEventHandler($event)"></app-contactform>
-               
-            </div>
-        </div> -->
+        <div *ngIf="addedToCartBoolean" class="dateForm opaque check-out trip-added pb-3">
+            <h2 class="added">Your guided trip has been added to your cart!</h2>
+            <button class="btn btn-secondary" routerLink="/cart">View Your Cart</button>
+            <button class="btn btn-secondary" (click)="addAnotherBoat()">Add More People</button>
+        </div>
 
     </div>
 </div>

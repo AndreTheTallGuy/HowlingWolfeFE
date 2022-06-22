@@ -59,8 +59,6 @@ export class PoolCheckerService {
           }
         }
       }
-        
-      
 
       // subtracts user's selected boat from pool
       this.pool(selectedBoat, duration, time);
