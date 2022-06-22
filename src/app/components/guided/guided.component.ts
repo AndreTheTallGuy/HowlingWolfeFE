@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 import { PoolCheckerService } from 'src/app/services/pool-checker.service';
 import { Boat } from 'src/app/models/Boat';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-guided',
@@ -28,25 +29,41 @@ export class GuidedComponent implements OnInit {
 
   selectedTrip: string;
   totalBoatsArray: number[] = []
-  numberOfGuests: number;
+  numberOfGuests: number = 0;
 
   shuttle: string;
   price: number;
   boatInfo: any;
 
   date: Date;
-  guidedLessonsDates: number[] = [new Date("6/19/2022").getTime(),
-  new Date("6/22/2022").getTime()];
+  guidedLessonsDates: number[] = [new Date("6/27/2022").getTime(),
+  new Date("6/30/2022").getTime()];
   minDate: Date;
   duration: string;
   time: string;
 
-  constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService, private checkPool: PoolCheckerService) {}
+  dateValidation: FormGroup;
+  dSubBoolean: boolean = false;
+  quantityValidation: FormGroup;
+  qSubBoolean: boolean = false;
+
+  constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService, private checkPool: PoolCheckerService, private fb: FormBuilder) {}
 
 
   ngOnInit(): void {
     this.minDate = new Date;
     this.minDate.setDate(this.minDate.getDate() + 1);
+
+    //Date Validation 
+    this.dateValidation = this.fb.group({
+      date: ['', Validators.required]
+    })
+
+    //Quantity Validation
+    this.quantityValidation = this.fb.group({
+      guests: ['', Validators.required]
+    })
+
   }
 
   // ability to prevent certain days from being selected
@@ -97,11 +114,19 @@ export class GuidedComponent implements OnInit {
   }
 
   submitDate(){
-    //Date Validation *****************
-    this.errorText = "Please enter a date";
-    this.isLoading = true;
-    this.datePickerBoolean = false;
-    this.calcNumOfBoatsAvail();
+    console.log(this.date);
+    
+    if(this.date === undefined){
+      this.errorBoolean = true;
+      this.errorText = "Please pick a valid date";
+    }else {
+      this.errorBoolean = false;
+      this.dSubBoolean = true;
+      this.isLoading = true;
+      this.datePickerBoolean = false;
+      this.calcNumOfBoatsAvail();
+
+    }
   }
 
   calcNumOfBoatsAvail() {
@@ -117,35 +142,42 @@ export class GuidedComponent implements OnInit {
 
 
   submitTrip() {
-    //Quantity Validation**************
-    this.isLoading = true;
-
-    //Create Boat info multiplied by number of guests
-    for (let i = 0; i < this.numberOfGuests; i++) {
-      this.boatInfo = {
-        id: uuid.v4(),
-        boat: "Single Kayak",
-        shuttle: this.shuttle,
-        height: "N/A",
-        weight: "N/A",
-        date: this.date.toISOString(),
-        duration: this.duration,
-        time: this.time,
-        price: this.price,
-        type: "Guided",
-        comment: ''
+    if(this.numberOfGuests === 0){
+      this.errorBoolean = true;
+      this.errorText = "Please select how many people"
+    }else {
+      this.errorBoolean = false;
+      this.qSubBoolean = true;
+      this.isLoading = true;
+  
+      //Create Boat info multiplied by number of guests
+      for (let i = 0; i < this.numberOfGuests; i++) {
+        this.boatInfo = {
+          id: uuid.v4(),
+          boat: "Single Kayak",
+          shuttle: this.shuttle,
+          height: "N/A",
+          weight: "N/A",
+          date: this.date.toISOString(),
+          duration: this.duration,
+          time: this.time,
+          price: this.price,
+          type: "Guided",
+          comment: ''
+        }
+        this.sessStore.addToSessionStorage(this.boatInfo);
       }
-      this.sessStore.addToSessionStorage(this.boatInfo);
-    }
+  
+      this.errorBoolean = false;
+      this.isLoading = false;
+      this.datePickerBoolean = false;
+      this.quantityBoolean = false;
+      this.addedToCartBoolean = true;
 
-    this.errorBoolean = false;
-    this.isLoading = false;
-    this.datePickerBoolean = false;
-    this.quantityBoolean = false;
-    this.addedToCartBoolean = true;
+    }
   }
 
-  addAnotherBoat(){    
+  goBack(){    
     this.selectionBoolean = true;
     this.mainTextBoolean = true;
     this.datePickerBoolean = false;
@@ -154,4 +186,7 @@ export class GuidedComponent implements OnInit {
     this.quantityBoolean = false;
     this.addedToCartBoolean = false;
   }
+
+  get f() { return this.dateValidation.controls; }
+  get b() { return this.quantityValidation.controls; }
 }

@@ -101,7 +101,7 @@ export class PoolCheckerService {
     for (let i = 0; i < this.availability.length; i++) {
         if(this.availability[i].time === time){
           let boatsArray = this.availability[i].boats;
-          if(boatsArray[selectedBoat] <1){
+          if(boatsArray[selectedBoat] <0){
             return false;
           } else {
             return true;

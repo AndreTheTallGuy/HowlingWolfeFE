@@ -2,10 +2,10 @@
     <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
     <div class="contain" *ngIf="!isLoading">
         <h1 class="title center opaque">Guided Trips</h1>
-        <!-- <a href="https://howlingwolfe.com/contact">
+        <a href="https://howlingwolfe.com/contact">
             <img src="../../../assets/underConstruction.png" id="construction" alt="Website under construction">
-        </a> -->
-        <div class="text-body center text opaque">
+        </a>
+        <!-- <div class="text-body center text opaque">
             <div id="hero-text" *ngIf="mainTextBoolean">
                 <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
                 <p>Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. </p>
@@ -19,7 +19,7 @@
                 </p>
             </div>
         </div>
-        <div *ngIf="errorBoolean" class="alert alert-danger">
+        <div *ngIf="errorBoolean" class="alert alert-danger error">
             {{ errorText }}
         </div>
 
@@ -56,35 +56,41 @@
             </div>
         </div>
 
-        <form class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
+        <form [formGroup]="dateValidation" (ngSubmit)="submitDate()" class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
             <mat-form-field class="date-picker" appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled >
+                <input formControlName="date" matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled >
                 <mat-datepicker-toggle matSuffix [for]="picker"  ></mat-datepicker-toggle>
-                <mat-datepicker #picker disabled="false" ></mat-datepicker>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
+            <div *ngIf="dSubBoolean && f.date.errors" class="err-msg">
+                <div *ngIf="f.date.errors.required">Please pick a valid date</div>
+            </div>
             <br>
-            <button class="btn btn-danger mb-4 back" (click)="addAnotherBoat()">Back</button>
-            <button class="btn btn-secondary mb-4 submit" (click)="submitDate()" >Next</button>
+            <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
+            <button class="btn btn-secondary mb-4 submit" type="submit" >Next</button>
         </form>
 
-        <form class="quantity mt-4 opaque dateForm" *ngIf="quantityBoolean">
+        <form [formGroup]="quantityValidation" (ngSubmit)="submitTrip()" class="quantity mt-4 opaque dateForm" *ngIf="quantityBoolean">
             <mat-form-field>
                 <mat-label >How many people? </mat-label>
-                <mat-select name="guests" class="guests" [(ngModel)]="numberOfGuests" required>
+                <mat-select formControlName="guests" name="guests" class="guests" [(ngModel)]="numberOfGuests" required>
                     <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            <div *ngIf="qSubBoolean && b.guests.errors" class="err-msg">
+                <div *ngIf="b.guests.errors.required">Please select how many people</div>
+            </div>
             <br>
-            <button class="btn btn-danger mb-4 back" (click)="addAnotherBoat()">Back</button>
-            <button class="btn btn-secondary mb-4 submit" (click)="submitTrip()" >Add to Cart</button>
+            <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
+            <button class="btn btn-secondary mb-4 submit" type="submit" >Add to Cart</button>
         </form>
 
         <div *ngIf="addedToCartBoolean" class="dateForm opaque check-out trip-added pb-3">
             <h2 class="added">Your guided trip has been added to your cart!</h2>
             <button class="btn btn-secondary" routerLink="/cart">View Your Cart</button>
             <button class="btn btn-secondary" (click)="addAnotherBoat()">Add More People</button>
-        </div>
+        </div> -->
 
     </div>
 </div>

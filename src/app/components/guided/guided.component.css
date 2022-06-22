@@ -129,10 +129,27 @@ p {
   height: 300px;
 }
 
+.err-msg {
+  margin-top: -17px;
+  margin-bottom: -25px;
+  font-size: 12px;
+  color: red;
+  font-family: "Montserrat", sans-serif;
+  text-align: left;
+  padding: 2px 0 9px 0;
+  line-height: 15px;
+  text-align: center;
+}
+
 .btn {
   border-radius: 5px;
   margin: 10px;
   font-family: "Montserrat", sans-serif;
+}
+
+.error {
+  margin: auto;
+  width: fit-content;
 }
 
 @keyframes slide {

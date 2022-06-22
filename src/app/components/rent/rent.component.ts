@@ -122,7 +122,6 @@ export class RentComponent implements OnInit {
     this.noAvailError = false;
     this.errorBoolean = false;
     let checkPoolService = this.poolChecker.checkPool(this.date, this.selectedBoat, this.duration, this.time).subscribe((res)=> {
-      console.log(res)
       if(res){
         // if on the customer facing rental page
         if(this.router.url.includes('rentals')){
