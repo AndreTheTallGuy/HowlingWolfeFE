@@ -62,8 +62,8 @@ export class RentComponent implements OnInit {
   timeOptions: Time[];
   durationOptions: Duration[];
 
-  guidedLessonsDates: number[] = [new Date("3/20/2022").getTime(),
-  new Date("3/24/2022").getTime()];
+  guidedLessonsDates: number[] = [new Date("6/20/2022").getTime(),
+  new Date("6/22/2022").getTime()];
 
   constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService, private poolChecker: PoolCheckerService) { }
   
@@ -122,7 +122,6 @@ export class RentComponent implements OnInit {
     this.noAvailError = false;
     this.errorBoolean = false;
     let checkPoolService = this.poolChecker.checkPool(this.date, this.selectedBoat, this.duration, this.time).subscribe((res)=> {
-      console.log(res)
       if(res){
         // if on the customer facing rental page
         if(this.router.url.includes('rentals')){

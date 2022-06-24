@@ -9,24 +9,48 @@ import { ApiService } from './api.service';
 })
 export class PoolCheckerService {
 
-  availability: Times[] = [];
+  availability: Times[] = [
+    {time:"8am", boats:{kayak: 16, canoe: 2, tandem: 5}},
+    {time:"9am", boats:{kayak: 16, canoe: 2, tandem: 5}},
+    {time: "10am", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "11am", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "12pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "1pm", boats: {kayak: 11, canoe: 2, tandem: 5}},
+    {time: "2pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "3pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "4pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "5pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
+    {time: "6pm", boats: {kayak: 16, canoe: 2, tandem: 5}}];
+
+  globalBoat: string; 
 
   constructor(private api: ApiService) { }
 
   checkPool(date, selectedBoat, duration, time): Observable<boolean>{
-    this.resetTimesArray();
+      this.resetTimesArray();
+
+      switch (selectedBoat) {
+        case "Single Kayak":
+          this.globalBoat = "kayak";
+          break;
+          case "Canoe":
+          this.globalBoat = "canoe";
+          break;
+          case "Tandem":
+          this.globalBoat = "tandem";
+          break;
+      }
+      
     return from(this.api.getAllOrdersByDate(date).toPromise()
     .then((res)=>{
-      //loops through orders to get each boat
+      //Subtracts previous orders from pool
       for(let order of res){
         for(let boat of order.boats){
-         // if boat's date matches user's date, it is subtracted from the pool
-        //  let boatDate = boat.date;
-          if(Date.parse(boat.date.toString()) === Date.parse(date.toISOString())){
             this.pool(boat.boat, boat.duration, boat.time);
-          }
         }
       }
+          
+      //Subtracts any orders in the cart from pool
       if(sessionStorage.getItem("cartList")){
         let boatsInCart = JSON.parse(sessionStorage.getItem("cartList"));
         for(let boat of boatsInCart){
@@ -35,10 +59,26 @@ export class PoolCheckerService {
           }
         }
       }
+
       // subtracts user's selected boat from pool
       this.pool(selectedBoat, duration, time);
-      return this.verifyAvailability(selectedBoat, duration, time);
+      
+      return this.verifyAvailability(this.globalBoat, duration, time);
     }))
+  }
+
+  checkAvailability(date, selectedBoat, duration, time):Observable<number>{
+    let counter = 1;
+    
+    return from(this.checkPool(date, selectedBoat, duration, time).toPromise().then((res)=> {
+        
+        for (let i = 0; i < this.availability.length; i++) {
+          if(this.availability[i].time === time){
+            counter = this.availability[i].boats[this.globalBoat] +1;
+          }
+        }
+        return counter
+      }))
   }
 
   resetTimesArray(){
@@ -46,7 +86,7 @@ export class PoolCheckerService {
     {time:"8am", boats:{kayak: 16, canoe: 2, tandem: 5}},
     {time:"9am", boats:{kayak: 16, canoe: 2, tandem: 5}},
     {time: "10am", boats: {kayak: 16, canoe: 2, tandem: 5}},
-    {time: "11am", boats: {kayak: 1, canoe: 2, tandem: 5}},
+    {time: "11am", boats: {kayak: 16, canoe: 2, tandem: 5}},
     {time: "12pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
     {time: "1pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
     {time: "2pm", boats: {kayak: 16, canoe: 2, tandem: 5}},
@@ -57,23 +97,11 @@ export class PoolCheckerService {
   }
 
   verifyAvailability(selectedBoat, duration, time){
-    let boat:string; 
-    switch (selectedBoat) {
-      case "Single Kayak":
-        boat = "kayak";
-        break;
-        case "Canoe":
-          boat = "canoe";
-          break;
-        case "Tandem":
-        boat = "tandem";
-        break;
-    }
     
     for (let i = 0; i < this.availability.length; i++) {
         if(this.availability[i].time === time){
           let boatsArray = this.availability[i].boats;
-          if(boatsArray[boat] <1){
+          if(boatsArray[selectedBoat] <0){
             return false;
           } else {
             return true;

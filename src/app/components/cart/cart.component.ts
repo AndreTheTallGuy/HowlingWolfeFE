@@ -8,7 +8,7 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { Charge } from 'src/app/models/Charge';
 import { of, Subject } from 'rxjs';
-import { catchError, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, switchMap, takeUntil, tap, map, mergeMap } from 'rxjs/operators';
 import { SubscribeService } from 'src/app/services/subscribe.service';
 import { GiftCard } from 'src/app/models/GiftCard';
 import { ThisReceiver } from '@angular/compiler';
@@ -218,6 +218,7 @@ export class CartComponent implements OnInit {
       } else {
         this.couponError = true;
         this.couponErrorMsg = "Coupon not found"
+        this.coupon = "";
       }
     })
   }
@@ -325,7 +326,6 @@ export class CartComponent implements OnInit {
       }
 
       this.orderObj.boats = this.boatsArray;
-      console.log(this.orderObj.boats);
       
       //builds updated gift card
       if(this.giftCardBoolean){
@@ -336,17 +336,35 @@ export class CartComponent implements OnInit {
       // if total price is 0, submit order without stripe
       if(this.total == 0){
         this.isLoading = true;
-        this.api.submitOrder(this.orderObj).subscribe(res=>{
-          if(this.couponBoolean){
-            this.saveCoupon();
-          }
-          if(this.giftCardBoolean){
-            this.api.updateGiftCard(this.updatedGiftCard).subscribe();
-          }
-          this.isLoading = false;
-          sessionStorage.clear();
-          this.router.navigate(['/thank-you'])              
-        })
+        this.api.getMaxOrderId()
+          .pipe(map(maxId => {
+            console.log("map");
+            console.log(maxId);
+            this.orderObj.order_id = maxId +1;
+          })).subscribe(res=> {
+            console.log("subscribe");
+            console.log(res);
+            console.log(this.orderObj);
+            
+            this.api.submitOrder(this.orderObj).subscribe(res=>{
+              console.log(res);
+              
+              if(this.couponBoolean){
+                this.saveCoupon();
+              }
+              if(this.giftCardBoolean){
+                this.loadText = "Finishing up..."
+                this.api.updateGiftCard(this.updatedGiftCard).subscribe();
+              }
+              this.isLoading = false;
+              sessionStorage.clear();
+              this.router.navigate(['/thank-you'])              
+            }, err =>{
+              console.log(err);
+              this.stripeFailBoolean = true;
+              this.stripeFailText = err;
+            })
+        });
       }else{
         this.stripeCheckout = true;
       }
@@ -454,10 +472,8 @@ export class CartComponent implements OnInit {
                   this.saveCoupon();
                 }
                 if(this.giftCardBoolean){
-                  this.api.updateGiftCard(this.updatedGiftCard).subscribe(res=>{})
+                  this.api.updateGiftCard(this.updatedGiftCard).subscribe()
                 }
-                console.log(res);
-                
                 this.isLoading = false;
                 sessionStorage.clear();
                 this.router.navigate(['/thank-you'])              
