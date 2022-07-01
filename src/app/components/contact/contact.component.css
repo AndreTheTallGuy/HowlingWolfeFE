@@ -53,7 +53,7 @@ p {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 79vh;
+  min-height: 79vh;
   width: 99vw;
   z-index: -20;
 }
