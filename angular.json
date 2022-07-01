@@ -31,6 +31,10 @@
           },
           "configurations": {
             "production": {
+              "index": {
+                "input": "index.html",
+                "output": "index.prod.html"
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

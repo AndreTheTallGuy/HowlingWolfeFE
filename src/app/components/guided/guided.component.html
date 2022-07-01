@@ -1,96 +1,130 @@
 <div class="background">
-    <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
-    <div class="contain" *ngIf="!isLoading">
+    
+    <div class="contain">
         <h1 class="title center opaque">Guided Trips</h1>
-        <a href="https://howlingwolfe.com/contact">
+        <!-- <a href="https://howlingwolfe.com/contact">
             <img src="../../../assets/underConstruction.png" id="construction" alt="Website under construction">
-        </a>
-        <!-- <div class="text-body center text opaque">
-            <div id="hero-text" *ngIf="mainTextBoolean">
+        </a> -->
+         <div class="text-body center opaque">
+            <div *ngIf="mainTextBoolean">
                 <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
-                <p>Our certified guides and instructors will help ensure that you have an excellent experience kayaking the Fox River. </p>
-                <p>Guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
+                <p>Our certified guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
                 <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
             </div>
             <div id="trip-text" *ngIf="!mainTextBoolean">
-                <h2 class="title"> {{ shuttle }}</h2>
-                <p>
-                    {{ tripText }} 
-                </p>
+                <p class="desc-title center"> {{ descTitle }}</p>
+
+                <app-trip-text [shuttle]="shuttle"></app-trip-text>
+                
+                <p class="pb-4 center subtitle" *ngIf="!noAvailBoolean"> {{ displayTime }} </p>
+
+                <div *ngIf="noAvailBoolean">
+                    <p class="center subtitle">This trip is not yet available for reservation.</p>
+                    <button class="btn btn-secondary" (click)="goBack()">Back</button>
+                </div>
             </div>
         </div>
+        <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
         <div *ngIf="errorBoolean" class="alert alert-danger error">
             {{ errorText }}
         </div>
+        
+        <div class="hide-show" *ngIf="!isLoading">
+            <div *ngIf="selectionBoolean" class="cont mt-4">
+                <div class="row">
+                    <div class="col-sm card" (click)="cardSelection('Sunset')">
+                        <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">Sunset Cruise</p>
+                            <!-- <p class="card-text">Cruising at sunset</p> -->
+                            <p class="center card-price">$59/person</p>
 
-        <div *ngIf="selectionBoolean" class="cont mt-4">
-            <div class="row">
-                <div class="col-sm card" (click)="cardSelection('Batavia')">
-                    <img src="../../../assets/2kayaksPaddling.jpg" alt="Batavia Guided Trip" class="card-img-top">
-                    <div class="card-body">
-                        <h3 class="card-title">Batavia</h3>
-                        <p class="card-text">Gentle cruise from Batavia <br> $120 per person</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm card" (click)="cardSelection('Blues')">
+                        <img src="../../../assets/coronaKayaking.jpg" alt="Blues Cruise Trip" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">Blues Cruise</p>
+                            <p class="card-text">Cruising while blue</p>
+                            <p class="center card-price">$39/person</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm card" (click)="cardSelection('Batavia')">
+                        <img src="../../../assets/2kayaksPaddling.jpg" alt="Batavia Guided Trip" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">Batavia</p>
+                            <p class="card-text">Gentle cruise from Batavia to Aurora </p>
+                            <p class="center card-price">$99/person</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm card" (click)="cardSelection('NA')">
+                        <img src="../../../assets/bigSmile.jpeg" alt="North Aurora Guided Trip" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">North Aurora</p>
+                            <p class="card-text">Gentle cruise from North Aurora to Aurora</p>
+                            <p class="center card-price">$59/person</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm card" (click)="cardSelection('Brews')">
+                        <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">Brews Cruise</p>
+                            <p class="card-text">Chicagoland Brews Cruise and Howling Wolfe partnered with Brother Chimp Brewery and Gillerson&#39;s Grubbery!</p>
+                            <p class="center card-price">$115/person</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm card" (click)="cardSelection('Fall')">
+                        <img src="../../../assets/sunsetPaddling.jpg" alt="Fall Cruise" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">Fall Cruise</p>
+                            <p class="card-text">Cruising at Sunset</p>
+                            <p class="center card-price">$99/person</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm card" (click)="cardSelection('NA')">
-                    <img src="../../../assets/bigSmile.jpeg" alt="North Aurora Guided Trip" class="card-img-top">
-                    <div class="card-body">
-                        <h3 class="card-title">North Aurora</h3>
-                        <p class="card-text">Gentle cruise from North Aurora<br> $120 per person</p>
-                    </div>
+            </div>
+    
+            <form [formGroup]="dateValidation" (ngSubmit)="submitDate()" class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
+                <mat-form-field class="date-picker" appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input formControlName="date" [dateClass]="dateClass()" matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled >
+                    <mat-datepicker-toggle matSuffix [for]="picker"  ></mat-datepicker-toggle>
+                    <mat-datepicker #picker open="true" disabled="false" ></mat-datepicker>
+                </mat-form-field>
+                <div *ngIf="dSubBoolean && f.date.errors" class="err-msg">
+                    <div *ngIf="f.date.errors.required">Please pick a valid date</div>
                 </div>
-                <div class="col-sm card" (click)="cardSelection('Blues')">
-                    <img src="../../../assets/coronaKayaking.jpg" alt="Blues Cruise Trip" class="card-img-top">
-                    <div class="card-body">
-                        <h3 class="card-title">Blues Cruise</h3>
-                        <p class="card-text">Cruising while blue<br> $120 per person</p>
-                    </div>
+                <br>
+                <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
+                <button class="btn btn-secondary mb-4 submit" type="submit" >Next</button>
+            </form>
+    
+            <form [formGroup]="quantityValidation" (ngSubmit)="submitTrip()" class="quantity mt-4 opaque dateForm" *ngIf="quantityBoolean">
+                <mat-form-field>
+                    <mat-label >How many people? </mat-label>
+                    <mat-select formControlName="guests" name="guests" class="guests" [(ngModel)]="numberOfGuests" required>
+                        <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="qSubBoolean && b.guests.errors" class="err-msg">
+                    <div *ngIf="b.guests.errors.required">Please select how many people</div>
                 </div>
-                <div class="col-sm card" (click)="cardSelection('Sunset')">
-                    <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top">
-                    <div class="card-body">
-                        <h3 class="card-title">Sunset Cruise</h3>
-                        <p class="card-text">Cruising at Sunset<br> $120 per person</p>
-                    </div>
-                </div>
+                <br>
+                <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
+                <button class="btn btn-secondary mb-4 submit" type="submit" >Add to Cart</button>
+            </form>
+    
+            <div *ngIf="addedToCartBoolean" class="dateForm opaque check-out trip-added pb-3">
+                <h2 class="added">Your guided trip has been added to your cart!</h2>
+                <button class="btn btn-secondary" routerLink="/cart">View Your Cart</button>
+                <button class="btn btn-secondary" (click)="addMore()">Add More People</button>
             </div>
         </div>
-
-        <form [formGroup]="dateValidation" (ngSubmit)="submitDate()" class="dateForm form mt-4 opaque" *ngIf="datePickerBoolean">
-            <mat-form-field class="date-picker" appearance="fill">
-                <mat-label>Choose a date</mat-label>
-                <input formControlName="date" matInput [min]="minDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="date" [(ngModel)]="date" required disabled >
-                <mat-datepicker-toggle matSuffix [for]="picker"  ></mat-datepicker-toggle>
-                <mat-datepicker #picker disabled="false"></mat-datepicker>
-            </mat-form-field>
-            <div *ngIf="dSubBoolean && f.date.errors" class="err-msg">
-                <div *ngIf="f.date.errors.required">Please pick a valid date</div>
-            </div>
-            <br>
-            <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
-            <button class="btn btn-secondary mb-4 submit" type="submit" >Next</button>
-        </form>
-
-        <form [formGroup]="quantityValidation" (ngSubmit)="submitTrip()" class="quantity mt-4 opaque dateForm" *ngIf="quantityBoolean">
-            <mat-form-field>
-                <mat-label >How many people? </mat-label>
-                <mat-select formControlName="guests" name="guests" class="guests" [(ngModel)]="numberOfGuests" required>
-                    <mat-option *ngFor="let num of totalBoatsArray" [value]="num" >{{num}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div *ngIf="qSubBoolean && b.guests.errors" class="err-msg">
-                <div *ngIf="b.guests.errors.required">Please select how many people</div>
-            </div>
-            <br>
-            <button class="btn btn-danger mb-4 back" (click)="goBack()">Back</button>
-            <button class="btn btn-secondary mb-4 submit" type="submit" >Add to Cart</button>
-        </form>
-
-        <div *ngIf="addedToCartBoolean" class="dateForm opaque check-out trip-added pb-3">
-            <h2 class="added">Your guided trip has been added to your cart!</h2>
-            <button class="btn btn-secondary" routerLink="/cart">View Your Cart</button>
-            <button class="btn btn-secondary" (click)="addAnotherBoat()">Add More People</button>
-        </div> -->
 
     </div>
 </div>

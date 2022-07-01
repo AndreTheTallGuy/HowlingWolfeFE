@@ -43,6 +43,9 @@ import { ApiService } from './services/api.service';
 import { CsvService } from './services/csv.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SubscribeService } from './services/subscribe.service';
+import { SelectDatesComponent } from './helpers/components/select-dates/select-dates.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { TripTextComponent } from './helpers/components/trip-text/trip-text.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { SubscribeService } from './services/subscribe.service';
     GiftcardsComponent,
     YesNoPipe,
     ContactformComponent,
+    SelectDatesComponent,
+    SafeHtmlPipe,
+    TripTextComponent,
 
   ],
   imports: [

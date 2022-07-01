@@ -1,0 +1,81 @@
+.title {
+    font-size: 300%;
+    font-family: "Cinzel", serif;
+    text-align: center;
+    width: fit-content;
+    padding: 12px 20px;
+    margin: -15px auto 0px auto;
+  }
+
+.dateForm {
+    text-align: center;
+    margin: auto;
+    max-width: 400px;
+    padding-top: 50px;
+    animation: slide 1s;
+  }
+
+#loading {
+margin: auto;
+display: block;
+padding-top: 60px;
+}
+
+#selected-dates {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 180px;
+    height: 52px;
+    color: rgb(100, 100, 100);
+  }
+
+.chippies {
+max-width: 300px;
+margin: auto;
+}
+
+.mat-chip-list-wrapper {
+margin: 10px auto -10px auto !important;
+max-width: 280px;
+}
+
+.mat-chip {
+min-width: 130px;
+}
+
+.mat-menu-content:not(:empty) {
+    padding-top: 0px;
+  }
+  
+  .mat-menu-content {
+    padding: 0 15px 8px 15px;
+  }
+  
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button,
+  .mat-flat-button {
+    padding-right: 0;
+  }
+  
+  .mat-calendar-table {
+    overflow-x: visible;
+  }
+  .mat-calendar-header {
+    padding: 0px 8px 0 8px;
+  }
+  
+  .mat-calendar-body-cell-content.mat-focus-indicator {
+    position: relative !important;
+  }
+  
+  .mat-calendar-body-cell-content {
+    line-height: 0 !important;
+    padding: 0 4px;
+  }
+  
+  .mat-calendar-body-cell.selected {
+    background-color: rgb(83, 143, 255);
+    border-radius: 50%;
+  }
+  

@@ -1,0 +1,23 @@
+* {
+    font-family: "Montserrat", sans-serif;  
+}
+
+.subtitle {
+    padding-top: 10px;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+p {
+    text-align: left;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    padding: 0 4%;
+    font-size: 110%;
+}
+
+li {
+    text-align: left;
+    margin-left: 5%;
+}

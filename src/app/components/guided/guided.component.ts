@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/Customer';
 import { ApiService } from 'src/app/services/api.service';
@@ -8,11 +8,14 @@ import { SessionStorageService } from 'src/app/services/session-storage.service'
 import { PoolCheckerService } from 'src/app/services/pool-checker.service';
 import { Boat } from 'src/app/models/Boat';
 import { ThrowStmt } from '@angular/compiler';
+import { forEachChild } from 'typescript';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-guided',
   templateUrl: './guided.component.html',
-  styleUrls: ['./guided.component.css']
+  styleUrls: ['./guided.component.css'],
+  // encapsulation: ViewEncapsulation.None,
 })
 export class GuidedComponent implements OnInit {
 
@@ -23,6 +26,7 @@ export class GuidedComponent implements OnInit {
   isLoading: boolean = false;
   quantityBoolean: boolean = false;
   addedToCartBoolean: boolean = false;
+  noAvailBoolean: boolean = false; 
   
   errorText: string;
   tripText: string; 
@@ -34,10 +38,11 @@ export class GuidedComponent implements OnInit {
   shuttle: string;
   price: number;
   boatInfo: any;
+  descTitle: string;
+  displayTime: string;
 
   date: Date;
-  guidedLessonsDates: number[] = [new Date("6/27/2022").getTime(),
-  new Date("6/30/2022").getTime()];
+  guidedLessonsDates: any[] =[]
   minDate: Date;
   duration: string;
   time: string;
@@ -47,13 +52,13 @@ export class GuidedComponent implements OnInit {
   quantityValidation: FormGroup;
   qSubBoolean: boolean = false;
 
+  
   constructor(private api: ApiService, private router: Router, private sessStore: SessionStorageService, private checkPool: PoolCheckerService, private fb: FormBuilder) {}
 
 
   ngOnInit(): void {
     this.minDate = new Date;
     this.minDate.setDate(this.minDate.getDate() + 1);
-
     //Date Validation 
     this.dateValidation = this.fb.group({
       date: ['', Validators.required]
@@ -68,54 +73,107 @@ export class GuidedComponent implements OnInit {
 
   // ability to prevent certain days from being selected
   myFilter = (d: Date): boolean => {
+    let tempArr = [];
+    this.guidedLessonsDates.forEach(i => {
+      let date = new Date(i);
+      let ISO = new Date(`${date.getMonth() +1}/${date.getDate()+1}/${date.getFullYear()}`).getTime();
+      tempArr.push(ISO);
+    });
     if(d != undefined){
-      return !(!this.guidedLessonsDates.find(x=>x==d.getTime()));
+      return !(!tempArr.find(x=>x==d.getTime()));
     } else {
       return true;
     }
   }
 
+  dateClass() {
+    return (date: Date): MatCalendarCellCssClasses => {
+      const highlightDate = this.guidedLessonsDates
+        .map(i => new Date(i))
+        .some(d => 
+          d.getDate() === date.getDate() && 
+          d.getMonth() === date.getMonth() && 
+          d.getFullYear() === date.getFullYear());
+        return highlightDate ? 'avail-date' : undefined;
+
+    }
+  }
+
   cardSelection(selectedTrip) {
+    this.isLoading = false
     this.mainTextBoolean = false;
     this.selectedTrip = selectedTrip;
     switch (selectedTrip) {
-      case "Batavia":
-       this.shuttle = "Batavia"
-       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Batavia!";
-       this.duration = "3";
-       this.time = "5pm";
-       this.price = 120;
-        break;
-      case "NA":
-       this.shuttle = "North-Aurora"
-       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is NA!";
-       this.duration = "1" 
-       this.time = "5pm";
-       this.price = 120;
+      case "Sunset":
+        this.descTitle = "Family Sunset & S'mores Kayak Tour";
+        this.shuttle = "Sunset Cruise"
+        this.duration = "1"
+        this.time = "6pm";
+        this.displayTime = "From 6pm-7pm on designated days listed below";
+        this.price = 59;
         break;
       case "Blues":
-       this.shuttle = "Blues"
-       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Blues!";
-       this.duration = "3" 
-       this.time = "5pm";
-       this.price = 120;
+        this.descTitle = "Blues Cruise";
+        this.shuttle = "Blues Cruise"
+        this.duration = "1" 
+        this.time = "5pm";
+        this.displayTime = "From 5pm-6pm on designated days listed below";
+        this.price = 39;
         break;
-      case "Sunset":
-       this.shuttle = "Sunset"
-       this.tripText = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quam maxime commodi omnis dignissimos delectus corporis nesciunt voluptas repudiandae dolor sequi, tenetur unde pariatur ut aspernatur eligendi error eaque alias?  This is Sunset!";
-       this.duration = "3"
-       this.time = "5pm";
-       this.price = 120;
+      case "Batavia":
+        this.descTitle = "Batavia - Aurora";
+        this.shuttle = "Batavia"
+        this.duration = "3";
+        this.time = "8am";
+        this.displayTime = "From 8am-11am on designated days listed below";
+        this.price = 99;
+        break;
+      case "NA":
+        this.descTitle = "North Aurora - Aurora";
+        this.shuttle = "North Aurora"
+        this.duration = "1" 
+        this.time = "5pm";
+        this.displayTime = "From 5pm-6pm on designated days listed below";
+        this.price = 59;
+        break;
+      case "Brews":
+        this.descTitle = "Brews Cruise";
+        this.shuttle = "Brews Cruise"
+        this.duration = "3"
+        this.time = "5pm";
+        this.displayTime = "From 5pm-8pm on designated days listed below";
+        this.price = 115;
+        break;
+      case "Fall":
+        this.descTitle = "Fall Colors Guided Kayak Tour (Batavia &ndash; Aurora)";
+        this.shuttle = "Fall Cruise"
+        this.duration = "3"
+        this.time = "10am";
+        this.displayTime = "From 10am-1pm on designated days listed below";
+        this.price = 99;
         break;
     
     }
     this.selectionBoolean = false;
-    this.datePickerBoolean = true;
+
+    this.isLoading = true;
+    this.api.getTripAvail(this.shuttle).subscribe(res =>{
+      if(res && res.dates.length >0){
+        this.isLoading = false;
+        console.log(res);
+        this.guidedLessonsDates = res.dates;
+        this.datePickerBoolean = true;
+        this.noAvailBoolean = false; 
+      } else {
+        this.noAvailBoolean = true; 
+        this.isLoading = false;
+      } 
+    })
+    
   }
 
+
   submitDate(){
-    console.log(this.date);
-    
     if(this.date === undefined){
       this.errorBoolean = true;
       this.errorText = "Please pick a valid date";
@@ -125,18 +183,24 @@ export class GuidedComponent implements OnInit {
       this.isLoading = true;
       this.datePickerBoolean = false;
       this.calcNumOfBoatsAvail();
-
     }
   }
 
   calcNumOfBoatsAvail() {
+    this.numberOfGuests = 0;
     this.totalBoatsArray = [];
     this.checkPool.checkAvailability(this.date, "Single Kayak", this.duration, this.time).subscribe((res)=>{
-      for (let i = 0; i <= res; i++) {
+      for (let i = 1; i <= res; i++) {
         this.totalBoatsArray.push(i); 
       }
       this.isLoading = false;
-      this.quantityBoolean = true;
+      if(this.totalBoatsArray.length < 1){
+        this.errorBoolean = true; 
+        this.errorText = "Sorry, there are no more reservations available for that date. Please choose another date.";
+        this.datePickerBoolean = true;
+      } else {
+        this.quantityBoolean = true;
+      }
     });
   }
 
@@ -185,6 +249,17 @@ export class GuidedComponent implements OnInit {
     this.isLoading = false;
     this.quantityBoolean = false;
     this.addedToCartBoolean = false;
+  }
+
+  addMore(){
+    this.selectionBoolean = false;
+    this.mainTextBoolean = true;
+    this.datePickerBoolean = false;
+    this.errorBoolean = false;
+    this.isLoading = true;
+    this.quantityBoolean = false;
+    this.addedToCartBoolean = false;
+    this.calcNumOfBoatsAvail()
   }
 
   get f() { return this.dateValidation.controls; }
