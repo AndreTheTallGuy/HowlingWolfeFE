@@ -11,7 +11,7 @@ export class HomepageComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.api.getAllOrders().subscribe();
+    this.api.getAllOrdersToday().subscribe();
   }
 
 }

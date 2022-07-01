@@ -1,7 +1,7 @@
 nav {
   /* background-color: rgb(180, 228, 185); */
 
-  padding: 20px 0 20px 0;
+  padding-top: 20px;
   position: relative;
   display: flex;
 
@@ -51,6 +51,18 @@ nav {
   font-size: 18px;
 }
 
+.button-links {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  height: 37px;
+  font-size: 20px;
+}
+
+.separate {
+  font-size: 22px;
+}
+
 li {
   text-decoration: none;
   display: inline;
@@ -84,7 +96,7 @@ a:focus {
     font-size: 10px;
     height: 15px;
     width: 15px;
-    padding: 0 5px;
+    padding: 0 3.5px;
   }
   .title {
     left: 65px;

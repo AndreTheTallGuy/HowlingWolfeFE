@@ -71,22 +71,22 @@
         <form class="form mt-4" >
             <mat-form-field>
                 <mat-label >First Name</mat-label>
-                <input name="firstName" matInput type="text" [(ngModel)]="firstName" class="firstName"  required>
+                <input data-hj-allow name="firstName" matInput type="text" [(ngModel)]="firstName" class="firstName"  required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label >Last Name</mat-label>
-                <input name="lastName" matInput type="text" [(ngModel)]="lastName" class="lastName"  required>
+                <input data-hj-allow name="lastName" matInput type="text" [(ngModel)]="lastName" class="lastName"  required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label >Email</mat-label>
-                <input name="email" matInput type="text" [(ngModel)]="email" class="email"  required>
+                <input data-hj-allow name="email" matInput type="text" [(ngModel)]="email" class="email"  required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label >Phone</mat-label>
-                <input name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
+                <input data-hj-allow name="phone" matInput type="text" [(ngModel)]="phone" class="phone"  required>
             </mat-form-field>
                          <br>
             <mat-checkbox class="subscribe" name="subscribe" [color]="accent" (click)="emailSubscribe()">Check to subscribe to our email promotions and contests! </mat-checkbox>
@@ -104,22 +104,22 @@
         <form class="form mt-4">
             <mat-form-field>
                 <mat-label>Credit Card</mat-label>
-                <input type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
+                <input data-hj-allow type="number" matInput [(ngModel)]="cardNumber" name="cardNumber" required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label>Expiration Month (MM)</mat-label>
-                <input type="number" matInput [(ngModel)]="expMonth" name="expMonth" required>
+                <input data-hj-allow type="number" matInput [(ngModel)]="expMonth" name="expMonth" required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label>Expiration Year (YYYY)</mat-label>
-                <input type="number" matInput [(ngModel)]="expYear" name="expYear" required>
+                <input data-hj-allow type="number" matInput [(ngModel)]="expYear" name="expYear" required>
             </mat-form-field>
             <br>
             <mat-form-field>
                 <mat-label>CVC</mat-label>
-                <input type="text" matInput [(ngModel)]="cvc" name="cvc" required>
+                <input data-hj-allow type="text" matInput [(ngModel)]="cvc" name="cvc" required>
             </mat-form-field>
             <br>
            

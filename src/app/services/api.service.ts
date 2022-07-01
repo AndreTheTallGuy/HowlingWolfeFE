@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Charge } from '../models/Charge';
 import { Coupon } from '../models/Coupon';
 import { Customer } from '../models/Customer';
+import { TripAvail } from '../models/TripAvail';
 
 @Injectable({
   providedIn: 'root'
@@ -91,5 +92,13 @@ export class ApiService {
 
   public deleteGiftCard(cardNumber: number): Observable<any> {
     return this.http.delete(this.baseUrl + `giftcard/delete/${cardNumber}`, {responseType: 'text'});
+  }
+
+  public getTripAvail(subType: string): Observable<any> {
+    return this.http.get(this.baseUrl + `tripavail/${subType}`);
+  }
+
+  public updateTripAvail(availObj: TripAvail): Observable<any> { 
+    return this.http.put(this.baseUrl + `tripavail/update`, availObj, {responseType: 'text'});
   }
 }

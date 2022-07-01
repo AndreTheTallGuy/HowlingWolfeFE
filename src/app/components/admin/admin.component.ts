@@ -36,6 +36,7 @@ export class AdminComponent implements OnInit {
   monthBoolean: boolean = false;
   monthlyDisplayBoolean: boolean = false;
   editGiftCardBoolean: boolean = false;
+  availabilityBoolean: boolean = false;
 
   isLoggedIn: boolean = false;
   userName: string;
@@ -97,6 +98,7 @@ export class AdminComponent implements OnInit {
       this.monthBoolean = false;
       this.monthlyDisplayBoolean = false;
       this.editGiftCardBoolean = false;
+      this.availabilityBoolean = false;
   }
 
   dropdown(){
@@ -511,6 +513,11 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  availability(){
+    this.resetBooleans();
+    this.availabilityBoolean = true;
+  }
+
   isSelected = (event: any) => {
     const date =
       event.getFullYear() +
@@ -543,6 +550,8 @@ export class AdminComponent implements OnInit {
   openCal(couponId) {
     const coupon = this.coupons.find(x => x.id == couponId);
     const dates = coupon.whenGood;
+    console.log(dates);
+    
       return (date: Date): MatCalendarCellCssClasses => {
         const highlightDate = dates
           .map((strDate) => new Date(strDate))

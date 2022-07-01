@@ -135,15 +135,16 @@
     font-size: 230%;
   }
   .card-img-top {
-    max-width: 72px;
-    max-height: 72px;
+    min-width: 117px;
+    min-height: 117px;
   }
   .card {
-    max-width: 95px;
-    min-width: 95px;
-    max-height: 150px;
+    max-width: 140px;
+    min-width: 140px;
+    max-height: 162px;
   }
   .card-title {
-    font-size: 16px;
+    font-size: 15px;
   }
+ 
 }
