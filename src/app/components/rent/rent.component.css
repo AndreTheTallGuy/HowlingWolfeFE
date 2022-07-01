@@ -1,3 +1,7 @@
+*{
+  font-family: "Montserrat", sans-serif;
+}
+
 .title {
   font-size: 300%;
   font-family: "Cinzel", serif;
@@ -89,6 +93,16 @@
   margin: auto;
 }
 
+.dur-text {
+  width: 200px;
+  text-align: center;
+  margin: -8px auto 0 auto;
+  color: blue;
+  font-size: 13px;
+  line-height: 15px;
+
+}
+
 @media only screen and (max-width: 991px) {
   .card-img-top {
     max-width: 220px;
@@ -108,7 +122,7 @@
   }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .card-img-top {
     max-width: 120px;
     max-height: 120px;

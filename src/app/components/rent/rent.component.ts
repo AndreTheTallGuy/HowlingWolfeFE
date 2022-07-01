@@ -43,7 +43,7 @@ export class RentComponent implements OnInit {
   date: any;
   shuttle: any;
   time: any;
-  duration: any;
+  duration: string = undefined;
   height: any;
   weight: any;
   price: number;
@@ -100,7 +100,7 @@ export class RentComponent implements OnInit {
   }
 
   resetTimeAndDuration(){
-    this.duration = "";
+    this.duration = undefined;
     this.time = "";
   }
  
@@ -212,19 +212,18 @@ export class RentComponent implements OnInit {
     // resets time
     this.time = "";
     // sets duration based on shuttle
-    if(this.shuttle == "None"){
-      this.durationOptions = [
-        {duration:"1 hour", value:"1"},
-      ]
-    }else if(this.shuttle == "North-Aurora"){
-      this.durationOptions = [
-        {duration:"1 hour", value:"1"}
-      ]
+    if(this.shuttle == "North-Aurora"){
+      // this.durationOptions = [
+      //   {duration:"1 hour", value:"1"}
+      // ]
+      this.duration = "1";
     }else if(this.shuttle == "Batavia"){
-      this.durationOptions = [
-        {duration:"3 hours", value:"3"}
-      ]
+      // this.durationOptions = [
+      //   {duration:"3 hours", value:"3"}
+      // ]
+      this.duration = "3";
     }
+    
   }
 
   timeResolver(){

@@ -65,18 +65,19 @@
             <mat-label >Shuttle</mat-label>
             <mat-select name="shuttle" class="shuttle" [(ngModel)]="shuttle" required (click)="resetTimeAndDuration()">
                 <!-- <mat-option [value]="'None'">No Shuttle</mat-option> -->
-                <mat-option [value]="'North-Aurora'">North Aurora</mat-option>
-                <mat-option [value]="'Batavia'">Batavia</mat-option>
+                <mat-option [value]="'North-Aurora'" (click)="durationResolver()">North Aurora</mat-option>
+                <mat-option [value]="'Batavia'" (click)="durationResolver()">Batavia</mat-option>
             </mat-select>
         </mat-form-field>
-        <br>
-        <mat-form-field>
+        <p class="dur-text" *ngIf="duration != undefined; else space">Trips from {{ shuttle }} will take up to {{ duration }} hour(s).</p>
+        <!-- <mat-form-field>
             <mat-label >Duration</mat-label>
             <mat-select name="duration" class="duration" [(ngModel)]="duration" required (click)="durationResolver()">
                 <mat-option *ngFor="let duration of durationOptions" [value]="duration.value">{{duration.duration}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <br>
+        <br> -->
+        <ng-template #space><br></ng-template>
         <mat-form-field>
             <mat-label >Time of Day</mat-label>
             <mat-select name="time" class="time" [(ngModel)]="time" required (click)="timeResolver()">

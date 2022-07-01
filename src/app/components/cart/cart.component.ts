@@ -122,7 +122,6 @@ export class CartComponent implements OnInit {
         this.total = this.afterCoupon - this.giftCardBalance;
         this.giftCardDebit = this.giftCardBalance;
         this.projectedBalance = 0;
-        this.boatsArray.forEach(boat => console.log(boat.price));
       }
       
     }else if(this.couponBoolean){
@@ -184,7 +183,6 @@ export class CartComponent implements OnInit {
         this.discountType = res.discountType;
         this.whenGood = res.whenGood;
         const today = new Date()    
-        console.log(this.discountType);
         
         // compare trip dates to coupon valid dates
         for(let i = 0; i < this.whenGood.length; i++){
@@ -338,17 +336,9 @@ export class CartComponent implements OnInit {
         this.isLoading = true;
         this.api.getMaxOrderId()
           .pipe(map(maxId => {
-            console.log("map");
-            console.log(maxId);
             this.orderObj.order_id = maxId +1;
           })).subscribe(res=> {
-            console.log("subscribe");
-            console.log(res);
-            console.log(this.orderObj);
-            
             this.api.submitOrder(this.orderObj).subscribe(res=>{
-              console.log(res);
-              
               if(this.couponBoolean){
                 this.saveCoupon();
               }
@@ -432,14 +422,10 @@ export class CartComponent implements OnInit {
       this.isLoading = true;
       this.stripeFailBoolean = false;
       this.loadText = "Charging Card..."
-      console.log(this.orderObj);
-      
-      
       if(this.subscribeEmail){
         this.subscribeData.email = this.email;
         this.subscribeToMailChimp();
       }
-
       this.api.getMaxOrderId().subscribe(res=> this.orderObj.order_id = res +1);
 
       // sends CC info to stripe and gets back a token
@@ -456,14 +442,10 @@ export class CartComponent implements OnInit {
             price: this.total,
             orderId: this.orderObj.order_id
           }
-          console.log(charge);
           
           // sends charge object to the backend
           this.api.chargeCard(charge).pipe(takeUntil(this.unsubscibe), tap(()=>{
-            
           }), switchMap((res: any)=>{
-            console.log(res);
-            
             if(res === "Success"){
               this.loadText = "Finishing up..."
               // if successful, orderObj is submitted to the DB
