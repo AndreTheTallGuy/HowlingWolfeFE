@@ -97,7 +97,6 @@ p {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  width: 100vw;
   min-height: 79vh;
   z-index: -20;
   padding-bottom: 30px;

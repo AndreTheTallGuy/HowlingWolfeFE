@@ -1,4 +1,4 @@
-nav {
+#navbar {
   /* background-color: rgb(180, 228, 185); */
 
   padding-top: 20px;
@@ -34,21 +34,20 @@ nav {
 
 .quantity {
   position: absolute;
-  right: 34px;
-  background: rgb(22, 103, 233);
-  border-radius: 30px;
-  font-size: 15px;
+  right: 25px;
+  font-size: 13px;
   margin-top: -15px;
-  padding: 1px 6px;
-  color: white;
+  padding: 3px 6px;
 }
 
+
 .links {
-  margin-top: 30px;
+  margin: 21px auto 0 auto;
   display: flex;
   justify-content: space-evenly;
-  width: 100vw;
+  width: 95vw;
   font-size: 18px;
+  border-bottom: none;
 }
 
 .button-links {
@@ -78,8 +77,27 @@ a:focus {
   /* font-size: 18px; */
 }
 
-@media only screen and (max-width: 500px) {
-  nav {
+
+.router-link-active {
+  opacity: 1;
+}
+
+.mat-tab-header-pagination,
+.mat-tab-header-pagination-controls-enabled,
+.mat-tab-header-pagination-before,
+.mat-tab-header-pagination-after {
+  display: none;
+}
+
+@media only screen and (max-width: 655px) {
+  .button-links {
+    font-size: 17px;
+    min-width: 0px;
+  }
+}
+
+@media only screen and (max-width: 530px) {
+  #navbar {
     height: 60px;
   }
   .links {

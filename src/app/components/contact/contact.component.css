@@ -54,7 +54,6 @@ p {
   background-repeat: no-repeat;
   background-attachment: fixed;
   min-height: 79vh;
-  width: 99vw;
   z-index: -20;
 }
 
