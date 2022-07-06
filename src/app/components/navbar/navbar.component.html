@@ -10,18 +10,19 @@
     </div>
     <a routerLink="/" class="title">Howling Wolfe</a>
     <a routerLink="/cart" class="cart-link">
-        <img class="cart" src="../../../assets/canoe detail.png" alt="Canoe Cart" (click)="cart()">
-        <div *ngIf="quantity" class="quantity">{{quantity}}</div>
+        <img class="cart" src="../../../assets/canoe detail.png" alt="Canoe Cart" routerLink="/cart">
+        <!-- <div *ngIf="quantity" class="quantity">{{quantity}}</div> -->
+        <span class="badge bg-primary badge-notification rounded-pill quantity" *ngIf="quantity">{{ quantity }}</span>
     </a>
     
-    <div class="links">
-        <a class="button-links"  routerLink="/rentals">Rentals</a>
+    <nav mat-tab-nav-bar [backgroundColor]="background" class="links mat-tab-header-pagination-controls-disabled">
+        <a mat-tab-link class="button-links" routerLinkActive="router-link-active" routerLink="/rentals">Rentals</a>
         <span class="separate"> | </span>
-        <a class="button-links" routerLink="/lessons">Lessons</a>
+        <a mat-tab-link class="button-links" routerLinkActive="router-link-active" routerLink="/lessons">Lessons</a>
         <span class="separate"> | </span>
-        <a class="button-links" routerLink="/guided">Guided</a>
+        <a mat-tab-link class="button-links" routerLinkActive="router-link-active" routerLink="/guided">Guided</a>
         <span class="separate"> | </span>
-        <a class="button-links" routerLink="/contact">Contact</a>
-    </div>
+        <a mat-tab-link class="button-links" routerLinkActive="router-link-active" routerLink="/contact">Contact</a>
+    </nav>
     
 </nav>

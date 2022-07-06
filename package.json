@@ -30,6 +30,7 @@
     "angular-in-memory-web-api": "^0.11.0",
     "angular2-csv": "^0.2.9",
     "firebase-tools": "^9.10.0",
+    "mdb-angular-ui-kit": "^2.3.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "typescript": "~4.0.2",
