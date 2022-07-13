@@ -2,10 +2,7 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.center {
-  text-align: center;
-  margin: auto;
-}
+
 
 .row > * {
   padding: 0;
@@ -26,7 +23,7 @@
   font-family: "Cinzel", serif;
   text-align: center;
   width: fit-content;
-  padding: 25px 10px 9px 10px;
+  padding: 9px 10px 35px 10px;
   line-height: 1.1;
 }
 
@@ -74,7 +71,7 @@
 }
 
 .opaque {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.88);
   border-radius: 10px;
 }
 
@@ -84,6 +81,11 @@ p {
   margin-bottom: 7px;
   padding: 0 20px;
   font-family: "Montserrat", sans-serif;  
+}
+
+.center {
+  text-align: center;
+  margin: auto;
 }
 
 .rowflex {
@@ -222,6 +224,9 @@ p {
   .card-body {
     padding: 0;
   }
+  .card-title {
+    margin-top: 5px;
+  }
 }
 
 @media only screen and (max-width: 743px) {
@@ -260,6 +265,9 @@ p {
   .right {
     padding: 0;
     max-width: fit-content;
+  }
+  .desc-title {
+    font-size: 200%;
   }
   
 }

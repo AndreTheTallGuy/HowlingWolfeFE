@@ -105,7 +105,7 @@ export class GuidedComponent implements OnInit {
     this.selectedTrip = selectedTrip;
     switch (selectedTrip) {
       case "Sunset":
-        this.descTitle = "Family Sunset & S'mores Kayak Tour";
+        this.descTitle = "Sunset & S'mores Kayak Tour:  $59/Person";
         this.shuttle = "Sunset Cruise"
         this.duration = "1"
         this.time = "6pm";
@@ -145,7 +145,7 @@ export class GuidedComponent implements OnInit {
         this.price = 115;
         break;
       case "Fall":
-        this.descTitle = "Fall Colors Guided Kayak Tour (Batavia &ndash; Aurora)";
+        this.descTitle = "Fall Colors Guided Kayak Tour (Batavia - Aurora)";
         this.shuttle = "Fall Cruise"
         this.duration = "3"
         this.time = "10am";

@@ -5,22 +5,20 @@
         <!-- <a href="https://howlingwolfe.com/contact">
             <img src="../../../assets/underConstruction.png" id="construction" alt="Website under construction">
         </a> -->
-         <div class="text-body center opaque">
+         <div class="text-body opaque">
             <div *ngIf="mainTextBoolean">
                 <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
                 <p>Our certified guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
                 <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
             </div>
             <div id="trip-text" *ngIf="!mainTextBoolean">
-                <p class="desc-title center"> {{ descTitle }}</p>
-
                 <app-trip-text [shuttle]="shuttle"></app-trip-text>
                 
-                <p class="pb-4 center subtitle" *ngIf="!noAvailBoolean"> {{ displayTime }} </p>
-
                 <div *ngIf="noAvailBoolean">
                     <p class="center subtitle">This trip is not yet available for reservation.</p>
-                    <button class="btn btn-secondary" (click)="goBack()">Back</button>
+                    <div class="center">
+                        <button class="center btn btn-secondary" (click)="goBack()">Back</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,7 +31,7 @@
             <div *ngIf="selectionBoolean" class="cont mt-4">
                 <div class="row">
                     <div class="col-sm card " (click)="cardSelection('Sunset')">
-                        <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top ">
+                        <img src="../../../assets/SquareSunset.jpg" alt="Sunset Cruise" class="card-img-top ">
                         <div class="card-body">
                             <p class="card-title">Sunset Cruise</p>
                             <!-- <p class="card-text">Cruising at sunset</p> -->
@@ -43,46 +41,46 @@
                     </div>
 
                     <div class="col-sm card" (click)="cardSelection('Blues')">
-                        <img src="../../../assets/coronaKayaking.jpg" alt="Blues Cruise Trip" class="card-img-top">
+                        <img src="../../../assets/SquareBlues.jpg" alt="Blues Cruise Trip" class="card-img-top">
                         <div class="card-body">
                             <p class="card-title">Blues Cruise</p>
-                            <p class="card-text">Cruising while blue</p>
+                            <!-- <p class="card-text">Cruising while blue</p> -->
                             <p class="center card-price">$39/person</p>
                         </div>
                     </div>
 
                     <div class="col-sm card" (click)="cardSelection('Batavia')">
-                        <img src="../../../assets/2kayaksPaddling.jpg" alt="Batavia Guided Trip" class="card-img-top">
+                        <img src="../../../assets/SquareBatavia.jpg" alt="Batavia Guided Trip" class="card-img-top">
                         <div class="card-body">
                             <p class="card-title">Batavia</p>
-                            <p class="card-text">Gentle cruise from Batavia to Aurora </p>
+                            <!-- <p class="card-text">Gentle cruise from Batavia to Aurora </p> -->
                             <p class="center card-price">$99/person</p>
                         </div>
                     </div>
 
                     <div class="col-sm card" (click)="cardSelection('NA')">
-                        <img src="../../../assets/bigSmile.jpeg" alt="North Aurora Guided Trip" class="card-img-top">
+                        <img src="../../../assets/SquareNA.jpg" alt="North Aurora Guided Trip" class="card-img-top">
                         <div class="card-body">
                             <p class="card-title">North Aurora</p>
-                            <p class="card-text">Gentle cruise from North Aurora to Aurora</p>
+                            <!-- <p class="card-text">Gentle cruise from North Aurora to Aurora</p> -->
                             <p class="center card-price">$59/person</p>
                         </div>
                     </div>
                     
                     <div class="col-sm card" (click)="cardSelection('Brews')">
-                        <img src="../../../assets/sunsetPaddling.jpg" alt="Sunset Cruise" class="card-img-top">
+                        <img src="../../../assets/SquareBrewsCruise.jpg" alt="Sunset Cruise" class="card-img-top">
                         <div class="card-body">
                             <p class="card-title">Brews Cruise</p>
-                            <p class="card-text">Chicagoland Brews Cruise and Howling Wolfe partnered with Brother Chimp Brewery and Gillerson&#39;s Grubbery!</p>
+                            <!-- <p class="card-text">Chicagoland Brews Cruise and Howling Wolfe partnered with Brother Chimp Brewery and Gillerson&#39;s Grubbery!</p> -->
                             <p class="center card-price">$115/person</p>
                         </div>
                     </div>
 
                     <div class="col-sm card" (click)="cardSelection('Fall')">
-                        <img src="../../../assets/sunsetPaddling.jpg" alt="Fall Cruise" class="card-img-top">
+                        <img src="../../../assets/SquareFall.jpg" alt="Fall Cruise" class="card-img-top">
                         <div class="card-body">
                             <p class="card-title">Fall Cruise</p>
-                            <p class="card-text">Cruising at Sunset</p>
+                            <!-- <p class="card-text">Cruising at Sunset</p> -->
                             <p class="center card-price">$99/person</p>
                         </div>
                     </div>

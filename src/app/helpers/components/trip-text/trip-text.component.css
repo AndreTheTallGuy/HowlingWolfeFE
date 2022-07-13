@@ -1,23 +1,52 @@
 * {
     font-family: "Montserrat", sans-serif;  
+    font-size: 18px;
+}
+
+.desc-title {
+    font-size: 250%;
+    font-family: "Cinzel", serif;
+    text-align: center;
+    width: fit-content;
+    padding: 9px 10px 30px 10px;
+    line-height: 1.1;
+}
+
+.trip-text {
+    margin-bottom: 15px;
 }
 
 .subtitle {
     padding-top: 10px;
     font-family: "Cinzel", serif;
     font-weight: bold;
-    font-size: 120%;
+    font-size: 20px;
+}
+
+.cinzel {
+    font-family: "Cinzel", serif;
+    font-weight: 600;
+}
+
+.desc-block {
+    line-height: .88;
+    padding-left: 50px;
+    font-size: 17px;
 }
 
 p {
     text-align: left;
-    line-height: 1.2;
+    line-height: 1.3;
     margin-bottom: 10px;
     padding: 0 4%;
-    font-size: 110%;
 }
 
 li {
     text-align: left;
     margin-left: 5%;
 }
+
+.center {
+    text-align: center;
+    margin: auto;
+  }

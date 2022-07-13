@@ -15,7 +15,7 @@ export class TripTextComponent implements OnInit {
   sunsetBoolean: boolean = false;
   brewsBoolean: boolean = false;
   fallBoolean: boolean = false;
-  
+
   constructor() { }
 
   ngOnInit(): void {
