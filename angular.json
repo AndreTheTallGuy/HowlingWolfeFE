@@ -32,8 +32,8 @@
           "configurations": {
             "production": {
               "index": {
-                "input": "index.html",
-                "output": "index.prod.html"
+                "input": "src/index.prod.html",
+                "output": "index.html"
               },
               "fileReplacements": [
                 {
