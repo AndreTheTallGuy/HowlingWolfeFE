@@ -10,17 +10,17 @@ import { ApiService } from './api.service';
 export class PoolCheckerService {
 
   availability: Times[] = [
-    {time:"8am", boats:{kayak: 16, canoe: 7, tandem: 5}},
-    {time:"9am", boats:{kayak: 16, canoe: 7, tandem: 5}},
-    {time: "10am", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "11am", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "12pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "1pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "2pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "3pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "4pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "5pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "6pm", boats: {kayak: 16, canoe: 7, tandem: 5}}];
+    {time:"8am", boats:{kayak: 16, canoe: 5, tandem: 5}},
+    {time:"9am", boats:{kayak: 16, canoe: 5, tandem: 5}},
+    {time: "10am", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "11am", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "12pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "1pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "2pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "3pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "4pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "5pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "6pm", boats: {kayak: 16, canoe: 5, tandem: 5}}];
 
   globalBoat: string; 
 
@@ -83,17 +83,17 @@ export class PoolCheckerService {
 
   resetTimesArray(){
     this.availability = [
-    {time:"8am", boats:{kayak: 16, canoe: 7, tandem: 5}},
-    {time:"9am", boats:{kayak: 16, canoe: 7, tandem: 5}},
-    {time: "10am", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "11am", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "12pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "1pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "2pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "3pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "4pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "5pm", boats: {kayak: 16, canoe: 7, tandem: 5}},
-    {time: "6pm", boats: {kayak: 16, canoe: 7, tandem: 5}}]
+    {time:"8am", boats:{kayak: 16, canoe: 5, tandem: 5}},
+    {time:"9am", boats:{kayak: 16, canoe: 5, tandem: 5}},
+    {time: "10am", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "11am", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "12pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "1pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "2pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "3pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "4pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "5pm", boats: {kayak: 16, canoe: 5, tandem: 5}},
+    {time: "6pm", boats: {kayak: 16, canoe: 5, tandem: 5}}]
   }
 
   verifyAvailability(selectedBoat, duration, time){
