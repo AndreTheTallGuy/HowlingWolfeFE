@@ -7,9 +7,26 @@
         </a> -->
          <div class="text-body opaque">
             <div *ngIf="mainTextBoolean">
-                <p>Join Howling Wolfe Canoe & Kayak for your next Fox River Adventure! </p>
-                <p>Our certified guides will teach basic paddle strokes and how to navigate the river. Howling Wolfe Canoe & Kayak guides are well versed with the many different species of wildlife such as Great Blue Herons, Cormorants, Deer, Muskrat, Beaver, Carp, Bass, Red Tailed Fox, Racoon, Red Tailed Hawks, and Bald Eagles just to name a few!</p>
-                <p>Howling Wolfe Canoe & Kayak can also do custom guided trips for your next birthday party or office outing! </p>
+                <p>Whether you&rsquo;re an experienced kayaker or looking to get onto the water for the first time, our guided tours are a perfect way to experience the beautiful, tree-lined Fox River. We have four kayak tours that are perfect for beginners and vary in length from 1-3 hours. Custom tours are available upon request. Guided tours are a great way to learn the basics of kayaking, especially if you plan to <a routerLink="/rentals"> rent a kayak or canoe</a>. </p>
+                <p>The Sunset & S&rsquo;mores tour starts with a quick float down the river, and ends with S&rsquo;mores around the campfire at sunset. The Batavia-Aurora tour features prominent landmarks such as Cave of the Spirit at Red Oak Nature Center and the bald eagle&rsquo;s nest at Mooseheart School. The last stop before the end of the trip is at Harner&rsquo;s bakery, where you can enjoy one of their famous donuts! If you&rsquo;re looking for a quick evening float, the 1 hour North Aurora-Aurora tour will still get you home in time for dinner. On Wednesdays, our Blues Cruise ends at the <a href="https://www.facebook.com/profile.php?id=100063581530152" target=”_blank”>Aurora Athletic Club</a>, where we will enjoy the sounds of local blues band, <a href="https://www.facebook.com/people/The-Fabulous-Kings/100077690790315/?ref=page_internal" target="_blank">The Fabulous Kings</a>.</p> 
+                <p>No matter which tour you choose, you will come in close contact with local Kane County wildlife, such as bald eagles, osprey, deer, beaver, muskrat, great blue heron, egret, kingfisher, and many more.</p> 
+                <p>All tours include free parking and a shuttle up to the start of the trip. Upon arrival at the park, participants will be given paddles and personal flotation device, sized for kayaks, and receive dryland instruction for the following skills:</p>
+                <ul>
+                    <li>How to kayak in a straight line</li>
+                    <li>How to steer</li>
+                    <li>How to stop</li>
+                    <li>How to stay upright and comfortable</li>
+                </ul>
+                <p>Once the instruction is over, the guide will assist you in getting your boat into the water, and you&rsquo;ll be ready to start your trip! Participants must be 15 years of age and at least 100lbs.</p>
+                <p class="subtitle">Howling Wolfe Canoe and Kayak Provides:</p>
+                <ul>
+                    <li>Kayak</li>
+                    <li>Personal floatation device (PFD)</li>
+                    <li>Shuttle</li>
+                    <li>Paddle</li>
+                    <li>Guide</li>
+                </ul>
+
             </div>
             <div id="trip-text" *ngIf="!mainTextBoolean">
                 <app-trip-text [shuttle]="shuttle"></app-trip-text>
