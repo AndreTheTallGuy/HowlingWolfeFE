@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trip-text',
@@ -8,6 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TripTextComponent implements OnInit {
 
   @Input() shuttle: string;
+  @Input() noAvailBoolean: string;
+
+  @Output() goBackEvent = new EventEmitter<string>();
 
   bataviaBoolean: boolean = false;
   naBoolean: boolean = false;
@@ -16,10 +20,10 @@ export class TripTextComponent implements OnInit {
   brewsBoolean: boolean = false;
   fallBoolean: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    console.log(this.shuttle);
+    console.log(this.noAvailBoolean);
     
     switch(this.shuttle){
       case "Batavia" :
@@ -40,10 +44,16 @@ export class TripTextComponent implements OnInit {
       case "Fall Cruise":
         this.fallBoolean = true;
         break;
-
     }
-
   }
-  
+
+  goBack() {
+    this.goBackEvent.next()
+  }
+
+  brewsLink() {
+    // this.router.navigateByUrl('https://www.brewscruise.com/chicagoland/fox-river-kayak-and-brews/')
+    window.open("https://www.brewscruise.com/chicagoland/fox-river-kayak-and-brews/", "_blank")
+  }
 
 }

@@ -16,6 +16,10 @@ Howling Wolfe is a Spring Boot / Angular application to allow customers to make 
 - Upon successful checkout, an automated email is sent to customer and manager.
 - Customers can purchase and use giftcards.
 - Admin page where managers can view/add reservations and create/view/delete coupons and giftcards.
+- Customers can book variety of guided trips through datepicker.
+- Admins can change available dates for guided trips through the admin portal.
+- Using HotJar, admins can view video logs of how customers interact with the website.
+- Through HotJar, customers can give feedback on the UX.
 
 ## Tech
 
@@ -30,6 +34,7 @@ Howling Wolfe is a Spring Boot / Angular application to allow customers to make 
 - JavaX Mail
 - Stripe
 - Maven
+- HotJar
 
 ## Development
 

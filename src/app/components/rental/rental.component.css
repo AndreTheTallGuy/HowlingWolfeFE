@@ -21,6 +21,7 @@
 
 table {
   margin: auto;
+  font-size: 19px;
   border: 1px solid grey;
   margin-top: 20px;
   -webkit-box-shadow: 0 10px 6px -6px #777;
@@ -29,13 +30,17 @@ table {
 }
 
 th {
-  width: 120px;
-  padding-top: 5px;
+  width: 165px;
+  padding: 10px 0 5px 10px;
+  font-family: "Cinzel", serif;
+
 }
 
 tr,
 td {
   padding: 3px 0;
+  margin: 5px 0 5px 0;
+  
 }
 
 .bottom {
@@ -75,15 +80,6 @@ p {
   display: block;
   font-size: 150%;
   text-align: center;
-}
-
-td {
-  margin: 5px 0 5px 0;
-  font-family: "Montserrat", sans-serif;
-}
-
-th {
-  font-family: "Montserrat", sans-serif;
 }
 
 .na {
