@@ -29,14 +29,15 @@
 
             </div>
             <div id="trip-text" *ngIf="!mainTextBoolean">
-                <app-trip-text [shuttle]="shuttle"></app-trip-text>
+                <app-trip-text [shuttle]="shuttle" [noAvailBoolean]="noAvailBoolean" (goBackEvent)="goBack()" ></app-trip-text>
                 
-                <div *ngIf="noAvailBoolean">
+                <!-- <div *ngIf="noAvailBoolean">
                     <p class="center subtitle">This trip is not yet available for reservation.</p>
-                    <div class="center">
-                        <button class="center btn btn-secondary" (click)="goBack()">Back</button>
-                    </div>
-                </div>
+                </div> -->
+                <!-- <div class="center" *ngIf="noAvailBoolean && !brewsBoolean">
+                    <button class="center btn btn-secondary" (click)="goBack()">Back</button>
+                </div> -->
+                
             </div>
         </div>
         <img *ngIf="isLoading"id="loading" src="../../../assets/infinitySpinner.svg" alt="">
@@ -50,7 +51,7 @@
                     <div class="col-sm card " (click)="cardSelection('Sunset')">
                         <img src="../../../assets/SquareSunset.jpg" alt="Sunset Cruise" class="card-img-top ">
                         <div class="card-body">
-                            <p class="card-title">Sunset Cruise</p>
+                            <p class="card-title">Sunset &amp; S&rsquo;mores</p>
                             <!-- <p class="card-text">Cruising at sunset</p> -->
                             <p class="center card-price">$59/person</p>
 
@@ -62,14 +63,14 @@
                         <div class="card-body">
                             <p class="card-title">Blues Cruise</p>
                             <!-- <p class="card-text">Cruising while blue</p> -->
-                            <p class="center card-price">$39/person</p>
+                            <p class="center card-price">$59/person</p>
                         </div>
                     </div>
 
                     <div class="col-sm card" (click)="cardSelection('Batavia')">
                         <img src="../../../assets/SquareBatavia.jpg" alt="Batavia Guided Trip" class="card-img-top">
                         <div class="card-body">
-                            <p class="card-title">Batavia</p>
+                            <p class="card-title">Batavia - Aurora</p>
                             <!-- <p class="card-text">Gentle cruise from Batavia to Aurora </p> -->
                             <p class="center card-price">$99/person</p>
                         </div>
@@ -78,7 +79,7 @@
                     <div class="col-sm card" (click)="cardSelection('NA')">
                         <img src="../../../assets/SquareNA.jpg" alt="North Aurora Guided Trip" class="card-img-top">
                         <div class="card-body">
-                            <p class="card-title">North Aurora</p>
+                            <p class="card-title">North Aurora - Aurora</p>
                             <!-- <p class="card-text">Gentle cruise from North Aurora to Aurora</p> -->
                             <p class="center card-price">$59/person</p>
                         </div>
@@ -96,7 +97,7 @@
                     <div class="col-sm card" (click)="cardSelection('Fall')">
                         <img src="../../../assets/SquareFall.jpg" alt="Fall Cruise" class="card-img-top">
                         <div class="card-body">
-                            <p class="card-title">Fall Cruise</p>
+                            <p class="card-title">Fall Colors</p>
                             <!-- <p class="card-text">Cruising at Sunset</p> -->
                             <p class="center card-price">$99/person</p>
                         </div>

@@ -100,8 +100,7 @@ export class GuidedComponent implements OnInit {
   }
 
   cardSelection(selectedTrip) {
-    this.isLoading = false
-    this.mainTextBoolean = false;
+    
     this.selectedTrip = selectedTrip;
     switch (selectedTrip) {
       case "Sunset":
@@ -118,7 +117,7 @@ export class GuidedComponent implements OnInit {
         this.duration = "1" 
         this.time = "5pm";
         this.displayTime = "From 5pm-6pm on designated days listed below";
-        this.price = 39;
+        this.price = 59;
         break;
       case "Batavia":
         this.descTitle = "Batavia - Aurora";
@@ -169,6 +168,8 @@ export class GuidedComponent implements OnInit {
         this.isLoading = false;
       } 
     })
+    this.isLoading = false
+    this.mainTextBoolean = false;
     
   }
 

@@ -29,11 +29,11 @@
 </div>
 
 <div class="trip-text" *ngIf="bluesBoolean">
-    <p class="desc-title center">Blues Cruise Guided Kayak Tour: $39/person</p>
+    <p class="desc-title center">Blues Cruise Guided Kayak Tour: $59/person</p>
     <p class="desc-block"><span class="cinzel">Time:</span> 5pm - 6pm</p>
     <p class="desc-block"><span class="cinzel">Trip Duration:</span> 1 Hour</p>
     <p class="desc-block"><span class="cinzel">Skill level:</span> ALL</p>
-    <p class="desc-block mb-3"><span class="cinzel">Cost:</span> $39/person</p>
+    <p class="desc-block mb-3"><span class="cinzel">Cost:</span> $59/person</p>
     <p>This quick, kayak adventure is perfect for nature and music lovers alike! This guided tour down the Fox River is ideal for beginners looking to de-stress from a long day and enjoy an evening of live music. You&rsquo;ll find yourself in close contact with local Kane County wildlife, such as bald eagles, osprey, deer, beaver, muskrat, great blue heron, egret, kingfisher, and many more.</p>
     <p>The tour ends with the soulful sounds of blues music, provided by <a href="https://www.facebook.com/people/The-Fabulous-Kings/100077690790315/?ref=page_internal" target="_blank">The Fabulous Kings</a>. Local musicians are encouraged to join the jam, so bring your instruments to play after the float. Enjoying the music is not exclusive to the kayak trip. You are more than welcome to meet at the Aurora Athletic Club for free blues. Support the club by purchasing a drink and bringing your friends!</p>
     <p>The tour begins at the <a href="https://www.facebook.com/profile.php?id=100063581530152" target=”_blank”>Aurora Athletic Club</a>, where participants will park their cars and be shuttled up to <a href="https://goo.gl/maps/QM4Rw1cTCqN1cyJ8A" target=”_blank”>North Aurora Island Park</a>. Upon arrival at the park, participants will be given paddles and personal flotation devices, sized for kayaks, and receive dryland instruction for the following skills:</p>
@@ -145,6 +145,11 @@
  
     <p>Brother Chimp Brewery Owner and Brewer Steve Newman&rsquo;s journey started when he retired from a corporate career, found a passion for home brewing, and won a major home brewing competition. Brother Chimp focuses on traditional style beers with the slogan, “Craft beers that taste like beer”. Recent popularity has allowed him to expand his operation.</p>
     
+    <div class="brews-link center">
+            <button class="center btn btn-secondary m-2" (click)="goBack()">Back</button>
+            <button class="btn btn-success m-2" (click)="brewsLink()">Register</button>
+    </div>
+
 </div>
 
 <div class="trip-text" *ngIf="fallBoolean">
@@ -174,4 +179,11 @@
     <p class="center subtitle">North Aurora Athletic Club</p>
     <p class="center">550 Clearwater Drive</p>
     <p class="center">North Aurora, IL 60542</p>
+</div>
+
+<div *ngIf="noAvailBoolean && !brewsBoolean">
+    <p class="center subtitle mb-2">This trip is not yet available for reservation.</p>
+    <div class="center">
+        <button class="center btn btn-secondary mb-2" (click)="goBack()">Back</button>
+    </div>
 </div>
